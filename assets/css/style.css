@@ -201,7 +201,7 @@ body {
 }
 
 .menu-nav li a:hover {
-  color: var(--secondary);
+  color: var(--accent);
 }
 
 .menu-nav li a::after {
@@ -211,7 +211,7 @@ body {
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--secondary);
+  background: var(--accent);
   transition: width var(--transition-speed);
 }
 
