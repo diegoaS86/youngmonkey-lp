@@ -1,11 +1,11 @@
 :root {
-    --primary: #00151B;
-    --secondary: #0A2E3A;
-    --light: #E6FFF3;
-    --accent: #23FC94;
-    --accent-secondary: #FF4DF0; 
-    --accent-tertiary: #6BFFF7;  
-    --text: #E6FFF3;
+    --primary-color: #00151B;
+    --secondary-color: #0A2E3A;
+    --light-color: #E6FFF3;
+    --accent-color: #23FC94;
+    --accent-secondary-color: #FF4DF0; 
+    --accent-tertiary-color: #6BFFF7;  
+    --text-color: #E6FFF3;
     --sub-text: #6BFFF7;
     --dark-text: #0A2E3A;
     --border-radius: 16px;
@@ -28,47 +28,6 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6, p {
-    margin: 0;
-    font-weight: inherit;
-    line-height: inherit;
-}
-
-strong {
-    color: var(--text);
-    font-weight: 700;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: var(--accent);
-}
-
-ol, ul {
-    padding-left: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-section {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    position: relative;
-}
 /*====== HEADER =====*/
 .header {
   position: fixed;
@@ -79,7 +38,7 @@ section {
   will-change: transform;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   transform: translateY(0);
-  padding: 1rem 2rem;
+  padding: 2% 6%;
 }
 .header.hide {
   transform: translateY(-100%);
@@ -99,14 +58,14 @@ section {
 
 .nav-left__box {
   width: 400px;
-  background-color: var(--secondary);
+  background-color: var(--secondary-color);
   border-radius: var(--border-radius);
   overflow: hidden;
   transition: height var(--transition-speed) ease;
-  height: 65px;
+  height: 55px;
 }
 body {
-  padding-top: 80px; 
+  padding-top: 80px; /* Ajuste conforme altura do seu header */
 }
 .nav-left__box.expanded {
   height: 375px;
@@ -118,7 +77,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
-  height: 65px;
+  height: 55px;
   position: relative;
   z-index: 2;
 }
@@ -133,6 +92,7 @@ body {
   transform: scale(1.05);
 }
 
+/* ===== HAMBURGER MENU ===== */
 .hamburger {
   display: flex;
   flex-direction: column;
@@ -147,7 +107,7 @@ body {
   display: block;
   width: 100%;
   height: 2.5px;
-  background: var(--light);
+  background: var(--light-color);
   transition: all var(--transition-speed);
   transform-origin: center;
 }
@@ -165,6 +125,7 @@ body {
   transform: translateY(-7.5px) rotate(-25deg);
 }
 
+/* ===== DROPDOWN MENU ===== */
 .menu {
   padding: 0 20px 20px;
   opacity: 0;
@@ -185,23 +146,25 @@ body {
   margin: 1rem 0;
 }
 
+/* Menu Navigation Links */
 .menu-nav {
   list-style: none;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  padding-top: 10px;
 }
 
 .menu-nav li a {
   display: block;
-  color: var(--light);
+  color: var(--text-color);
   text-decoration: none;
-  padding: 0.75rem 0;
+  padding: 0.56rem 0;
   font-weight: 500;
   transition: color var(--transition-speed);
   position: relative;
 }
 
 .menu-nav li a:hover {
-  color: var(--accent);
+  color: var(--accent-color);
 }
 
 .menu-nav li a::after {
@@ -211,7 +174,7 @@ body {
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--accent);
+  background: var(--accent-color);
   transition: width var(--transition-speed);
 }
 
@@ -219,15 +182,16 @@ body {
   width: 30px;
 }
 
+/* Language Switch */
 .menu-lang ul {
   display: flex;
   gap: 1.5rem;
   list-style: none;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .menu-lang li a {
-  color: var(--light);
+  color: var(--light-color);
   text-decoration: none;
   font-weight: 700;
   transition: color var(--transition-speed);
@@ -235,9 +199,10 @@ body {
 
 .menu-lang li a:hover,
 .menu-lang li a.active {
-  color: var(--secondary);
+  color: var(--secondary-color);
 }
 
+/* ===== SOCIAL MENU WITH ARROW ===== */
 .menu-social {
   display: flex;
   flex-direction: flex-start;
@@ -245,18 +210,18 @@ body {
 }
 
 .menu-social a {
-  color: var(--light);
+  color: var(--light-color);
   text-decoration: none;
   transition: all var(--transition-speed);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: 1rem; 
+  padding-right: 1rem; /* Espaço para a animação */
 }
 
 .menu-social a:hover {
-  color: var(--secondary);
-  transform: translateX(5px); 
+  color: var(--secondary-color);
+  transform: translateX(5px); /* Movimento sutil para direita */
 }
 
 .menu-social a::after {
@@ -268,10 +233,11 @@ body {
 }
 
 .menu-social a:hover::after {
-  transform: rotate(-45deg) translateY(-3px); 
-  color: var(--secondary);
+  transform: rotate(-45deg) translateY(-3px); /* Sobe 3px mantendo o ângulo */
+  color: var(--accent-color);
 }
 
+/* ===== ESTILOS ATUALIZADOS ===== */
 .contact-button {
   position: relative;
   display: inline-block;
@@ -284,27 +250,30 @@ body {
   text-decoration: none;
 }
 
+/* Forma do botão com clip-path (verde) */
 .button-shape {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #23FC94;
+  background-color: var(--accent-color);
   clip-path: path('M7.50901 58.7931L21.5 69V60C21.5 59.4477 21.9477 59 22.5 59H180C188.837 59 196 51.8366 196 43V16C196 7.16344 188.837 0 180 0H16.9388C8.10229 0 0.938843 7.16344 0.938843 16V45.8673C0.938843 50.9779 3.38027 55.7811 7.50901 58.7931Z');
   z-index: 1;
 }
 
+/* Container do texto (fundo claro) */
 .button-text-container {
   position: absolute;
   top: 7px;
   left: 23px;
   width: 166px;
   height: 46px;
-  background-color: var(--light);
+  background-color: var(--light-color);
   border-radius: 12px;
-  overflow: hidden;
+  overflow: hidden; /* IMPORTANTE: contém o fundo rosa */
   z-index: 2;
 }
 
+/* Efeito de texto duplo */
 .button-text-wrapper {
   position: relative;
   height: 100%;
@@ -312,7 +281,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  z-index: 3; /* Acima do fundo rosa */
 }
 
 .button-text {
@@ -325,24 +294,25 @@ body {
 }
 
 .button-text.hover-text {
-  color: var(--text);
+  color: var(--light-color);
   transform: translateY(100%);
 }
 
-
+/* Fundo animado esférico (AGORA DENTRO do container) */
 .button-background {
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 100%);
   width: 150%;
-  height: 200%; 
-  background-color: var(--accent-secondary);
+  height: 200%; /* Aumentado para cobrir totalmente */
+  background-color: var(--accent-secondary-color);
   border-radius: 50%;
   z-index: 1;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Estados de hover */
 .contact-button:hover .button-text {
   transform: translateY(-200%);
 }
@@ -352,5 +322,5 @@ body {
 }
 
 .contact-button:hover .button-background {
-  transform: translate(-50%, 10%); 
+  transform: translate(-50%, 10%); /* Posição ajustada */
 }

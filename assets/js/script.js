@@ -1,11 +1,22 @@
-
- document.addEventListener("DOMContentLoaded", (event) => {
-  gsap.registerPlugin(MotionPathPlugin,Observer,ScrambleTextPlugin,ScrollTrigger,ScrollSmoother,ScrollToPlugin,TextPlugin)
-  // gsap code here!
- });
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", (event) => {
   try {
-    // Elementos DOM com verificações de null
+    // 1. Registrar plugins GSAP primeiro
+    if (typeof gsap !== 'undefined') {
+      gsap.registerPlugin(
+        MotionPathPlugin, 
+        Observer, 
+        ScrambleTextPlugin, 
+        ScrollTrigger, 
+        ScrollSmoother, 
+        ScrollToPlugin, 
+        TextPlugin
+      );
+    } else {
+      console.error('GSAP não foi carregado corretamente');
+      return;
+    }
+
+    // 2. Elementos DOM
     const hamburger = document.getElementById('hamburger');
     const navBox = document.getElementById('navBox');
     const contactBtn = document.getElementById('contactBtn');
@@ -14,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.getElementById('mainHeader');
     const menu = document.getElementById('menu');
 
-    // Verifica se os elementos essenciais existem
+    // 3. Verificar elementos essenciais
     if (!header) {
       console.error('Elemento header não encontrado');
       return;
@@ -22,15 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const headerHeight = header.offsetHeight;
 
-    // Inicializa ScrollSmoother apenas se os elementos necessários existirem
+    // 4. Inicializar ScrollSmoother
+    let smoother;
     if (typeof ScrollSmoother !== 'undefined') {
-      const smoother = ScrollSmoother.create({
+      smoother = ScrollSmoother.create({
         smooth: 1.2,
         effects: true,
         smoothTouch: 0.1,
       });
 
-      // Configura ScrollTrigger para o header
+      // 5. Configurar ScrollTrigger
       let lastScroll = 0;
       ScrollTrigger.create({
         start: 0,
@@ -47,11 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
           lastScroll = currentScroll;
         }
       });
-    } else {
-      console.warn('GSAP ScrollSmoother não carregado');
     }
 
-    // Hamburguer Menu (só adiciona listener se o elemento existir)
+    // 6. Hamburguer Menu
     if (hamburger && navBox && menu) {
       hamburger.addEventListener('click', () => {
         navBox.classList.toggle('expanded');
@@ -65,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Botão de Contato (só adiciona listener se o elemento existir)
+    // 7. Botão de Contato
     if (contactBtn && contactModal) {
       contactBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -81,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Fechar Modal (só adiciona listener se o elemento existir)
+    // 8. Fechar Modal
     if (closeModal && contactModal && contactBtn) {
       closeModal.addEventListener('click', () => {
         contactModal.classList.remove('show');
@@ -96,36 +106,27 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Efeito hover nos links do menu
+    // 9. Efeitos hover
     const menuLinks = document.querySelectorAll('.menu-nav a, .menu-social a, .menu-lang a');
-    if (menuLinks.length > 0) {
-      menuLinks.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-          gsap.to(link, {
-            x: 5,
-            color: '#23FC94',
-            duration: 0.3
-          });
-        });
-        
-        link.addEventListener('mouseleave', () => {
-          gsap.to(link, {
-            x: 0,
-            color: '#E6FFF3',
-            duration: 0.3
-          });
+    menuLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        gsap.to(link, {
+          x: 5,
+          color: '#23FC94',
+          duration: 0.3
         });
       });
-    }
+      
+      link.addEventListener('mouseleave', () => {
+        gsap.to(link, {
+          x: 0,
+          color: '#E6FFF3',
+          duration: 0.3
+        });
+      });
+    });
 
   } catch (error) {
     console.error('Erro no script:', error);
   }
 });
-
-// Verifica se GSAP está carregado antes de executar
-if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && typeof ScrollSmoother !== 'undefined') {
-  // Script principal já está dentro do DOMContentLoaded
-} else {
-  console.error('GSAP não foi carregado corretamente');
-}
