@@ -82,14 +82,17 @@ body {
   z-index: 2;
 }
 
-.logo-nav img {
-  height: 40px;
-  width: auto;
-  transition: transform var(--transition-speed);
+.logo-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 150px;
+
 }
 
-.logo-nav:hover img {
-  transform: scale(1.05);
+.icon-logo {
+  width: auto;
+  display: block;
 }
 
 /* ===== HAMBURGER MENU ===== */
@@ -286,10 +289,10 @@ body {
 
 .button-text {
   position: absolute;
-  font-family: 'Helvetica Now Text', sans-serif;
+  font-family: 'ModernoMuseo', sans-serif;
   font-weight: 700;
   font-size: 16px;
-  color: #00151B;
+  color: var(--secondary-color);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

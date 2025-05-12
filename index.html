@@ -18,78 +18,79 @@
 </head>
 
 <body>
-<header class="header" id="mainHeader">
-  <div class="header-box">
+    <header class="header" id="mainHeader">
+        <div class="header-box">
+            <!-- NAV LEFT -->
+            <div class="nav-left">
+                <div class="nav-left__box" id="navBox">
+                    <div class="nav-left__box-wrap">
+                        <a href="/" class="logo-nav">
+                            <svg class="icon-logo"></svg>
+                        </a>
+                    
+                        <!-- Hamburger Icon -->
+                        <div class="nav-left__box__right">
+                            <div class="hamburger" id="hamburger">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div> <!-- Fechamento da div .nav-left__box-wrap -->
 
-    <!-- NAV LEFT -->
-    <div class="nav-left">
-      <div class="nav-left__box" id="navBox">
-        <div class="nav-left__box-wrap">
-          <a href="/" class="logo-nav">
-            <img src="assets/images/svg/Logo YM" alt="Logo" />
-          </a>
+                    <!-- Menu Content -->
+                    <div class="menu" id="menu">
+                        <ul class="menu-nav">
+                            <li><a href="#servicos">Serviços</a></li>
+                            <li><a href="#depoimentos">Depoimento</a></li>
+                            <li><a href="#showcase">Showcase</a></li>
+                            <li><a href="#contato">Contato</a></li>
+                        </ul>
 
-          <!-- Hamburger Icon -->
-          <div class="nav-left__box__right">
-            <div class="hamburger" id="hamburger">
-              <span></span>
-              <span></span>
-              <span></span>
+                        <div class="menu__line"></div>
+
+                        <!-- Language Switch -->
+                        <div class="menu-lang">
+                            <ul>
+                                <li><a href="#" class="lang-pt">PT</a></li>
+                                <li><a href="#" class="lang-en">EN</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="menu__line"></div>
+
+                        <!-- Social Links -->
+                        <div class="menu-social">
+                            <a href="https://instagram.com" target="_blank">Instagram</a>
+                            <a href="https://wa.me/" target="_blank">WhatsApp</a>
+                            <a href="https://fiverr.com" target="_blank">Fiverr</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Menu Content -->
-        <div class="menu" id="menu">
-          <ul class="menu-nav">
-            <li><a href="#servicos">Serviços</a></li>
-            <li><a href="#depoimentos">Depoimento</a></li>
-            <li><a href="#showcase">Showcase</a></li>
-            <li><a href="#contato">Contato</a></li>
-          </ul>
+            <!-- NAV RIGHT -->
+            <div class="nav-right">
+                <a href="#" class="contact-button" id="contactBtn">
+                    <!-- Div com clip-path (contorno verde) -->
+                    <div class="button-shape"></div>
+                    
+                    <!-- Div do texto (fundo claro) -->
+                    <div class="button-text-container">
+                        <div class="button-text-wrapper">
+                            <div class="button-text">Contato</div>
+                            <div class="button-text hover-text">Contato</div>
+                        </div>
+                        
+                        <!-- Fundo animado (AGORA DENTRO do container de texto) -->
+                        <div class="button-background"></div>
+                    </div>
+                </a>
+            </div>
+        </div> <!-- Fechamento da div .header-box -->
+    </header> <!-- Fechamento do header -->
 
-          <div class="menu__line"></div>
-
-          <!-- Language Switch -->
-          <div class="menu-lang">
-            <ul>
-              <li><a href="#" class="lang-pt">PT</a></li>
-              <li><a href="#" class="lang-en">EN</a></li>
-            </ul>
-          </div>
-
-          <div class="menu__line"></div>
-
-          <!-- Social Links -->
-          <div class="menu-social">
-            <a href="https://instagram.com" target="_blank">Instagram</a>
-            <a href="https://wa.me/" target="_blank">WhatsApp</a>
-            <a href="https://fiverr.com" target="_blank">Fiverr</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- NAV RIGHT -->
-
-<div class="nav-right">
-  <a href="#" class="contact-button" id="contactBtn">
-    <!-- Div com clip-path (contorno verde) -->
-    <div class="button-shape"></div>
-    
-    <!-- Div do texto (fundo claro) -->
-    <div class="button-text-container">
-      <div class="button-text-wrapper">
-        <div class="button-text">Contato</div>
-        <div class="button-text hover-text">Contato</div>
-      </div>
-      
-      <!-- Fundo animado (AGORA DENTRO do container de texto) -->
-      <div class="button-background"></div>
-    </div>
-  </a>
-</div>
-</header>    <!-- Hero Section -->
+    <!-- Hero Section -->
     <section id="hero" class="hero">
         <div class="container">
         </div>
@@ -126,7 +127,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Observer.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
@@ -134,7 +134,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/TextPlugin.min.js"></script>
+    <script src="assets/js/svgLoader.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
-
 </html>
