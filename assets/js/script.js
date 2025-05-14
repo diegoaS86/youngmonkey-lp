@@ -1,12 +1,9 @@
+// assets/js/script.js
 document.addEventListener('DOMContentLoaded', () => {
-
-    const header = document.getElementById('mainHeader');
     const hamburger = document.getElementById('hamburger');
     const navBox = document.getElementById('navBox');
     const menu = document.getElementById('menu');
     const contactBtn = document.getElementById('contactBtn');
-    const contactModal = document.getElementById('contactModal');
-    const closeModal = document.getElementById('closeModal');
     const menuLinks = document.querySelectorAll('.menu-nav a, .menu-social a, .menu-lang a');
 
     const line1 = document.getElementById('line1');
@@ -15,14 +12,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrambleGroup = document.getElementById('scrambleGroup');
     const ctaDotsPattern = document.querySelector('.cta-dots-pattern');
     const dotsContainer = document.getElementById('dotsContainer');
+    const dynamicCounterElement = document.getElementById('dynamicCounter'); 
+    const transformeTextElement = document.getElementById('transformeText');
+    const arrowElement = document.getElementById('theArrow');
+    const pathElement = document.getElementById('thePath');
 
+
+    let smoother;
 
     try {
         if (typeof gsap === 'undefined') {
-            console.error('GSAP não foi carregado corretamente. Certifique-se de que os scripts estão incluídos no seu HTML.');
+            console.error("GSAP não foi carregado.");
             return;
         }
-
         gsap.registerPlugin(
             MotionPathPlugin,
             Observer,
@@ -32,10 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ScrollToPlugin,
             TextPlugin
         );
-        console.log("GSAP e plugins registrados com sucesso.");
-
     } catch (error) {
-        console.error('Erro ao registrar plugins do GSAP:', error);
+        console.error("Erro ao registrar plugins GSAP:", error);
         return;
     }
 
@@ -45,70 +45,34 @@ document.addEventListener('DOMContentLoaded', () => {
         line3: ["problem", "more", "loud", "value", "attention", "sexy"]
     };
 
-    const setupScrollEffects = () => {
-        if (!header) {
-            console.warn("Elemento '#mainHeader' não encontrado. A função setupScrollEffects não funcionará.");
-            return;
-        }
-        if (typeof ScrollTrigger === 'undefined') {
-             console.warn("GSAP ScrollTrigger não definido. A função setupScrollEffects não funcionará.");
-             return;
-        }
-
-        let smoother;
-        if (typeof ScrollSmoother !== 'undefined') {
-            try {
-                 smoother = ScrollSmoother.create({
+    if (typeof ScrollSmoother !== 'undefined') {
+        try {
+            if (document.getElementById('smooth-wrapper') && document.getElementById('smooth-content')) {
+                smoother = ScrollSmoother.create({
+                    wrapper: "#smooth-wrapper",
+                    content: "#smooth-content",
                     smooth: 1.2,
                     effects: true,
                     smoothTouch: 0.1,
-                 });
-                console.log("ScrollSmoother criado.");
-            } catch (e) {
-                console.error("Erro ao criar ScrollSmoother. Verifique a estrutura HTML e plugins carregados.", e);
+                });
+            } else {
+                 console.error("ScrollSmoother: Elementos wrapper ou content não encontrados.");
             }
+        } catch (e) {
+            console.error("Erro ao criar ScrollSmoother:", e);
         }
+    } else {
+        console.warn("ScrollSmoother não está definido.");
+    }
 
-        let lastSmoothedScroll = 0; // Rastreia a última posição de scroll suavizada
-
-        ScrollTrigger.create({
-            trigger: 'body',
-            start: 0,
-            end: "max",
-
-            onUpdate: (self) => {
-                // Use smoother.scrollTop() para a posição de scroll suavizada
-                const currentSmoothedScroll = smoother ? smoother.scrollTop() : self.scroll();
-                const headerHeight = header.offsetHeight;
-                const velocity = self.getVelocity(); // Velocidade do scroll (pode ser útil)
-                const scrollDifference = currentSmoothedScroll - lastSmoothedScroll; // Diferença de scroll suavizado
-                const velocityThreshold = 5; // Limiar para considerar o scroll significativo
-
-                // Lógica para esconder/mostrar o header
-                // Esconde o header se estiver rolando para baixo (velocidade positiva OU scroll suavizado aumentando)
-                // E a posição do scroll for maior que a altura do header
-                if ((velocity > velocityThreshold || scrollDifference > 0) && currentSmoothedScroll > headerHeight) {
-                    header.classList.add('hide');
-                }
-                // Mostra o header se estiver rolando para cima (velocidade negativa OU scroll suavizado diminuindo)
-                // OU se a posição do scroll estiver no topo (garante que aparece no topo)
-                else if ((velocity < -velocityThreshold || scrollDifference < 0) || currentSmoothedScroll <= headerHeight) {
-                   header.classList.remove('hide');
-                }
-
-                // Atualiza a última posição de scroll suavizada
-                lastSmoothedScroll = currentSmoothedScroll;
-            }
-        });
-        console.log("ScrollTrigger para o header configurado.");
-    };
+    if (typeof initializeHeaderAnimation === 'function') {
+        initializeHeaderAnimation(gsap, ScrollTrigger, smoother);
+    }
 
     const setupMenu = () => {
-        if (!hamburger || !navBox || !menu || typeof gsap === 'undefined') {
-            console.warn("Elementos do menu hamburguer ou GSAP não encontrados/definidos. A função setupMenu não funcionará.");
+        if (!hamburger || !navBox || !menu) {
             return;
         }
-
         hamburger.addEventListener('click', () => {
             navBox.classList.toggle('expanded');
             gsap.to(menu, {
@@ -118,202 +82,85 @@ document.addEventListener('DOMContentLoaded', () => {
                 ease: "power2.inOut"
             });
         });
-         console.log("Menu hamburguer configurado.");
     };
 
     const setupContactModal = () => {
-        if (!contactBtn || !contactModal || !closeModal || typeof gsap === 'undefined') {
-             console.warn("Elementos do modal de contato ou GSAP não encontrados/definidos. A função setupContactModal não funcionará.");
-             return;
+        if (contactBtn) {
         }
-
-        contactBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            contactBtn.classList.add('clicked');
-            contactModal.classList.add('show');
-
-            gsap.from(contactModal, {
-                opacity: 0,
-                y: 20,
-                duration: 0.4,
-                ease: "back.out(1.7)"
-            });
-        });
-
-        closeModal.addEventListener('click', () => {
-            gsap.to(contactModal, {
-                opacity: 0,
-                y: 20,
-                duration: 0.3,
-                onComplete: () => {
-                   contactModal.classList.remove('show');
-                   contactBtn.classList.remove('clicked');
-                }
-            });
-        });
-         console.log("Modal de contato configurado.");
     };
 
     const setupMenuHoverEffects = () => {
-         if (!menuLinks || typeof gsap === 'undefined') {
-              console.warn("Elementos dos links do menu ou GSAP não encontrados/definidos. A função setupMenuHoverEffects não funcionará.");
-              return;
-         }
-
-         menuLinks.forEach(link => {
-             link.addEventListener('mouseenter', () => {
-               gsap.to(link, {
-                 x: 5,
-                 color: '#23FC94',
-                 duration: 0.3
-               });
-             });
-
-             link.addEventListener('mouseleave', () => {
-               gsap.to(link, {
-                 x: 0,
-                 color: '#E6FFF3',
-                 duration: 0.3
-               });
-             });
-         });
-         console.log("Efeitos hover do menu configurados.");
+        if (!menuLinks.length) {
+            return;
+        }
+        menuLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                gsap.to(link, { x: 5, color: 'var(--accent-color)', duration: 0.3 });
+            });
+            link.addEventListener('mouseleave', () => {
+                gsap.to(link, { x: 0, color: 'var(--light-color)', duration: 0.3 });
+            });
+        });
     };
 
     function animateScrambleText() {
-        if (!line1 || !line2 || !line3 || typeof gsap === 'undefined') {
-            console.warn('Elementos de texto para ScrambleText não encontrados ou GSAP não definido. A função animateScrambleText não funcionará.');
+        if (!line1 || !line2 || !line3 || !scrambleGroup) {
             return;
         }
-
         let counter = 0;
-
         function animate() {
             const word1 = wordSets.line1[counter % wordSets.line1.length];
             const word2 = wordSets.line2[counter % wordSets.line2.length];
             const word3 = wordSets.line3[counter % wordSets.line3.length];
-
             const groupIndex = counter % wordSets.line1.length;
-            if (scrambleGroup) {
-                for (let i = 0; i < wordSets.line1.length; i++) {
-                    scrambleGroup.classList.remove(`group-${i}`);
+            scrambleGroup.className = 'scramble-title';
+            scrambleGroup.classList.add(`group-${groupIndex}`);
+
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    gsap.delayedCall(3, animate);
                 }
-                scrambleGroup.classList.add(`group-${groupIndex}`);
-            }
-
-            const tl = gsap.timeline();
-
-            tl.to(line1, {
-                duration: 1.5,
-                scrambleText: {
-                    text: word1,
-                    chars: "!<>-_\\/[]{}—=+*^?#____",
-                    revealDelay: 0.3,
-                    speed: 0.7
-                },
-                ease: "power3.out"
-            }, 0);
-
-            tl.to(line2, {
-                duration: 1.5,
-                scrambleText: {
-                    text: word2,
-                    chars: "!<>-_\\/[]{}—=+*^?#____",
-                    revealDelay: 0.3,
-                    speed: 0.7
-                },
-                ease: "power3.out"
-            }, 0);
-
-            tl.to(line3, {
-                duration: 1.5,
-                scrambleText: {
-                    text: word3,
-                    chars: "!<>-_\\/[]{}—=+*^?#____",
-                    revealDelay: 0.3,
-                    speed: 0.7
-                },
-                ease: "power3.out"
-            }, 0);
-
+            });
+            tl.to(line1, { duration: 1.5, scrambleText: { text: word1, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 }, ease: "power3.out" }, 0)
+              .to(line2, { duration: 1.5, scrambleText: { text: word2, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 }, ease: "power3.out" }, 0)
+              .to(line3, { duration: 1.5, scrambleText: { text: word3, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 }, ease: "power3.out" }, 0);
             counter++;
-
-            tl.call(() => {
-              if (!tl.isActive()) {
-                 setTimeout(animate, 3000);
-              } else {
-                  setTimeout(animate, 100);
-              }
-            }, null, tl.duration());
-
         }
-
+        gsap.set([line1, line2, line3], { opacity: 1, delay: 0.1 });
         animate();
-         console.log("Animação ScrambleText iniciada.");
-
-         requestAnimationFrame(() => {
-             if(line1) gsap.to(line1, { duration: 0.5, opacity: 1, delay: 0.1 });
-             if(line2) gsap.to(line2, { duration: 0.5, opacity: 1, delay: 0.2 });
-             if(line3) gsap.to(line3, { duration: 0.5, opacity: 1, delay: 0.3 });
-         });
     }
 
     const setupPerformanceControls = () => {
         document.addEventListener('visibilitychange', () => {
-            if (typeof gsap !== 'undefined' && gsap.globalTimeline) {
+            if (gsap.globalTimeline) {
                 gsap.globalTimeline[document.hidden ? 'pause' : 'resume']();
             }
         });
-
-        const adjustForMobile = () => {
-            if (typeof gsap !== 'undefined') {
-                 gsap.defaults({ duration: window.innerWidth < 768 ? 1 : 1.5 });
-            }
-        };
-        window.addEventListener('resize', adjustForMobile);
-        adjustForMobile();
-         console.log("Controles de performance configurados.");
     };
 
-    const rows = 4;
-    const cols = 12;
-
-    if (dotsContainer) {
+    const setupDotsCreation = () => {
+        if (!dotsContainer) {
+            return;
+        }
+        const rows = 4;
+        const cols = 12;
         for (let c = 0; c < cols; c++) {
             const col = document.createElement('div');
             col.className = 'dots-column';
-
             for (let r = 0; r < rows; r++) {
                 const dot = document.createElement('div');
                 dot.className = 'dot';
                 col.appendChild(dot);
             }
-
             dotsContainer.appendChild(col);
         }
-         console.log(`${rows * cols} dots criados e adicionados ao container.`);
+        gsap.set(dotsContainer.querySelectorAll('.dot'), { opacity: 0.3, scale: 1 });
+    };
 
-        if (typeof gsap !== 'undefined') {
-            gsap.set(dotsContainer.querySelectorAll('.dot'), { opacity: 0.3, scale: 1 });
-            console.log('Dots criados e estado inicial definido!');
-        }
-
-        if (typeof ScrollTrigger !== 'undefined') {
-             ScrollTrigger.refresh();
-             console.log('ScrollTrigger.refresh() chamado após adicionar dots.');
-        }
-
-    } else {
-        console.error("Elemento '#dotsContainer' não encontrado no HTML. Os dots não serão criados.");
-    }
-
-
-    const setupDotsScroll = () => {
-        if (typeof ScrollTrigger === 'undefined' || !dotsContainer || dotsContainer.children.length === 0) {
-            console.warn("GSAP ScrollTrigger não definido ou dots não encontrados. A função setupDotsScroll não funcionará.");
+    const setupDotsScrollAnimation = () => {
+        if (!dotsContainer || !dotsContainer.children.length) {
             return;
         }
-
         const allDots = gsap.utils.toArray(dotsContainer.querySelectorAll(".dot"));
         const totalDots = allDots.length;
         let lastRandomizeScroll = 0;
@@ -321,121 +168,189 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const randomizeDotOpacity = () => {
             gsap.to(allDots, {
-                opacity: 0,
-                scale: 1,
-                boxShadow: 'none',
-                duration: 0.1,
-                ease: "power4.out"
+                opacity: 0.2, scale: 1, backgroundColor: 'var(--light-color)', boxShadow: 'none',
+                duration: 0.2, ease: "power2.out"
             });
-
-            const numToActivate = Math.floor(totalDots * (0.1 + Math.random() * 0.6));
-
+            const numToActivate = Math.floor(totalDots * (0.1 + Math.random() * 0.4));
             const shuffledDots = gsap.utils.shuffle(allDots.slice());
-
             const dotsToActivate = shuffledDots.slice(0, numToActivate);
-
             gsap.to(dotsToActivate, {
-                opacity: 1,
-                scale: 1.4,
-                backgroundColor: '#23FC94',
-                boxShadow: '0 0 10px #23FC94',
-                duration: 0.1,
-                ease: "power4.out",
-                stagger: {
-                    each: 0.1,
-                    from: "random",
-                    grid: "auto"
-                }
+                opacity: 1, scale: 1.4, backgroundColor: 'var(--accent-color)',
+                boxShadow: '0 0 10px var(--accent-color)',
+                duration: 0.3, ease: "power2.out", stagger: { each: 0.05, from: "random" }
             });
-             console.log(`Randomizando dots: ${numToActivate} ativados.`);
         };
 
         ScrollTrigger.create({
-            trigger: 'body',
-            start: 0,
-            end: "max",
-
+            trigger: 'body', start: "top top", end: "max",
             onUpdate: (self) => {
-                const currentScroll = self.scroll();
-                const scrolledDistance = Math.abs(currentScroll - lastRandomizeScroll);
-
-                if (scrolledDistance >= scrollThreshold) {
+                const currentScroll = smoother ? smoother.scrollTop() : self.scroll();
+                if (Math.abs(currentScroll - lastRandomizeScroll) >= scrollThreshold) {
                     randomizeDotOpacity();
                     lastRandomizeScroll = currentScroll;
                 }
             }
         });
-
         randomizeDotOpacity();
-
-        console.log("ScrollTrigger para randomização dos dots configurado.");
     };
 
     const setupCtaDotsAnimation = () => {
-        if (!ctaDotsPattern || typeof gsap === 'undefined') {
-            console.warn("Elemento '.cta-dots-pattern' ou GSAP não encontrados. A animação dos dots do CTA não funcionará.");
+        if (!ctaDotsPattern) {
+            return;
+        }
+        const patternClasses = ['pattern-1', 'pattern-2', 'pattern-3'];
+        let currentPatternIndex = 0;
+        gsap.timeline({ repeat: -1, repeatDelay: 0.5 })
+            .call(() => {
+                ctaDotsPattern.className = 'cta-dots-pattern ' + patternClasses[currentPatternIndex];
+                currentPatternIndex = (currentPatternIndex + 1) % patternClasses.length;
+            })
+            .to({}, { duration: 1 });
+    };
+
+    const setupDynamicCounterAnimation = () => {
+        if (!dynamicCounterElement) {
+            return;
+        }
+        dynamicCounterElement.textContent = "000"; 
+        const counterData = { value: 0 }; 
+
+        const counterTween = gsap.to(counterData, {
+            value: 585, 
+            ease: "none", 
+            onUpdate: () => {
+                dynamicCounterElement.textContent = Math.round(counterData.value).toString().padStart(3, '0');
+            }
+        });
+
+        ScrollTrigger.create({
+            trigger: "#section-1", 
+            start: "top 90%", 
+            endTrigger: "body", 
+            end: "bottom bottom", 
+            scrub: 1.5, 
+            animation: counterTween, 
+        });
+    };
+
+    const applyLongShadow = (elementId, shadowColor = '#00151B', length = 100, spacing = 0.1) => {
+        const textElement = document.getElementById(elementId);
+        if (!textElement) {
+            console.warn(`Elemento com ID "${elementId}" para long shadow não encontrado.`);
+            return;
+        }
+        let shadow = [];
+        for (let i = 1; i <= length; i++) {
+            shadow.push(`${i * spacing}px ${i * spacing}px ${shadowColor}`);
+        }
+        textElement.style.textShadow = shadow.join(', ');
+    };
+
+    const setupTextAppearAnimation = (elementId) => {
+        const textContainer = document.getElementById(elementId);
+        if (!textContainer) {
+            console.warn(`Elemento com ID "${elementId}" para animação de texto não encontrado.`);
             return;
         }
 
+        const words = gsap.utils.toArray(textContainer.querySelectorAll("span"));
 
-        const patternClasses = [
-            'pattern-1',
-            'pattern-2',
-            'pattern-3'
-        ];
-        let currentPatternIndex = 0;
+        if (words.length === 0) {
+            console.warn(`Nenhuma palavra (span) encontrada dentro de #${elementId} para animar.`);
+            return;
+        }
+        
+        gsap.to(words, {
+            autoAlpha: 1, 
+            y: 0,
+            duration: 1,
+            stagger: 0.5, 
+            ease: "power4.out",
+            scrollTrigger: {
+                trigger: textContainer,
+                start: "top 80%", 
+                end: "bottom 20%", 
+                toggleActions: "play none none none", 
+                once: false 
+            }
+        });
+    };
 
-        const tl = gsap.timeline({ repeat: -1 });
+    const setupArrowPathAnimation = () => {
+        if (!arrowElement || !pathElement) {
+            console.warn("Elemento da seta (#theArrow) ou do caminho (#thePath) não encontrado.");
+            return;
+        }
 
-        tl.call(() => {
-            ctaDotsPattern.className = 'cta-dots-pattern ' + patternClasses[currentPatternIndex];
-            console.log("CTA Pattern:", patternClasses[currentPatternIndex]);
-            currentPatternIndex = (currentPatternIndex + 1) % patternClasses.length;
-        })
-        .to({}, {
-             duration: 1,
-             onComplete: () => {
-                 ctaDotsPattern.className = 'cta-dots-pattern ' + patternClasses[currentPatternIndex];
-                 console.log("CTA Pattern:", patternClasses[currentPatternIndex]);
-                 currentPatternIndex = (currentPatternIndex + 1) % patternClasses.length;
-             }
-        })
-        .to({}, {
-             duration: 1,
-             onComplete: () => {
-                 ctaDotsPattern.className = 'cta-dots-pattern ' + patternClasses[currentPatternIndex];
-                 console.log("CTA Pattern:", patternClasses[currentPatternIndex]);
-                 currentPatternIndex = (currentPatternIndex + 1) % patternClasses.length;
-             }
-        })
-         .to({}, {
-              duration: 1,
-              onComplete: () => {
-              }
-         });
+        gsap.set(arrowElement, {
+            motionPath: {
+                path: pathElement,
+                align: pathElement,
+                alignOrigin: [0.5, 0.5],
+                autoRotate: true,
+                start: 0, 
+                end: 0   
+            }
+        });
+        
+        const arrowTween = gsap.to(arrowElement, {
+            motionPath: {
+                path: pathElement,
+                align: pathElement,
+                alignOrigin: [0.5, 0.5], 
+                autoRotate: true, 
+                start: 0, 
+                end: 1    
+            },
+            ease: "none" 
+        });
 
-
-         console.log("Animação dos dots do CTA configurada.");
+        ScrollTrigger.create({
+            trigger: "#section-1",
+            start: "top top", 
+            end: "bottom bottom", 
+            scrub: 1, 
+            animation: arrowTween,
+            
+        });
     };
 
 
-    setupScrollEffects();
     setupMenu();
     setupContactModal();
     setupMenuHoverEffects();
     setupPerformanceControls();
-    if (dotsContainer && dotsContainer.children.length > 0) {
-        setupDotsScroll();
-    } else {
-        console.warn("setupDotsScroll não chamado pois o dotsContainer não foi encontrado ou está vazio.");
-    }
-    setupCtaDotsAnimation();
 
-
-    if(line1 && line2 && line3) {
+    if (line1 && line2 && line3 && scrambleGroup) {
         animateScrambleText();
-    } else {
-        console.warn("Elementos para ScrambleText não encontrados. A animação não foi iniciada.");
     }
 
+    if (dotsContainer) {
+        setupDotsCreation();
+        setupDotsScrollAnimation();
+    }
+
+    if (ctaDotsPattern) {
+        setupCtaDotsAnimation();
+    }
+
+    if (dynamicCounterElement) {
+        setupDynamicCounterAnimation();
+    }
+
+    const transformeTextEl = document.getElementById('transformeText'); 
+    if (transformeTextEl) {
+        applyLongShadow('transformeText', '#00151B', 80, 0.1); 
+        setupTextAppearAnimation('transformeText');
+    }
+
+    if (arrowElement && pathElement) {
+        setupArrowPathAnimation();
+    }
+    
+    gsap.delayedCall(0.2, () => { 
+        if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
+            ScrollTrigger.refresh();
+        }
+    });
 });

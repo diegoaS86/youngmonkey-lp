@@ -12,69 +12,70 @@
         rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/media-query.css">
-
 </head>
 
 <body>
-    <div class="smooth-wrapper">
-        <div class="smooth-content">
-            <header class="header" id="mainHeader">
-                <div class="header-box">
-                    <div class="nav-left">
-                        <div class="nav-left__box" id="navBox">
-                            <div class="nav-left__box-wrap">
-                                <a href="/" class="logo-nav">
-                                    <svg class="icon-logo"></svg>
-                                </a>
-                                <div class="nav-left__box__right">
-                                    <div class="hamburger" id="hamburger">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="menu" id="menu">
-                                <ul class="menu-nav">
-                                    <li><a href="#servicos">Serviços</a></li>
-                                    <li><a href="#depoimentos">Depoimento</a></li>
-                                    <li><a href="#showcase">Showcase</a></li>
-                                    <li><a href="#contato">Contato</a></li>
-                                </ul>
-                                <div class="menu__line"></div>
-                                <div class="menu-lang">
-                                    <ul>
-                                        <li><a href="#" class="lang-pt">PT</a></li>
-                                        <li><a href="#" class="lang-en">EN</a></li>
-                                    </ul>
-                                </div>
-                                <div class="menu__line"></div>
-                                <div class="menu-social">
-                                    <a href="https://instagram.com" target="_blank">Instagram</a>
-                                    <a href="https://wa.me/" target="_blank">WhatsApp</a>
-                                    <a href="https://fiverr.com" target="_blank">Fiverr</a>
-                                </div>
+    <header class="header" id="mainHeader">
+        <div class="header-box">
+            <div class="nav-left">
+                <div class="nav-left__box" id="navBox">
+                    <div class="nav-left__box-wrap">
+                        <a href="/" class="logo-nav">
+                            <svg class="icon-logo"></svg> 
+                        </a>
+                        <div class="nav-left__box__right">
+                            <div class="hamburger" id="hamburger">
+                                <span></span>
+                                <span></span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
-                    <div class="nav-right">
-                        <a href="#" class="contact-button" id="contactBtn">
-                            <div class="button-shape"></div>
-                            <div class="button-text-container">
-                                <div class="button-text-wrapper">
-                                    <div class="button-text">CONTATO</div>
-                                    <div class="button-text hover-text">CONTATO</div>
-                                </div>
-                                <div class="button-background"></div>
-                            </div>
-                        </a>
+                    <div class="menu" id="menu">
+                        <ul class="menu-nav">
+                            <li><a href="#servicos">Serviços</a></li>
+                            <li><a href="#depoimentos">Depoimento</a></li>
+                            <li><a href="#showcase">Showcase</a></li>
+                            <li><a href="#contato">Contato</a></li>
+                        </ul>
+                        <div class="menu__line"></div>
+                        <div class="menu-lang">
+                            <ul>
+                                <li><a href="#" class="lang-pt">PT</a></li>
+                                <li><a href="#" class="lang-en">EN</a></li>
+                            </ul>
+                        </div>
+                        <div class="menu__line"></div>
+                        <div class="menu-social">
+                            <a href="https://instagram.com" target="_blank">Instagram</a>
+                            <a href="https://wa.me/" target="_blank">WhatsApp</a>
+                            <a href="https://fiverr.com" target="_blank">Fiverr</a>
+                        </div>
                     </div>
                 </div>
-            </header>
+            </div>
+            <div class="nav-right">
+                <a href="#" class="contact-button" id="contactBtn">
+                    <div class="button-shape"></div>
+                    <div class="button-text-container">
+                        <div class="button-text-wrapper">
+                            <div class="button-text">CONTATO</div>
+                            <div class="button-text hover-text">CONTATO</div>
+                        </div>
+                        <div class="button-background"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="smooth-wrapper" id="smooth-wrapper">
+        <div class="smooth-content" id="smooth-content">
             <section id="hero" class="hero">
                 <div class="hero__video-container">
                     <video class="hero__video" autoplay loop muted playsinline>
                         <source src="assets/videos/presentation (1080p).mp4" type="video/mp4">
+                         O seu navegador não suporta o elemento de vídeo.
                     </video>
                     <div class="hero__video-overlay"></div>
                 </div>
@@ -98,31 +99,49 @@
             </section>
 
             <section id="section-1" class="section-1">
-
                 <div class="gradient-background">
                     <div class="noise-overlay"></div>
-
+                </div>
+                <div class="dynamic-counter" id="dynamicCounter">000</div> 
+                
+                <div class="section-1-content container">
+                    <h2 class="long-shadow-text" id="transformeText">
+                        <span>transforme</span> <span>atenção</span> <span>em</span> <span>resultados</span>
+                    </h2>
                 </div>
 
+                
+                <div class="arrow-path-container">
+                    <svg id="arrowPathSVG" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet">
+                        {/* Caminho que a seta seguirá */}
+                        <path id="thePath" d="M50,350 Q150,50 300,200 T550,50" stroke="rgba(230, 255, 243, 0.2)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                        {/* Elemento da seta (um círculo simples para este exemplo) */}
+                        <circle id="theArrow" r="8" fill="var(--accent-color)"/>
+                    </svg>
+                </div>
             </section>
 
-            <section id="section-2" class="section-2">
+            <section id="section-2" class="section-2" style="background-color: #0a1f27;">
                 <div class="horizontal-scroll-container">
+                    <h2 style="text-align: center; padding-top: 40vh; color: white;">Secção 2</h2>
                 </div>
             </section>
 
-            <section id="section-3" class="section-3">
+            <section id="section-3" class="section-3" style="background-color: #071a20;">
                 <div class="container">
+                     <h2 style="text-align: center; padding-top: 40vh; color: white;">Secção 3</h2>
                 </div>
             </section>
 
-            <section id="section-4" class="section-4">
+            <section id="section-4" class="section-4" style="background-color: #051418;">
                 <div class="container">
+                    <h2 style="text-align: center; padding-top: 40vh; color: white;">Secção 4</h2>
                 </div>
             </section>
 
-            <footer>
+            <footer style="height: 300px; background-color: var(--secondary-color); display: flex; align-items: center; justify-content: center;">
                 <div class="container">
+                    <p style="color: var(--light-color); text-align: center;">Rodapé da Página</p>
                 </div>
             </footer>
         </div>
@@ -133,11 +152,14 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Observer.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/TextPlugin.min.js"></script>
+
     <script src="assets/js/svgLoader.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/header.js"></script> 
+    <script src="assets/js/script.js"></script>   
 </body>
 
 </html>
