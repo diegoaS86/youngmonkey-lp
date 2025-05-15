@@ -21,7 +21,7 @@
                 <div class="nav-left__box" id="navBox">
                     <div class="nav-left__box-wrap">
                         <a href="/" class="logo-nav">
-                            <svg class="icon-logo"></svg> 
+                            <svg class="icon-logo"></svg>
                         </a>
                         <div class="nav-left__box__right">
                             <div class="hamburger" id="hamburger">
@@ -75,7 +75,7 @@
                 <div class="hero__video-container">
                     <video class="hero__video" autoplay loop muted playsinline>
                         <source src="assets/videos/presentation (1080p).mp4" type="video/mp4">
-                         O seu navegador não suporta o elemento de vídeo.
+                        O seu navegador não suporta o elemento de vídeo.
                     </video>
                     <div class="hero__video-overlay"></div>
                 </div>
@@ -102,34 +102,94 @@
                 <div class="gradient-background">
                     <div class="noise-overlay"></div>
                 </div>
-                <div class="dynamic-counter" id="dynamicCounter">000</div> 
-                
+                <div class="dynamic-counter" id="dynamicCounter">000</div>
+
                 <div class="section-1-content container">
                     <h2 class="long-shadow-text" id="transformeText">
                         <span>transforme</span> <span>atenção</span> <span>em</span> <span>resultados</span>
                     </h2>
                 </div>
 
-                
-                <div class="arrow-path-container">
-                    <svg id="arrowPathSVG" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet">
-                        {/* Caminho que a seta seguirá */}
-                        <path id="thePath" d="M50,350 Q150,50 300,200 T550,50" stroke="rgba(230, 255, 243, 0.2)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
-                        {/* Elemento da seta (um círculo simples para este exemplo) */}
-                        <circle id="theArrow" r="8" fill="var(--accent-color)"/>
+
+                <div class="new-arrow-path-container pin-element"> 
+                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1900 1200" preserveAspectRatio="xMidYMid meet"> 
+                        <path id="main-path" 
+                              d="M1983.23 464.607C1983.23 651.043 1794.5 1132.5 1302 976.5C1012.64 884.847 903.655 596.21 926 417C941.688 291.182 1045.2 216.005 1097 315C1265.5 637 643 1014.38 213 648C-217 281.615 25.9999 -541 1097 -1368.5" 
+                              fill="none" 
+                              stroke="transparent"
+                              stroke-width="10"/> 
+                                               
+                        <path class="draw" 
+                              d="M1983.23 464.607C1983.23 651.043 1794.5 1132.5 1302 976.5C1012.64 884.847 903.655 596.21 926 417C941.688 291.182 1045.2 216.005 1097 315C1265.5 637 643 1014.38 213 648C-217 281.615 25.9999 -541 1097 -1368.5" 
+                              fill="none" 
+                              stroke="var(--accent-secondary-color)" 
+                              stroke-linecap="butt"
+                              stroke-miterlimit="10" 
+                              stroke-width="80"/> 
+                                                
+                        <path id="arrow" d="M108 122.5L215 0H0L108 122.5Z" fill="var(--accent-secondary-color)" transform="scale(0.8)"/> 
                     </svg>
                 </div>
             </section>
+            <section id="section-2" class="section-2 services-section">
+                <div class="services-container">
+                    <div class="services-left-panel">
+                        <h2 class="services-title">O que<br>criamos<br>para você</h2>
+                        <p class="services-subtitle">Criação de vídeos, textos, locuções e conteúdos visuais para meu negócio crescer.</p>
 
-            <section id="section-2" class="section-2" style="background-color: #0a1f27;">
-                <div class="horizontal-scroll-container">
-                    <h2 style="text-align: center; padding-top: 40vh; color: white;">Secção 2</h2>
+                    </div>
+                    <div class="services-right-panel">
+                        <div class="service-card card-1">
+                            <div class="service-card-image-placeholder">
+                                <img src="path/to/image1.jpg" alt="Serviço 1">
+                            </div>
+                            <div class="service-card-title-box">
+                                <h3>Vídeos Incríveis</h3>
+                            </div>
+                        </div>
+                        <div class="service-card card-2">
+                            <div class="service-card-image-placeholder"></div>
+                            <div class="service-card-title-box">
+                                <h3>Textos Persuasivos</h3>
+                            </div>
+                        </div>
+                        <div class="service-card card-3">
+                            <div class="service-card-image-placeholder"></div>
+                            <div class="service-card-title-box">
+                                <h3>Locuções Profissionais</h3>
+                            </div>
+                        </div>
+                        <div class="service-card card-4">
+                            <div class="service-card-image-placeholder"></div>
+                            <div class="service-card-title-box">
+                                <h3>Design Gráfico</h3>
+                            </div>
+                        </div>
+                        <div class="service-card card-5">
+                            <div class="service-card-image-placeholder"></div>
+                            <div class="service-card-title-box">
+                                <h3>Marketing de Conteúdo</h3>
+                            </div>
+                        </div>
+                        <div class="service-card card-6">
+                            <div class="service-card-image-placeholder"></div>
+                            <div class="service-card-title-box">
+                                <h3>Consultoria Digital</h3>
+                            </div>
+                        </div>
+                        <div class="service-card card-7">
+                            <div class="service-card-image-placeholder"></div>
+                            <div class="service-card-title-box">
+                                <h3>Websites Modernos</h3>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <section id="section-3" class="section-3" style="background-color: #071a20;">
                 <div class="container">
-                     <h2 style="text-align: center; padding-top: 40vh; color: white;">Secção 3</h2>
+                    <h2 style="text-align: center; padding-top: 40vh; color: white;">Secção 3</h2>
                 </div>
             </section>
 
@@ -139,7 +199,8 @@
                 </div>
             </section>
 
-            <footer style="height: 300px; background-color: var(--secondary-color); display: flex; align-items: center; justify-content: center;">
+            <footer
+                style="height: 300px; background-color: var(--secondary-color); display: flex; align-items: center; justify-content: center;">
                 <div class="container">
                     <p style="color: var(--light-color); text-align: center;">Rodapé da Página</p>
                 </div>
@@ -152,14 +213,15 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Observer.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
 
     <script src="assets/js/svgLoader.js"></script>
-    <script src="assets/js/header.js"></script> 
-    <script src="assets/js/script.js"></script>   
+    <script src="assets/js/header.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 
 </html>

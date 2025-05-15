@@ -11,7 +11,7 @@ function initializeHeaderAnimation(gsapInstance, ScrollTriggerInstance, smoother
 
     let headerVisible = true;
     const headerHeight = header.offsetHeight;
-    const smallScrollThreshold = -10;
+    const smallScrollThreshold = -100;
 
     gsapInstance.set(header, { y: 0 });
 

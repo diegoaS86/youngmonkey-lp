@@ -14,15 +14,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const dotsContainer = document.getElementById('dotsContainer');
     const dynamicCounterElement = document.getElementById('dynamicCounter'); 
     const transformeTextElement = document.getElementById('transformeText');
-    const arrowElement = document.getElementById('theArrow');
-    const pathElement = document.getElementById('thePath');
+    
+    const newArrowSvgContainer = document.querySelector('.new-arrow-path-container');
+    const mainPathForMotion = document.getElementById('main-path'); 
+    const visiblePathToDraw = document.querySelector('.new-arrow-path-container .draw'); 
+    const arrowHeadElement = document.getElementById('arrow'); 
+    
+    const servicesSection = document.getElementById('section-2');
+    const servicesContainerForPin = servicesSection ? servicesSection.querySelector('.services-container') : null;
+    const servicesLeftPanel = servicesSection ? servicesSection.querySelector('.services-left-panel') : null;
+    const servicesRightPanel = servicesSection ? servicesSection.querySelector('.services-right-panel') : null;
+    const serviceCards = servicesSection ? gsap.utils.toArray(servicesSection.querySelectorAll('.service-card')) : [];
+    const serviceCardCounterElement = document.getElementById('serviceCardCounter');
 
 
     let smoother;
 
     try {
         if (typeof gsap === 'undefined') {
-            console.error("GSAP não foi carregado.");
             return;
         }
         gsap.registerPlugin(
@@ -30,12 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
             Observer,
             ScrambleTextPlugin,
             ScrollTrigger,
+            DrawSVGPlugin, 
             ScrollSmoother,
             ScrollToPlugin,
             TextPlugin
         );
     } catch (error) {
-        console.error("Erro ao registrar plugins GSAP:", error);
         return;
     }
 
@@ -51,18 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 smoother = ScrollSmoother.create({
                     wrapper: "#smooth-wrapper",
                     content: "#smooth-content",
-                    smooth: 1.2,
+                    smooth: 1.2, 
                     effects: true,
                     smoothTouch: 0.1,
                 });
-            } else {
-                 console.error("ScrollSmoother: Elementos wrapper ou content não encontrados.");
             }
         } catch (e) {
-            console.error("Erro ao criar ScrollSmoother:", e);
         }
-    } else {
-        console.warn("ScrollSmoother não está definido.");
     }
 
     if (typeof initializeHeaderAnimation === 'function') {
@@ -216,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const counterData = { value: 0 }; 
 
         const counterTween = gsap.to(counterData, {
-            value: 585, 
+            value: 490, 
             ease: "none", 
             onUpdate: () => {
                 dynamicCounterElement.textContent = Math.round(counterData.value).toString().padStart(3, '0');
@@ -236,7 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const applyLongShadow = (elementId, shadowColor = '#00151B', length = 100, spacing = 0.1) => {
         const textElement = document.getElementById(elementId);
         if (!textElement) {
-            console.warn(`Elemento com ID "${elementId}" para long shadow não encontrado.`);
             return;
         }
         let shadow = [];
@@ -249,69 +252,134 @@ document.addEventListener('DOMContentLoaded', () => {
     const setupTextAppearAnimation = (elementId) => {
         const textContainer = document.getElementById(elementId);
         if (!textContainer) {
-            console.warn(`Elemento com ID "${elementId}" para animação de texto não encontrado.`);
             return;
         }
 
         const words = gsap.utils.toArray(textContainer.querySelectorAll("span"));
 
         if (words.length === 0) {
-            console.warn(`Nenhuma palavra (span) encontrada dentro de #${elementId} para animar.`);
             return;
         }
         
-        gsap.to(words, {
-            autoAlpha: 1, 
-            y: 0,
-            duration: 1,
-            stagger: 0.5, 
-            ease: "power4.out",
-            scrollTrigger: {
-                trigger: textContainer,
-                start: "top 80%", 
-                end: "bottom 20%", 
-                toggleActions: "play none none none", 
-                once: false 
+        const textAnimation = gsap.fromTo(words, 
+            { autoAlpha: 0, y: 30 }, 
+            { 
+                autoAlpha: 1, 
+                y: 0,
+                duration: 1, 
+                stagger: 0.2, 
+                ease: "power2.out"
             }
+        );
+
+        ScrollTrigger.create({
+            trigger: textContainer,
+            start: "top 90%", 
+            end: "bottom 50%", 
+            scrub: 1, 
+            animation: textAnimation, 
         });
     };
 
-    const setupArrowPathAnimation = () => {
-        if (!arrowElement || !pathElement) {
-            console.warn("Elemento da seta (#theArrow) ou do caminho (#thePath) não encontrado.");
+    const setupNewArrowAnimation = () => {
+        if (!newArrowSvgContainer || !mainPathForMotion || !visiblePathToDraw || !arrowHeadElement) {
             return;
         }
 
-        gsap.set(arrowElement, {
-            motionPath: {
-                path: pathElement,
-                align: pathElement,
-                alignOrigin: [0.5, 0.5],
-                autoRotate: true,
-                start: 0, 
-                end: 0   
-            }
+        gsap.set(arrowHeadElement, { 
+            opacity: 0,
         });
-        
-        const arrowTween = gsap.to(arrowElement, {
+        gsap.set(visiblePathToDraw, { 
+            drawSVG: "0%" 
+        });
+
+        const arrowTimeline = gsap.timeline();
+
+        arrowTimeline.to(arrowHeadElement, {
+            opacity: 1,
+            duration: 0.01, 
+            ease: "none"
+        }, 0); 
+
+        arrowTimeline.to(arrowHeadElement, {
             motionPath: {
-                path: pathElement,
-                align: pathElement,
+                path: mainPathForMotion,
+                align: mainPathForMotion,
                 alignOrigin: [0.5, 0.5], 
-                autoRotate: true, 
+                autoRotate: 265, 
                 start: 0, 
                 end: 1    
             },
             ease: "none" 
-        });
+        }, 0); 
+
+        arrowTimeline.to(visiblePathToDraw, { 
+            drawSVG: "100%", 
+            ease: "none" 
+        }, 0); 
 
         ScrollTrigger.create({
-            trigger: "#section-1",
-            start: "top top", 
-            end: "bottom bottom", 
-            scrub: 1, 
-            animation: arrowTween,
-            
+            trigger: "#section-1", 
+            start: "top 80%", 
+            end: () => "+=" + (document.querySelector("#section-1").offsetHeight * 1.3), 
+            scrub: 1.5, 
+            animation: arrowTimeline,
+        });
+    };
+
+    const setupStackingCardsAnimation = () => {
+        if (!servicesSection || !servicesContainerForPin || !servicesRightPanel || !serviceCards.length) {
+            return;
+        }
+
+        // Define o estado inicial dos cards
+        serviceCards.forEach((card, index) => {
+            gsap.set(card, {
+                // O CSS já posiciona com left: 50%; transform: translate(-50%, -50%);
+                // Então, para x, 0 significa centralizado.
+                // Para y, -50% já está no CSS para centralização vertical.
+                x: index === 0 ? "-50%" : "110%", // Primeiro card no centro, outros à direita fora da tela (usando x em vez de xPercent para evitar conflito com transform no CSS)
+                opacity: 1, // Todos os cards começam com opacidade 1
+                scale: index === 0 ? 1 : 1.1, // Primeiro card em escala normal, outros começam um pouco maiores
+                zIndex: index === 0 ? serviceCards.length : index, // zIndex para empilhamento inicial
+                // yPercent: -50, // Já está no CSS via transform
+            });
+        });
+        // Garante que o primeiro card esteja visível e no topo da "pilha" inicial (embora os outros estejam fora)
+        if (serviceCards.length > 0) {
+            gsap.set(serviceCards[0], { zIndex: serviceCards.length });
+        }
+
+
+        const cardStackTimeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: servicesSection,
+                pin: servicesContainerForPin,
+                pinSpacing: true,
+                start: "top top",
+                end: () => "+=" + (window.innerHeight * (serviceCards.length -1) * 0.5), // Ajuste este multiplicador (0.5)
+                scrub: 1,
+                invalidateOnRefresh: true,
+                // markers: true,
+            }
+        });
+
+        serviceCards.forEach((card, index) => {
+            if (index > 0) { 
+                cardStackTimeline.to(card, {
+                    x: "-50%", // Move para a posição central (CSS: left: 50%; transform: translateX(-50%))
+                    scale: 1, // Anima para a escala final de 1
+                    duration: 0.8, 
+                    ease: "expo.inOut",
+                    onStart: () => {
+                        gsap.set(card, { zIndex: serviceCards.length + index + 1 }); 
+                        if(serviceCards[index-1]) {
+                           // Efeito opcional no card anterior ao ser coberto
+                           // gsap.to(serviceCards[index-1], { scale: 0.95, opacity:0.8, duration:0.3});
+                        }
+                    }
+                }, `-=${0.35}`); // Ajustado o overlap para um fluxo potencialmente mais suave
+            }
         });
     };
 
@@ -343,12 +411,16 @@ document.addEventListener('DOMContentLoaded', () => {
         applyLongShadow('transformeText', '#00151B', 80, 0.1); 
         setupTextAppearAnimation('transformeText');
     }
+    
+    if (newArrowSvgContainer) {
+        setupNewArrowAnimation();
+    }
 
-    if (arrowElement && pathElement) {
-        setupArrowPathAnimation();
+    if (servicesSection) {
+        setupStackingCardsAnimation(); 
     }
     
-    gsap.delayedCall(0.2, () => { 
+    gsap.delayedCall(0.3, () => { 
         if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
             ScrollTrigger.refresh();
         }
