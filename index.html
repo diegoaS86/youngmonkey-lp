@@ -111,32 +111,48 @@
                 </div>
 
 
-                <div class="new-arrow-path-container pin-element"> 
-                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1900 1200" preserveAspectRatio="xMidYMid meet"> 
-                        <path id="main-path" 
-                              d="M1983.23 464.607C1983.23 651.043 1794.5 1132.5 1302 976.5C1012.64 884.847 903.655 596.21 926 417C941.688 291.182 1045.2 216.005 1097 315C1265.5 637 643 1014.38 213 648C-217 281.615 25.9999 -541 1097 -1368.5" 
-                              fill="none" 
-                              stroke="transparent"
-                              stroke-width="10"/> 
-                                               
-                        <path class="draw" 
-                              d="M1983.23 464.607C1983.23 651.043 1794.5 1132.5 1302 976.5C1012.64 884.847 903.655 596.21 926 417C941.688 291.182 1045.2 216.005 1097 315C1265.5 637 643 1014.38 213 648C-217 281.615 25.9999 -541 1097 -1368.5" 
-                              fill="none" 
-                              stroke="var(--accent-secondary-color)" 
-                              stroke-linecap="butt"
-                              stroke-miterlimit="10" 
-                              stroke-width="80"/> 
-                                                
-                        <path id="arrow" d="M108 122.5L215 0H0L108 122.5Z" fill="var(--accent-secondary-color)" transform="scale(0.8)"/> 
+                <div class="new-arrow-path-container pin-element">
+                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1900 1200"
+                        preserveAspectRatio="xMidYMid meet">
+                        <path id="main-path"
+                            d="M1983.23 464.607C1983.23 651.043 1794.5 1132.5 1302 976.5C1012.64 884.847 903.655 596.21 926 417C941.688 291.182 1045.2 216.005 1097 315C1265.5 637 643 1014.38 213 648C-217 281.615 25.9999 -541 1097 -1368.5"
+                            fill="none" stroke="transparent" stroke-width="10" />
+
+                        <path class="draw"
+                            d="M1983.23 464.607C1983.23 651.043 1794.5 1132.5 1302 976.5C1012.64 884.847 903.655 596.21 926 417C941.688 291.182 1045.2 216.005 1097 315C1265.5 637 643 1014.38 213 648C-217 281.615 25.9999 -541 1097 -1368.5"
+                            fill="none" stroke="var(--accent-secondary-color)" stroke-linecap="butt"
+                            stroke-miterlimit="10" stroke-width="80" />
+
+                        <path id="arrow" d="M108 122.5L215 0H0L108 122.5Z" fill="var(--accent-secondary-color)"
+                            transform="scale(0.8)" />
                     </svg>
                 </div>
             </section>
             <section id="section-2" class="section-2 services-section">
                 <div class="services-container">
-                    <div class="services-left-panel">
-                        <h2 class="services-title">O que<br>criamos<br>para você</h2>
-                        <p class="services-subtitle">Criação de vídeos, textos, locuções e conteúdos visuais para meu negócio crescer.</p>
+                    <div class="service-arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-300 0 2500 1080"> <!-- ViewBox aumentado -->
+                            <!-- Path ajustável -->
+                            <path id="service-path" transform="translate(0, 50)"
+                                d="M-300 620.5H969.5C1057.87 620.5 1129.5 548.866 1129.5 460.5V210C1129.5 121.634 1201.13 50 1289.5 50H2746"
+                                fill="none" stroke="transparent"/>
 
+                            <!-- Linha visível (mesmo path) -->
+                            <path class="service-draw" transform="translate(0, 50)"
+                                d="M-300 620.5H969.5C1057.87 620.5 1129.5 548.866 1129.5 460.5V210C1129.5 121.634 1201.13 50 1289.5 50H2746"
+                                fill="none" stroke="var(--accent-color)" stroke-linecap="butt" stroke-miterlimit="10" stroke-width="80" />
+
+                            <!-- Seta -->
+                            <path id="service-arrow-point" d="M108 122.5L215 0H0L108 122.5Z" fill="var(--accent-color)" transform="scale(0.8)" />
+                        </svg>
+                    </div>
+                    <div class="services-left-panel">
+                        <div class="service-text">
+                            <h2 class="services-title">O que<br>criamos<br>para você</h2>
+                            <p class="services-subtitle">Criação de vídeos, textos, locuções e conteúdos visuais
+                                para meu negócio crescer.</p>
+                        </div>
+                        <div id="servicesCounter" class="services__counter">00/00</div>
                     </div>
                     <div class="services-right-panel">
                         <div class="service-card card-1">
