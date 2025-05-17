@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceDraw = document.querySelector('.service-draw');
     const serviceArrowPoint = document.getElementById('service-arrow-point');
 
-    let smoother;
+let smoother;
 
     // Verifica se GSAP está disponível e registra plugins
     try {
@@ -56,27 +56,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Conjuntos de palavras para animação de scramble
     const wordSets = {
-        line1: ["Design", "Videos", "Campaigns", "Content", "Reels", "Branding"],
-        line2: ["solves", "sells", "speaks", "adds", "gets", "is"],
-        line3: ["problem", "more", "loud", "value", "attention", "sexy"]
+        line1: [ "Design", "Videos", "Campaigns", "Content", "Reels", "Branding" ],
+        line2: [ "solves", "sells", "speaks", "adds", "gets", "is" ],
+        line3: [ "problem", "more", "loud", "value", "attention", "sexy" ]
     };
 
     // Inicializa ScrollSmoother
-    if (typeof ScrollSmoother !== 'undefined') {
-        try {
-            if (document.getElementById('smooth-wrapper') && document.getElementById('smooth-content')) {
-                smoother = ScrollSmoother.create({
-                    wrapper: "#smooth-wrapper",
-                    content: "#smooth-content",
-                    smooth: 1.2,
-                    effects: true,
-                    smoothTouch: 0.1,
-                });
-            }
-        } catch (e) {
-            console.error("ScrollSmoother error:", e);
+if (typeof ScrollSmoother !== 'undefined') {
+    try {
+        if (document.getElementById('smooth-wrapper') && document.getElementById('smooth-content')) {
+            smoother = ScrollSmoother.create({
+                wrapper: "#smooth-wrapper",
+                content: "#smooth-content",
+                smooth: 1.2,
+                effects: true,
+                smoothTouch: 0.1,
+            });
         }
+    } catch (e) {
+        console.error("ScrollSmoother error:", e);
     }
+}
 
     // Função para formatar números do contador
     const formatCounterNumber = (num) => {
@@ -125,13 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let counter = 0;
         function animate() {
-            const word1 = wordSets.line1[counter % wordSets.line1.length];
-            const word2 = wordSets.line2[counter % wordSets.line2.length];
-            const word3 = wordSets.line3[counter % wordSets.line3.length];
+            const word1 = wordSets.line1[ counter % wordSets.line1.length ];
+            const word2 = wordSets.line2[ counter % wordSets.line2.length ];
+            const word3 = wordSets.line3[ counter % wordSets.line3.length ];
             const groupIndex = counter % wordSets.line1.length;
-            
+
             scrambleGroup.className = 'scramble-title';
-            scrambleGroup.classList.add(`group-${groupIndex}`);
+            scrambleGroup.classList.add(`group-${ groupIndex }`);
 
             const tl = gsap.timeline({
                 onComplete: () => {
@@ -144,21 +144,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 scrambleText: { text: word1, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 },
                 ease: "power3.out"
             }, 0)
-            .to(line2, {
-                duration: 1.5,
-                scrambleText: { text: word2, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 },
-                ease: "power3.out"
-            }, 0)
-            .to(line3, {
-                duration: 1.5,
-                scrambleText: { text: word3, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 },
-                ease: "power3.out"
-            }, 0);
+                .to(line2, {
+                    duration: 1.5,
+                    scrambleText: { text: word2, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 },
+                    ease: "power3.out"
+                }, 0)
+                .to(line3, {
+                    duration: 1.5,
+                    scrambleText: { text: word3, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 },
+                    ease: "power3.out"
+                }, 0);
 
             counter++;
         }
 
-        gsap.set([line1, line2, line3], { opacity: 1, delay: 0.1 });
+        gsap.set([ line1, line2, line3 ], { opacity: 1, delay: 0.1 });
         animate();
     };
 
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const setupPerformanceControls = () => {
         document.addEventListener('visibilitychange', () => {
             if (gsap.globalTimeline) {
-                gsap.globalTimeline[document.hidden ? 'pause' : 'resume']();
+                gsap.globalTimeline[ document.hidden ? 'pause' : 'resume' ]();
             }
         });
     };
@@ -177,20 +177,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const rows = 4;
         const cols = 12;
-        
+
         for (let c = 0; c < cols; c++) {
             const col = document.createElement('div');
             col.className = 'dots-column';
-            
+
             for (let r = 0; r < rows; r++) {
                 const dot = document.createElement('div');
                 dot.className = 'dot';
                 col.appendChild(dot);
             }
-            
+
             dotsContainer.appendChild(col);
         }
-        
+
         gsap.set(dotsContainer.querySelectorAll('.dot'), { opacity: 0.3, scale: 1 });
     };
 
@@ -248,12 +248,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const setupCtaDotsAnimation = () => {
         if (!ctaDotsPattern) return;
 
-        const patternClasses = ['pattern-1', 'pattern-2', 'pattern-3'];
+        const patternClasses = [ 'pattern-1', 'pattern-2', 'pattern-3' ];
         let currentPatternIndex = 0;
 
         gsap.timeline({ repeat: -1, repeatDelay: 0.5 })
             .call(() => {
-                ctaDotsPattern.className = 'cta-dots-pattern ' + patternClasses[currentPatternIndex];
+                ctaDotsPattern.className = 'cta-dots-pattern ' + patternClasses[ currentPatternIndex ];
                 currentPatternIndex = (currentPatternIndex + 1) % patternClasses.length;
             })
             .to({}, { duration: 1 });
@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let shadow = [];
         for (let i = 1; i <= length; i++) {
-            shadow.push(`${i * spacing}px ${i * spacing}px ${shadowColor}`);
+            shadow.push(`${ i * spacing }px ${ i * spacing }px ${ shadowColor }`);
         }
         textElement.style.textShadow = shadow.join(', ');
     };
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 y: 0,
                 duration: 1,
                 stagger: 0.2,
-                ease: "power2.out"
+                ease: "power4.out"
             }
         );
 
@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
             motionPath: {
                 path: mainPathForMotion,
                 align: mainPathForMotion,
-                alignOrigin: [0.5, 0.5],
+                alignOrigin: [ 0.5, 0.5 ],
                 autoRotate: 265,
                 start: 0,
                 end: 1
@@ -375,12 +375,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 x: index === 0 ? "-50%" : "110%",
                 opacity: 1,
                 scale: index === 0 ? 1 : 1.1,
+                padding: index === 0 ? "0px" : "200px",
                 zIndex: index === 0 ? serviceCards.length : index,
             });
         });
 
         if (serviceCards.length > 0) {
-            gsap.set(serviceCards[0], { zIndex: serviceCards.length });
+            gsap.set(serviceCards[ 0 ], { zIndex: serviceCards.length });
         }
 
         const cardStackTimeline = gsap.timeline({
@@ -405,77 +406,70 @@ document.addEventListener('DOMContentLoaded', () => {
                     onStart: () => {
                         gsap.set(card, { zIndex: serviceCards.length + index + 1 });
                     }
-                }, `-=${0.35}`);
+                }, `-=${ 0.35 }`);
             }
         });
     };
 
+    const setupServicesCounter = () => {
+        if (!servicesCounterElement || !serviceCards.length || !servicePath || !serviceArrowPoint) {
+            console.error("Elementos necessários não encontrados!");
+            return;
+        }
 
+        const total = serviceCards.length;
+        servicesCounterElement.textContent = `01 / ${ formatCounterNumber(total) }`;
+
+        gsap.set(serviceArrowPoint, {
+            opacity: 1,
+            x: -400, // Posição X inicial do path
+            y: 461, // Posição Y inicial do path
+            rotation: 0,
+            transformOrigin: "center center"
+        });
+
+        // Cria uma timeline principal
+        const servicesTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: servicesSection,
+                start: "top top",
+                end: () => "+=" + (window.innerHeight * (serviceCards.length - 1) * 0.5),
+                scrub: true,
+                onUpdate: self => {
+                    const progress = self.progress;
+                    const currentIndex = Math.min(Math.floor(progress * total), total - 1);
+                    servicesCounterElement.textContent = `${ formatCounterNumber(currentIndex + 1) } / ${ formatCounterNumber(total) }`;
+                }
+            }
+        });
+
+        // Animação da linha
+        servicesTl.fromTo(serviceDraw,
+            { drawSVG: "0%" },
+            { drawSVG: "100%", ease: "none" },
+            0
+        );
 
         // Animação da seta
-    // Configuração inicial - esconde a seta
-const setupServicesCounter = () => {
-    if (!servicesCounterElement || !serviceCards.length || !servicePath || !serviceArrowPoint) {
-        console.error("Elementos necessários não encontrados!");
-        return;
-    }
+        servicesTl.to(serviceArrowPoint, {
+            motionPath: {
+                path: servicePath,
+                align: servicePath,
+                alignOrigin: [ 0.5, 0.5 ],
+                autoRotate: -90,
+                start: 0,
+                end: 1
+            },
+            ease: "none",
+        }, 0);
+    };
 
-    const total = serviceCards.length;
-    servicesCounterElement.textContent = `01 / ${formatCounterNumber(total)}`;
-
-    // Configuração inicial da seta
-    gsap.set(serviceArrowPoint, {
-        opacity: 1,
-        x: -400, // Posição X inicial do path
-        y: 461, // Posição Y inicial do path
-        rotation: 0,
-        transformOrigin: "center center"
-    });
-
-    // Cria uma timeline principal
-    const servicesTl = gsap.timeline({
-        scrollTrigger: {
-            trigger: servicesSection,
-            start: "top top",
-            end: () => "+=" + (window.innerHeight * (serviceCards.length - 1) * 0.5),
-            scrub: true,
-            onUpdate: self => {
-                const progress = self.progress;
-                const currentIndex = Math.min(Math.floor(progress * total), total - 1);
-                servicesCounterElement.textContent = `${formatCounterNumber(currentIndex + 1)} / ${formatCounterNumber(total)}`;
-            }
-        }
-    });
-
-    // Animação da linha
-    servicesTl.fromTo(serviceDraw,
-        { drawSVG: "0%" },
-        { drawSVG: "100%", ease: "none" },
-        0
-    );
-
-    // Animação da seta
-    servicesTl.to(serviceArrowPoint, {
-        motionPath: {
-            path: servicePath,
-            align: servicePath,
-            alignOrigin: [0.5, 0.5],
-            autoRotate: -90,
-            start: 0,
-            end: 1
-        },
-        ease: "none"
-    }, 0);
-};
-
-
-    // Inicializa todas as funções
     setupMenu();
     setupContactModal();
     setupMenuHoverEffects();
     setupPerformanceControls();
 
-        if (typeof initializeHeaderAnimation === 'function') {
+    if (typeof initializeHeaderAnimation === 'function') {
         initializeHeaderAnimation(gsap, ScrollTrigger, smoother);
     } else {
         console.error("Função initializeHeaderAnimation não encontrada. Verifique se header.js está carregado corretamente.");
@@ -512,7 +506,23 @@ const setupServicesCounter = () => {
         setupServicesCounter();
     }
 
-    // Atualiza ScrollTrigger após um pequeno delay
+if (document.getElementById('section-3')) {
+    setupLogoMarqueeWithGSAP();
+    setupTestimonialSlider();
+    
+    // Configura o ScrollTrigger para trabalhar com ScrollSmoother
+    ScrollTrigger.normalizeScroll(true);
+    ScrollTrigger.config({
+        limitCallbacks: true,
+        ignoreMobileResize: true
+    });
+    
+    setupSVGAnimation();
+}
+
+
+    
+
     gsap.delayedCall(0.3, () => {
         if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
             ScrollTrigger.refresh();

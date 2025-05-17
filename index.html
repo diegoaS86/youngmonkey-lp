@@ -21,7 +21,7 @@
                 <div class="nav-left__box" id="navBox">
                     <div class="nav-left__box-wrap">
                         <a href="/" class="logo-nav">
-                            <svg class="icon-logo"></svg>
+                            <svg class="icon-logoYM" heigh="32px"></svg>
                         </a>
                         <div class="nav-left__box__right">
                             <div class="hamburger" id="hamburger">
@@ -130,82 +130,179 @@
             </section>
             <section id="section-2" class="section-2 services-section">
                 <div class="services-container">
-                    <div class="service-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-300 0 2500 1080"> <!-- ViewBox aumentado -->
-                            <!-- Path ajustável -->
-                            <path id="service-path" transform="translate(0, 50)"
-                                d="M-300 620.5H969.5C1057.87 620.5 1129.5 548.866 1129.5 460.5V210C1129.5 121.634 1201.13 50 1289.5 50H2746"
-                                fill="none" stroke="transparent"/>
+                    <div class="services-content-wrapper">
 
-                            <!-- Linha visível (mesmo path) -->
-                            <path class="service-draw" transform="translate(0, 50)"
-                                d="M-300 620.5H969.5C1057.87 620.5 1129.5 548.866 1129.5 460.5V210C1129.5 121.634 1201.13 50 1289.5 50H2746"
-                                fill="none" stroke="var(--accent-color)" stroke-linecap="butt" stroke-miterlimit="10" stroke-width="80" />
+                        <div class="service-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-300 0 2500 1080">
+                                <path id="service-path" transform="translate(0, 50)"
+                                    d="M-300 620.5H969.5C1057.87 620.5 1129.5 548.866 1129.5 460.5V210C1129.5 121.634 1201.13 50 1289.5 50H2746"
+                                    fill="none" stroke="transparent" />
 
-                            <!-- Seta -->
-                            <path id="service-arrow-point" d="M108 122.5L215 0H0L108 122.5Z" fill="var(--accent-color)" transform="scale(0.8)" />
-                        </svg>
-                    </div>
-                    <div class="services-left-panel">
-                        <div class="service-text">
-                            <h2 class="services-title">O que<br>criamos<br>para você</h2>
-                            <p class="services-subtitle">Criação de vídeos, textos, locuções e conteúdos visuais
-                                para meu negócio crescer.</p>
+                                <path class="service-draw" transform="translate(0, 50)"
+                                    d="M-300 620.5H969.5C1057.87 620.5 1129.5 548.866 1129.5 460.5V210C1129.5 121.634 1201.13 50 1289.5 50H2746"
+                                    fill="none" stroke="var(--accent-color)" stroke-linecap="butt"
+                                    stroke-miterlimit="10" stroke-width="80" />
+
+                                <path id="service-arrow-point" d="M108 122.5L215 0H0L108 122.5Z"
+                                    fill="var(--accent-color)" transform="scale(0.8)" />
+                            </svg>
                         </div>
-                        <div id="servicesCounter" class="services__counter">00/00</div>
-                    </div>
-                    <div class="services-right-panel">
-                        <div class="service-card card-1">
-                            <div class="service-card-image-placeholder">
-                                <img src="path/to/image1.jpg" alt="Serviço 1">
+                        <div class="services-left-panel">
+                            <div class="service-text">
+                                <h2 class="services-title">O que<br>criamos<br>para você</h2>
+                                <p class="services-subtitle">Criação de vídeos, textos, locuções e conteúdos visuais
+                                    para meu negócio crescer.</p>
                             </div>
-                            <div class="service-card-title-box">
-                                <h3>Vídeos Incríveis</h3>
-                            </div>
+                            <div id="servicesCounter" class="services__counter">00/00</div>
                         </div>
-                        <div class="service-card card-2">
-                            <div class="service-card-image-placeholder"></div>
-                            <div class="service-card-title-box">
-                                <h3>Textos Persuasivos</h3>
+                        <div class="services-right-panel">
+                            <div class="service-card card-1">
+                                <div class="service-card-image-placeholder">
+                                    <img src="#" alt="Serviço 1">
+                                </div>
+                                <div class="service-card-title-box">
+                                    <h3>Vídeos Incríveis</h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="service-card card-3">
-                            <div class="service-card-image-placeholder"></div>
-                            <div class="service-card-title-box">
-                                <h3>Locuções Profissionais</h3>
+                            <div class="service-card card-2">
+                                <div class="service-card-image-placeholder"></div>
+                                <div class="service-card-title-box">
+                                    <h3>Textos Persuasivos</h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="service-card card-4">
-                            <div class="service-card-image-placeholder"></div>
-                            <div class="service-card-title-box">
-                                <h3>Design Gráfico</h3>
+                            <div class="service-card card-3">
+                                <div class="service-card-image-placeholder"></div>
+                                <div class="service-card-title-box">
+                                    <h3>Locuções Profissionais</h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="service-card card-5">
-                            <div class="service-card-image-placeholder"></div>
-                            <div class="service-card-title-box">
-                                <h3>Marketing de Conteúdo</h3>
+                            <div class="service-card card-4">
+                                <div class="service-card-image-placeholder"></div>
+                                <div class="service-card-title-box">
+                                    <h3>Design Gráfico</h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="service-card card-6">
-                            <div class="service-card-image-placeholder"></div>
-                            <div class="service-card-title-box">
-                                <h3>Consultoria Digital</h3>
+                            <div class="service-card card-5">
+                                <div class="service-card-image-placeholder"></div>
+                                <div class="service-card-title-box">
+                                    <h3>Marketing de Conteúdo</h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="service-card card-7">
-                            <div class="service-card-image-placeholder"></div>
-                            <div class="service-card-title-box">
-                                <h3>Websites Modernos</h3>
+                            <div class="service-card card-6">
+                                <div class="service-card-image-placeholder"></div>
+                                <div class="service-card-title-box">
+                                    <h3>Consultoria Digital</h3>
+                                </div>
+                            </div>
+                            <div class="service-card card-7">
+                                <div class="service-card-image-placeholder"></div>
+                                <div class="service-card-title-box">
+                                    <h3>Websites Modernos</h3>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="section-3" class="section-3" style="background-color: #071a20;">
-                <div class="container">
-                    <h2 style="text-align: center; padding-top: 40vh; color: white;">Secção 3</h2>
+            <section id="section-3" class="section-3 testimonials-section">
+                <div class="logo-marquee-container">
+                    <div class="logo-marquee-track">
+                        <svg class="icon-globo" width="266" height="50" viewBox="0 0 266 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                        <svg class="icon-dolby" width="165" height="50" viewBox="0 0 165 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                        <svg class="icon-uol" width="222" height="50" viewBox="0 0 222 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                        <svg class="icon-gpa" width="99" height="50" viewBox="0 0 99 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                        <svg class="icon-zello" width="116" height="50" viewBox="0 0 116 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                        <svg class="icon-iasys" width="170" height="50" viewBox="0 0 170 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                        <!-- Duplicados para o loop -->
+                        <svg class="icon-globo" width="266" height="50" viewBox="0 0 266 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                        <svg class="icon-dolby" width="165" height="50" viewBox="0 0 165 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                        <svg class="icon-uol" width="222" height="50" viewBox="0 0 222 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                        <svg class="icon-gpa" width="99" height="50" viewBox="0 0 99 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                        <svg class="icon-zello" width="116" height="50" viewBox="0 0 116 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                        <svg class="icon-iasys" width="170" height="50" viewBox="0 0 170 50"
+                            preserveAspectRatio="xMidYMid meet">...</svg>
+                    </div>
+                </div>
+
+                <div class="testimonials-wrapper container">
+                    <div class="testimonial-main-content">
+                        <div class="testimonial-left-column">
+                            <svg class="clip-path-svg" width="861" height="639" viewBox="0 0 861 639" fill="none">
+                                <defs>
+                                    <clipPath id="speechBubbleMask" clipPathUnits="objectBoundingBox">
+                                        <path
+                                            d="M0.0179 0.8304 L0.1160 1 V0.8660 C0.1160 0.8502 0.1255 0.8374 0.1372 0.8374 L0.9149 0.8389 C0.9619 0.8389 1.0000 0.7877 1.0000 0.7242 V0.1160 C1.0000 0.0529 0.9620 0.0017 0.9151 0.0016 L0.0851 0.0001 C0.0381 0.0001 0 0.0513 0 0.1146 V0.7601 C0 0.7856 0.0063 0.8103 0.0179 0.8304 Z" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            <div class="testimonial-bubble">
+                                <div class="testimonial-bubble-content">
+                                    <div class="testimonial-identity">
+                                        <img src="https://placehold.co/80x80/cccccc/333333?text=Foto"
+                                            alt="Foto da Pessoa" id="testimonialImage" class="testimonial-person-photo">
+                                        <div class="testimonial-person-details">
+                                            <p class="testimonial-name" id="testimonialName">Nome Sobrenome</p>
+                                            <p class="testimonial-title" id="testimonialTitle">Cargo, Empresa</p>
+                                        </div>
+                                    </div>
+                                    <div class="testimonial-quote-area">
+                                        <h3 class="testimonial-quote-title" id="testimonialQuoteTitle">Lorem Ipsum is
+                                            simply</h3>
+                                        <p class="testimonial-text" id="testimonialText">"Lorem Ipsum is simply dummy
+                                            text of the printing and typesetting industry. Lorem Ipsum has been the
+                                            industry's standard dummy text ever since the 1500s..."</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="testimonial-navigation">
+                                <button id="prevTestimonial" aria-label="Depoimento Anterior"
+                                    class="testimonial-nav-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="21" viewBox="0 0 70 21"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path
+                                            d="M68.5129 11.8048C69.2702 11.8048 69.8841 11.1909 69.8841 10.4336C69.8841 9.67628 69.2702 9.06235 68.5129 9.06235V11.8048ZM1.26644 9.46398C0.730933 9.99948 0.730933 10.8677 1.26644 11.4032L9.99298 20.1298C10.5285 20.6653 11.3967 20.6653 11.9322 20.1298C12.4677 19.5943 12.4677 18.726 11.9322 18.1905L4.17529 10.4336L11.9322 2.67666C12.4677 2.14116 12.4677 1.27293 11.9322 0.737431C11.3967 0.201926 10.5285 0.201926 9.99298 0.737431L1.26644 9.46398ZM68.5129 10.4336V9.06235H2.23605V10.4336V11.8048H68.5129V10.4336Z" />
+                                    </svg>
+                                </button>
+                                <button id="nextTestimonial" aria-label="Próximo Depoimento"
+                                    class="testimonial-nav-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="21" viewBox="0 0 70 21"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path
+                                            d="M58.7977 0.82373C59.3331 0.28857 60.2007 0.288561 60.7361 0.82373L69.4627 9.55029C69.998 10.0858 69.9982 10.9543 69.4627 11.4897L60.7361 20.2163C60.2007 20.7511 59.333 20.7512 58.7977 20.2163C58.2623 19.6809 58.2625 18.8124 58.7977 18.2769L65.1834 11.8911H2.21661C1.45951 11.891 0.84578 11.2771 0.84552 10.52C0.84552 9.76274 1.45935 9.14899 2.21661 9.14893H65.1834L58.7977 2.76318C58.2623 2.22778 58.2625 1.35926 58.7977 0.82373Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-right-column">
+                            <h2 class="section-title-testimonial">Depoimentos<br>de quem<br>entende</h2>
+                            <p class="section-subtitle-testimonial">Ajudamos marcas a ganhar voz, presença e impacto do
+                                posicionamento ao primeiro post.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="svg-container" id="svgGroup">
+
+                    <svg class="icon-halo svg1" width="342" height="72" viewBox="0 0 342 72"></svg>
+                    <svg class="icon-halo svg2" width="342" height="72" viewBox="0 0 342 72"></svg>
+                    <svg class="icon-halo svg3" width="342" height="72" viewBox="0 0 342 72"></svg>
+                    <svg class="icon-halo svg4" width="342" height="72" viewBox="0 0 342 72"></svg>
+                    <svg class="icon-halo svg5" width="342" height="72" viewBox="0 0 342 72"></svg>
+                    <svg class="icon-halo svg6" width="342" height="72" viewBox="0 0 342 72"></svg>
                 </div>
             </section>
 
@@ -234,9 +331,11 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/TextPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js"></script>
 
     <script src="assets/js/svgLoader.js"></script>
     <script src="assets/js/header.js"></script>
+    <script src="assets/js/testimonial.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
 

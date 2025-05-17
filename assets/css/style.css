@@ -44,6 +44,9 @@
   --border-radius: 16px;
   --transition-speed: 0.3s;
   --speedometer-font-size: clamp(900px, 90vw, 900px);
+  --title-size: clamp(2.8rem, 7vw, 5rem);
+  --title-weight: 800;
+  --subTitle-size: clamp(1rem, 1.7vw, 1.15rem);
 }
 
 * {
@@ -116,7 +119,7 @@ body {
   height: 45px;
 }
 
-.icon-logo {
+.icon-logoYM {
   width: auto;
   height: inherit;
   display: block;
@@ -579,9 +582,10 @@ body {
 .section-3,
 .section-4 {
   min-height: 100vh;
-  padding: 60px 15px;
+  padding: 50px 15px;
+  /* Padding geral da seção */
   position: relative;
-  overflow: visible; 
+  overflow: visible;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -675,88 +679,106 @@ body {
 
 .services-container {
   display: flex;
+  /* Mantido para estrutura interna */
   width: 100%;
   height: 100vh;
+  /* O container "pinado" precisa de altura definida */
   position: relative;
-  padding: 0 6%;
+  /* REMOVIDO padding: 0 6%; */
 }
 
+/* NOVO SELETOR para o wrapper que receberá o padding */
+.services-content-wrapper {
+  display: flex;
+  /* Para manter o layout dos painéis lado a lado */
+  width: 100%;
+  height: 100%;
+  position: relative;
+  /* Para que os painéis e a seta se posicionem corretamente dentro dele */
+  padding: 0 8%;
+  /* Padding aplicado aqui */
+}
+
+
 .service-arrow {
-    position: absolute;
-    top: 50%;
-    left: 50%; 
-    width: 130vw;
-    height: 80vh;
-    /* Ajuste o valor de 'calc(-50% - DESLOCAMENTO)' para mover mais para a esquerda. */
-    /* Exemplo: calc(-50% - 100px) move 100px para a esquerda além do centro. */
-    /* Exemplo: calc(-50% - 5vw) move 5% da largura da viewport para a esquerda. */
-    transform: translate(calc(-50% - 150px), -50%); /* << ALTERADO AQUI */
-    z-index: 1;
-    overflow: visible;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120vw;
+  /* Aumentado para garantir que cubra a área com padding */
+  height: 80vh;
+  /* Ajustado para compensar a largura maior e manter o início da seta visível */
+  transform: translate(calc(-50% - 15vw - (-130px)), -50%);
+  z-index: 1;
+  overflow: visible;
 }
 
 .service-arrow svg {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0; 
-    top: 0;
-    opacity: 0.7;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .service-arrow svg path#service-arrow-point {
-    transform-box: fill-box;
-    transform-origin: center;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 .services-left-panel,
 .services-right-panel {
   position: relative;
-  z-index: 2; 
+  z-index: 2;
 }
 
 .services-left-panel {
   width: 50%;
-  float: left;
+  /* Relativo ao .services-content-wrapper */
+  /* float: left; Não é mais necessário com flex */
   margin: 10% 0;
-  padding-right: 3%;
+  padding-left: 3%;
+  /* Ajustar se necessário, agora relativo ao wrapper */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: var(--light-color);
   z-index: 10;
+  /* Para ficar acima da seta */
 }
 
 .services-title {
-  font-size: clamp(2.2rem, 5vw, 4rem);
-  font-weight: 700;
-  line-height: 1.1;
-  margin-bottom: 20px;
+  font-size: var(--title-size);
+  font-weight: var(--title-weight);
+  line-height: 1;
   color: var(--text-color);
+  margin-bottom: 25px;
+  text-align: left;
 }
 
 .services-subtitle {
   color: var(--sub-text);
-  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  font-size: var(--subTitle-size);
   line-height: 1.6;
   max-width: 450px;
 }
 
 .services-right-panel {
   width: 50%;
-  float: left;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   padding-left: 3%;
+  /* Ajustar se necessário, agora relativo ao wrapper */
   height: 100%;
 }
 
 .services__counter {
   font-size: clamp(6rem, 10vw, 7rem);
   font-weight: 700;
-  color: var(--title-color); 
+  color: var(--text-color);
+  /* Corrigido para uma variável existente */
   line-height: 1.2;
 }
 
@@ -764,6 +786,7 @@ body {
   width: 787px;
   height: 600px;
   max-width: 90%;
+  /* Máximo relativo ao .services-right-panel */
   max-height: 80vh;
   background-color: var(--primary-color);
   border: 2px solid var(--accent-tertiary-color);
@@ -775,12 +798,11 @@ body {
   align-items: stretch;
   text-align: left;
   color: var(--light-color);
-  box-shadow: 0 15px 35px var(--primary-color);
+  box-shadow: 0 15px 35px color-mix(in srgb, var(--primary-color), transparent 50%);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.95);
-
   opacity: 0;
   will-change: transform, opacity, z-index;
   transition: opacity 0.4s ease, box-shadow 0.4s ease;
@@ -820,6 +842,267 @@ body {
   margin: 0;
 }
 
+.logo-marquee-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 40px 0;
+  position: relative;
+}
+
+.logo-marquee-container::before,
+.logo-marquee-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.logo-marquee-container::before {
+  left: 0;
+  background: linear-gradient(90deg, #00151b 0%, rgba(0, 21, 27, 0) 100%);
+}
+
+.logo-marquee-container::after {
+  right: 0;
+  background: linear-gradient(270deg, #00151B 0%, rgba(0, 21, 27, 0) 100%);
+}
+
+.logo-marquee-track {
+  display: flex;
+  align-items: center;
+  /* Centraliza verticalmente */
+  will-change: transform;
+  height: 90px;
+  /* Altura correspondente aos SVGs */
+}
+
+/* Estilo para os SVGs */
+.logo-marquee-track svg {
+  flex: 0 0 auto;
+  /* Impede que os SVGs encolham ou estiquem */
+  margin: 0 50px;
+  fill: var(--accent-secondary-color) !important;
+  transition: filter 0.3s ease;
+  display: block;
+  /* Remove espaços indesejados abaixo do SVG */
+}
+
+.logo-marquee-track svg:hover {
+  transition: ease-in-out 0.3s;
+  scale: 1.2;
+}
+
+/* Ou usando transform para não afetar o layout */
+.logo-marquee-track .icon-gpa {
+  transform: translateY(-20px);
+  /* Método alternativo */
+}
+
+/* Conteúdo dos Depoimentos */
+.testimonials-wrapper.container {
+  display: flex;
+  /* O wrapper principal já é flex */
+  flex-direction: column;
+  align-items: center;
+}
+
+.testimonial-main-content {
+  display: flex;
+  width: 100%;
+  gap: 60px;
+  /* Espaço entre coluna esquerda (balão) e direita (título) */
+  align-items: flex-start;
+  /* Centraliza verticalmente as duas colunas */
+}
+
+.testimonial-left-column {
+  flex: 1 1 60%;
+  /* Balão ocupa mais espaço */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Centraliza o balão e a navegação */
+}
+
+.testimonial-right-column {
+  flex: 1 1 40%;
+  /* Título ocupa menos espaço */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-left: 30px;
+  /* Pequeno espaçamento à esquerda do texto */
+}
+
+.section-title-testimonial {
+  font-size: var(--title-size);
+  font-weight: var(--title-weight);
+  line-height: 1.05;
+  color: var(--text-color);
+  margin-bottom: 25px;
+  text-align: left;
+  z-index: 4;
+}
+
+.section-subtitle-testimonial {
+  font-size: var(--subTitle-size);
+  color: var(--sub-text);
+  text-align: left;
+  max-width: 450px;
+  line-height: 1.6;
+}
+
+
+.clip-path-svg {
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.testimonial-bubble {
+  background-color: var(--light-color);
+  /* Fundo claro para o balão */
+  padding: 35px 45px;
+  /* Padding interno */
+  width: 860.23px;
+  height: 639px;
+  clip-path: url(#speechBubbleMask);
+  /* border: 1px solid var(--accent-tertiary-color); Removida borda, o clip-path já define a forma */
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+  /* Sombra mais suave */
+  color: var(--dark-text);
+  /* Texto escuro dentro do balão */
+  margin-bottom: 30px;
+}
+
+.testimonial-bubble-content {
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+}
+
+.testimonial-identity {
+  flex: 0 0 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.testimonial-person-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--border-radius-small);
+  object-fit: cover;
+}
+
+.testimonial-person-details {
+  text-align: center;
+}
+
+.testimonial-name {
+  font-size: 1.5rem;
+  /* Tamanho do nome */
+  font-weight: 700;
+  color: var(--dark-text);
+  margin: 0 0 2px 0;
+}
+
+.testimonial-title {
+  font-size: 0.9rem;
+  /* Tamanho do cargo */
+  color: #555;
+  /* Cor mais suave para o cargo */
+  margin: 0;
+}
+
+.testimonial-quote-area {
+  text-align: left;
+  gap: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonial-quote-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--dark-text);
+  margin-bottom: 10px;
+}
+
+.testimonial-text {
+  font-size: 1.8rem;
+  /* Tamanho do texto do depoimento */
+  line-height: 1.65;
+  color: #333;
+  /* Cor principal do texto do depoimento */
+  font-style: normal;
+  /* Remove itálico se não desejado */
+}
+
+/* Removendo as aspas automáticas via ::before e ::after para um visual mais limpo como na imagem */
+.testimonial-text::before,
+.testimonial-text::after {
+  content: none;
+}
+
+
+.testimonial-navigation {
+  display: flex;
+  gap: 15px;
+  margin-top: -100px;
+  align-self: flex-start;
+  padding-left: 140px;
+}
+
+.testimonial-nav-button {
+  background-color: transparent;
+  color: var(--light-color);
+  border: 3px solid var(--light-color);
+  width: 121px;
+  height: 74px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+
+
+.testimonial-nav-button svg {
+  width: 60px;
+  /* Tamanho das setas */
+  height: 16px;
+  fill: var(--light-color);
+  /* Usa a cor do texto do botão (definida acima) */
+}
+
+.svg-container {
+    position: absolute;
+    bottom: 0 !important; /* Percentual pode ser melhor que pixels fixos */
+    right: 5% !important;
+    width: 300px !important;
+    z-index: 0; /* Atrás do conteúdo */
+    pointer-events: none;
+}
+
+.icon-halo {
+    margin-bottom: -50px;
+    transform-origin: center center;
+    will-change: transform, opacity;
+    stroke: var(--accent-secondary-color);
+}
+
+.icon-halo.svg6 {
+    margin-bottom: 0;
+    position: relative;
+    z-index: 1;
+}
+
 .smooth-wrapper {
   position: relative;
 }
@@ -830,7 +1113,7 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1520px;
   margin: 0 auto;
   padding: 0 15px;
 }
