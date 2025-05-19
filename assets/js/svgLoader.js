@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch(jsonUrl)
     .then(response => response.json())
     .then(data => {
-      const iconElements = document.querySelectorAll(".icon-logoYM, .icon-globo, .icon-dolby, .icon-uol, .icon-gpa, .icon-zello, .icon-iasys, .icon-halo");
+      const iconElements = document.querySelectorAll(".icon-logoYM, .icon-globo, .icon-dolby, .icon-uol, .icon-gpa, .icon-zello, .icon-iasys, .icon-halo, .icon-whatsApp, .icon-fiverr");
 
       iconElements.forEach((iconEl) => {
         if (iconEl.classList.contains("icon-logoYM") && data.logoYM) {
@@ -39,7 +39,14 @@ document.addEventListener("DOMContentLoaded", function () {
           iconEl.innerHTML = data.halo;
           iconEl.classList.add("svg-icon");
         }
-
+        else if (iconEl.classList.contains("icon-whatsApp") && data.whatsApp) {
+          iconEl.innerHTML = data.whatsApp;
+          iconEl.classList.add("svg-icon");
+        }
+        else if (iconEl.classList.contains("icon-fiverr") && data.fiverr) {
+          iconEl.innerHTML = data.fiverr;
+          iconEl.classList.add("svg-icon");
+        }
       });
     })
     .catch(error => {

@@ -104,14 +104,32 @@ function setupTestimonialSlider() {
         return;
     }
 
-    function displayTestimonial(index) {
+    function displayTestimonial(index, direction = 'next') {
         const testimonial = testimonials[ index ];
 
-        gsap.to([ imageEl, nameEl, titleEl, quoteTitleEl, textEl ], {
+        // Animação de saída
+        gsap.to([ nameEl, titleEl ], {
             opacity: 0,
             duration: 0.3,
-            ease: "power2.in",
+            ease: "expo.in"
+        });
+
+        gsap.to([ imageEl ], {
+            opacity: 0,
+            scale: 0,
+            duration: 0.3,
+            ease: "expo.in"
+        });
+
+        // Animação específica para quoteTitleEl e textEl (movimento)
+        gsap.to([ quoteTitleEl, textEl ], {
+            x: direction === 'next' ? -30 : 30,
+            opacity: 0,
+            duration: 0.4,
+            ease: "expo.in",
+
             onComplete: () => {
+                // Atualiza o conteúdo
                 imageEl.src = testimonial.image;
                 imageEl.alt = `Foto de ${ testimonial.name }`;
                 nameEl.textContent = testimonial.name;
@@ -119,37 +137,65 @@ function setupTestimonialSlider() {
                 quoteTitleEl.textContent = testimonial.quoteTitle;
                 textEl.textContent = testimonial.text;
 
-                gsap.to([ imageEl, nameEl, titleEl, quoteTitleEl, textEl ], {
+                // Prepara para animação de entrada (posiciona os elementos à direita/left)
+                gsap.set([ quoteTitleEl, textEl ], {
+                    x: direction === 'next' ? -30 : 30,
+                    opacity: 0
+                });
+
+                // Anima os elementos estáticos (imagem, nome, título)
+                gsap.to([ nameEl, titleEl ], {
                     opacity: 1,
-                    duration: 0.4,
-                    ease: "power2.out",
+                    duration: 0.7,
+                    ease: "expo.out",
+                });
+
+                gsap.to([ imageEl ], {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.7,
+                    ease: "expo.out",
+                });
+
+
+                // Anima os elementos com movimento (título da citação e texto)
+                gsap.to([ quoteTitleEl ], {
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.7,
+                    ease: "expo.out",
                     delay: 0.1
+                });
+                gsap.to([ textEl ], {
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.7,
+                    ease: "expo.out",
+                    delay: 0.25
                 });
             }
         });
     }
 
-
     prevButton.addEventListener('click', () => {
         currentTestimonialIndex = (currentTestimonialIndex - 1 + testimonials.length) % testimonials.length;
-        displayTestimonial(currentTestimonialIndex);
+        displayTestimonial(currentTestimonialIndex, 'prev');
     });
 
     nextButton.addEventListener('click', () => {
         currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
-        displayTestimonial(currentTestimonialIndex);
+        displayTestimonial(currentTestimonialIndex, 'next');
     });
 
     if (testimonials.length > 0) {
         displayTestimonial(currentTestimonialIndex);
     }
 }
-
 function setupSVGAnimation() {
     // Seleciona os elementos
     const section3 = document.getElementById('section-3');
     const svgContainer = document.querySelector('.svg-container');
-    
+
     if (!section3 || !svgContainer) {
         console.error("Elementos não encontrados!");
         return;
@@ -168,14 +214,14 @@ function setupSVGAnimation() {
     // Configuração inicial dos SVGs
     const svgs = gsap.utils.toArray('.icon-halo:not(.svg6)');
     const spacing = 75; // Espaçamento entre SVGs
-    
+
     gsap.set(svgs, {
         y: (i) => -(spacing * (svgs.length - i)), // Empilhados para cima
         xPercent: -50
     });
 
-    gsap.set('.svg6', { 
-        y: 0, 
+    gsap.set('.svg6', {
+        y: 0,
         xPercent: -50
     });
 
@@ -193,18 +239,18 @@ function setupSVGAnimation() {
         scrollTrigger: {
             trigger: section3,
             start: "top 30%",
-            end: "bottom 90%",
+            end: "bottom 80%",
             scrub: 1,
             markers: false // Ativar para debug se necessário
         }
     });
 
     // Animação em cascata
-    tl.to(svgs[4], { y: 0, duration: 0.8, ease: "power4InOut" })
-      .to(svgs[3], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45")
-      .to(svgs[2], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45")
-      .to(svgs[1], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45")
-      .to(svgs[0], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45");
+    tl.to(svgs[ 4 ], { y: 0, duration: 0.8, ease: "power4InOut" })
+        .to(svgs[ 3 ], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45")
+        .to(svgs[ 2 ], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45")
+        .to(svgs[ 1 ], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45")
+        .to(svgs[ 0 ], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45");
 
     // Atualiza após carregamento
     gsap.delayedCall(0.5, () => ScrollTrigger.refresh());

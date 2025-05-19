@@ -33,6 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceDraw = document.querySelector('.service-draw');
     const serviceArrowPoint = document.getElementById('service-arrow-point');
 
+    const footerArrow = document.querySelector('.footer-arrow');
+    const footerPath = document.getElementById('footer-path');
+    const footerDraw = document.querySelector('.footer-draw');
+    const footerArrowPoint = document.getElementById('footer-arrow-point');
+
 let smoother;
 
     // Verifica se GSAP está disponível e registra plugins
@@ -462,7 +467,50 @@ if (typeof ScrollSmoother !== 'undefined') {
             },
             ease: "none",
         }, 0);
+
     };
+
+const setupFooterArrow = () => {
+    if (!footerArrow || !footerPath || !footerDraw || !footerArrowPoint) return;
+
+    gsap.set(footerArrowPoint, { opacity: 0, transformOrigin: "50% 50%" });
+    gsap.set(footerDraw, { drawSVG: "0%" });
+
+    const arrowTimeline = gsap.timeline();
+
+    arrowTimeline.to(footerArrowPoint, {
+        opacity: 1,
+        duration: 0.01,
+        ease: "none"
+    }, 0);
+
+    arrowTimeline.to(footerArrowPoint, {
+        motionPath: {
+            path: footerPath,
+            align: footerPath,
+            alignOrigin: [0.5, 0.5],
+            autoRotate: -90, // ou um valor específico em graus
+            start: 0,
+            end: 1
+        },
+        ease: "none"
+    }, 0);
+
+    arrowTimeline.to(footerDraw, {
+        drawSVG: "100%",
+        ease: "none"
+    }, 0);
+
+    ScrollTrigger.create({
+        trigger: "#footer",
+        start: "top 80%",
+        end: "bottom bottom",
+        scrub: 1.5,
+        animation: arrowTimeline,
+    });
+};
+
+    
 
     setupMenu();
     setupContactModal();
@@ -518,6 +566,10 @@ if (document.getElementById('section-3')) {
     });
     
     setupSVGAnimation();
+}
+
+   if (footerArrow) { 
+    setupFooterArrow();
 }
 
 
