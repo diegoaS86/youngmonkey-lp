@@ -1,4 +1,3 @@
-// assets/js/script.js
 document.addEventListener('DOMContentLoaded', () => {
     // Elementos do DOM
     const hamburger = document.getElementById('hamburger');
@@ -16,11 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const dynamicCounterElement = document.getElementById('dynamicCounter');
     const transformeTextElement = document.getElementById('transformeText');
 
-    const newArrowSvgContainer = document.querySelector('.new-arrow-path-container');
-    const mainPathForMotion = document.getElementById('main-path');
-    const visiblePathToDraw = document.querySelector('.new-arrow-path-container .draw');
-    const arrowHeadElement = document.getElementById('arrow');
-
     const servicesSection = document.getElementById('section-2');
     const servicesContainerForPin = servicesSection ? servicesSection.querySelector('.services-container') : null;
     const servicesLeftPanel = servicesSection ? servicesSection.querySelector('.services-left-panel') : null;
@@ -33,16 +27,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceDraw = document.querySelector('.service-draw');
     const serviceArrowPoint = document.getElementById('service-arrow-point');
 
+    const serviceArrowMobile = document.querySelector('.service-arrow-mobile');
+    const servicePathMobile = document.getElementById('service-path-mobile');
+    const serviceDrawMobile = document.querySelector('.service-draw-mobile');
+    const serviceArrowPointMobile = document.getElementById('service-arrow-point-mobile');
+
     const footerArrow = document.querySelector('.footer-arrow');
     const footerPath = document.getElementById('footer-path');
     const footerDraw = document.querySelector('.footer-draw');
     const footerArrowPoint = document.getElementById('footer-arrow-point');
 
-let smoother;
+    let smoother;
 
-    // Verifica se GSAP está disponível e registra plugins
+    // Registro de Plugins GSAP
     try {
         if (typeof gsap === 'undefined') {
+            console.error("GSAP não carregado.");
             return;
         }
         gsap.registerPlugin(
@@ -56,42 +56,41 @@ let smoother;
             TextPlugin
         );
     } catch (error) {
+        console.error("Erro ao registrar plugins GSAP:", error);
         return;
     }
 
-    // Conjuntos de palavras para animação de scramble
     const wordSets = {
         line1: [ "Design", "Videos", "Campaigns", "Content", "Reels", "Branding" ],
         line2: [ "solves", "sells", "speaks", "adds", "gets", "is" ],
-        line3: [ "problem", "more", "loud", "value", "attention", "sexy" ]
+        line3: [ "problem", "more", "loud", "value", "attention", "is" ]
     };
 
-    // Inicializa ScrollSmoother
-if (typeof ScrollSmoother !== 'undefined') {
-    try {
-        if (document.getElementById('smooth-wrapper') && document.getElementById('smooth-content')) {
-            smoother = ScrollSmoother.create({
-                wrapper: "#smooth-wrapper",
-                content: "#smooth-content",
-                smooth: 1.2,
-                effects: true,
-                smoothTouch: 0.1,
-            });
+    // Inicialização do ScrollSmoother
+    if (typeof ScrollSmoother !== 'undefined') {
+        try {
+            if (document.getElementById('smooth-wrapper') && document.getElementById('smooth-content')) {
+                smoother = ScrollSmoother.create({
+                    wrapper: "#smooth-wrapper",
+                    content: "#smooth-content",
+                    smooth: 1.2,
+                    effects: true,
+                    smoothTouch: 0.1,
+                });
+            }
+        } catch (e) {
+            console.error("Erro no ScrollSmoother:", e);
         }
-    } catch (e) {
-        console.error("ScrollSmoother error:", e);
     }
-}
 
-    // Função para formatar números do contador
+    // Função: Formatar Números do Contador
     const formatCounterNumber = (num) => {
         return num.toString().padStart(2, '0');
     };
 
-    // Configuração do menu hamburguer
+    // Função: Configuração do Menu Hamburguer
     const setupMenu = () => {
         if (!hamburger || !navBox || !menu) return;
-
         hamburger.addEventListener('click', () => {
             navBox.classList.toggle('expanded');
             gsap.to(menu, {
@@ -103,17 +102,16 @@ if (typeof ScrollSmoother !== 'undefined') {
         });
     };
 
-    // Configuração do modal de contato
+    // Função: Configuração do Modal de Contato
     const setupContactModal = () => {
         if (contactBtn) {
             // Implementação do modal aqui
         }
     };
 
-    // Efeitos de hover nos links do menu
+    // Função: Efeitos de Hover nos Links do Menu
     const setupMenuHoverEffects = () => {
         if (!menuLinks.length) return;
-
         menuLinks.forEach(link => {
             link.addEventListener('mouseenter', () => {
                 gsap.to(link, { x: 5, color: 'var(--accent-color)', duration: 0.3 });
@@ -124,26 +122,22 @@ if (typeof ScrollSmoother !== 'undefined') {
         });
     };
 
-    // Animação de texto scramble
+    // Função: Animação de Texto Scramble
     const animateScrambleText = () => {
         if (!line1 || !line2 || !line3 || !scrambleGroup) return;
-
         let counter = 0;
         function animate() {
             const word1 = wordSets.line1[ counter % wordSets.line1.length ];
             const word2 = wordSets.line2[ counter % wordSets.line2.length ];
             const word3 = wordSets.line3[ counter % wordSets.line3.length ];
             const groupIndex = counter % wordSets.line1.length;
-
             scrambleGroup.className = 'scramble-title';
             scrambleGroup.classList.add(`group-${ groupIndex }`);
-
             const tl = gsap.timeline({
                 onComplete: () => {
                     gsap.delayedCall(3, animate);
                 }
             });
-
             tl.to(line1, {
                 duration: 1.5,
                 scrambleText: { text: word1, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 },
@@ -159,15 +153,13 @@ if (typeof ScrollSmoother !== 'undefined') {
                     scrambleText: { text: word3, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 },
                     ease: "power3.out"
                 }, 0);
-
             counter++;
         }
-
         gsap.set([ line1, line2, line3 ], { opacity: 1, delay: 0.1 });
         animate();
     };
 
-    // Controles de performance
+    // Função: Controles de Performance
     const setupPerformanceControls = () => {
         document.addEventListener('visibilitychange', () => {
             if (gsap.globalTimeline) {
@@ -176,38 +168,31 @@ if (typeof ScrollSmoother !== 'undefined') {
         });
     };
 
-    // Criação dos pontos animados
+    // Função: Criação dos Pontos Animados
     const setupDotsCreation = () => {
         if (!dotsContainer) return;
-
         const rows = 4;
         const cols = 12;
-
         for (let c = 0; c < cols; c++) {
             const col = document.createElement('div');
             col.className = 'dots-column';
-
             for (let r = 0; r < rows; r++) {
                 const dot = document.createElement('div');
                 dot.className = 'dot';
                 col.appendChild(dot);
             }
-
             dotsContainer.appendChild(col);
         }
-
         gsap.set(dotsContainer.querySelectorAll('.dot'), { opacity: 0.3, scale: 1 });
     };
 
-    // Animação dos pontos com scroll
+    // Função: Animação dos Pontos com Scroll
     const setupDotsScrollAnimation = () => {
         if (!dotsContainer || !dotsContainer.children.length) return;
-
         const allDots = gsap.utils.toArray(dotsContainer.querySelectorAll(".dot"));
         const totalDots = allDots.length;
         let lastRandomizeScroll = 0;
         const scrollThreshold = 150;
-
         const randomizeDotOpacity = () => {
             gsap.to(allDots, {
                 opacity: 0.2,
@@ -217,11 +202,9 @@ if (typeof ScrollSmoother !== 'undefined') {
                 duration: 0.2,
                 ease: "power2.out"
             });
-
             const numToActivate = Math.floor(totalDots * (0.1 + Math.random() * 0.4));
             const shuffledDots = gsap.utils.shuffle(allDots.slice());
             const dotsToActivate = shuffledDots.slice(0, numToActivate);
-
             gsap.to(dotsToActivate, {
                 opacity: 1,
                 scale: 1.4,
@@ -232,7 +215,6 @@ if (typeof ScrollSmoother !== 'undefined') {
                 stagger: { each: 0.05, from: "random" }
             });
         };
-
         ScrollTrigger.create({
             trigger: 'body',
             start: "top top",
@@ -245,17 +227,14 @@ if (typeof ScrollSmoother !== 'undefined') {
                 }
             }
         });
-
         randomizeDotOpacity();
     };
 
-    // Animação dos pontos no CTA
+    // Função: Animação dos Pontos no CTA
     const setupCtaDotsAnimation = () => {
         if (!ctaDotsPattern) return;
-
         const patternClasses = [ 'pattern-1', 'pattern-2', 'pattern-3' ];
         let currentPatternIndex = 0;
-
         gsap.timeline({ repeat: -1, repeatDelay: 0.5 })
             .call(() => {
                 ctaDotsPattern.className = 'cta-dots-pattern ' + patternClasses[ currentPatternIndex ];
@@ -264,13 +243,11 @@ if (typeof ScrollSmoother !== 'undefined') {
             .to({}, { duration: 1 });
     };
 
-    // Animação do contador dinâmico
+    // Função: Animação do Contador Dinâmico (Seção 1)
     const setupDynamicCounterAnimation = () => {
         if (!dynamicCounterElement) return;
-
         dynamicCounterElement.textContent = "000";
         const counterData = { value: 0 };
-
         const counterTween = gsap.to(counterData, {
             value: 490,
             ease: "none",
@@ -278,7 +255,6 @@ if (typeof ScrollSmoother !== 'undefined') {
                 dynamicCounterElement.textContent = Math.round(counterData.value).toString().padStart(3, '0');
             }
         });
-
         ScrollTrigger.create({
             trigger: "#section-1",
             start: "top 90%",
@@ -289,11 +265,10 @@ if (typeof ScrollSmoother !== 'undefined') {
         });
     };
 
-    // Efeito de sombra longa no texto
+    // Função: Efeito de Sombra Longa no Texto
     const applyLongShadow = (elementId, shadowColor = '#00151B', length = 100, spacing = 0.1) => {
         const textElement = document.getElementById(elementId);
         if (!textElement) return;
-
         let shadow = [];
         for (let i = 1; i <= length; i++) {
             shadow.push(`${ i * spacing }px ${ i * spacing }px ${ shadowColor }`);
@@ -301,14 +276,12 @@ if (typeof ScrollSmoother !== 'undefined') {
         textElement.style.textShadow = shadow.join(', ');
     };
 
-    // Animação de aparecimento do texto
+    // Função: Animação de Aparecimento do Texto
     const setupTextAppearAnimation = (elementId) => {
         const textContainer = document.getElementById(elementId);
         if (!textContainer) return;
-
         const words = gsap.utils.toArray(textContainer.querySelectorAll("span"));
         if (words.length === 0) return;
-
         const textAnimation = gsap.fromTo(words,
             { autoAlpha: 0, y: 30 },
             {
@@ -319,7 +292,6 @@ if (typeof ScrollSmoother !== 'undefined') {
                 ease: "power4.out"
             }
         );
-
         ScrollTrigger.create({
             trigger: textContainer,
             start: "top 90%",
@@ -329,111 +301,176 @@ if (typeof ScrollSmoother !== 'undefined') {
         });
     };
 
-    // Animação da seta
+    // Função: Animação da Seta (Seção 1)
     const setupNewArrowAnimation = () => {
-        if (!newArrowSvgContainer || !mainPathForMotion || !visiblePathToDraw || !arrowHeadElement) return;
+        const newArrowSvgContainer = document.querySelector('.new-arrow-path-container');
+        const newArrowSvgContainerMobile = document.querySelector('.new-arrow-path-container-mobile');
+        const triggerSection = document.querySelector("#section-1");
 
-        gsap.set(arrowHeadElement, { opacity: 0 });
-        gsap.set(visiblePathToDraw, { drawSVG: "0%" });
+        let currentMainPath;
+        let currentVisiblePath;
+        let currentArrowHead;
+        let activeContainer = null; 
+
+        if (window.innerWidth < 1200 && newArrowSvgContainerMobile && getComputedStyle(newArrowSvgContainerMobile).display !== 'none') {
+            activeContainer = newArrowSvgContainerMobile;
+        } else if (newArrowSvgContainer && getComputedStyle(newArrowSvgContainer).display !== 'none') {
+            activeContainer = newArrowSvgContainer;
+        } else if (newArrowSvgContainerMobile && getComputedStyle(newArrowSvgContainerMobile).display !== 'none') {
+            activeContainer = newArrowSvgContainerMobile;
+        } else if (newArrowSvgContainer) {
+            activeContainer = newArrowSvgContainer;
+        }
+
+        if (!activeContainer) {
+            console.warn("NewArrowAnimation: Nenhum container da seta ativo/visível ou encontrado.");
+            return;
+        }
+
+        if (activeContainer) {
+            currentMainPath = activeContainer.querySelector('#main-path');
+            currentVisiblePath = activeContainer.querySelector('.draw');
+            currentArrowHead = activeContainer.querySelector('#arrow');
+        }
+
+        if (!currentMainPath || !currentVisiblePath || !currentArrowHead) {
+            console.warn("NewArrowAnimation: Elementos SVG internos não encontrados no container ativo.");
+            return; 
+        }
+        
+        if (!triggerSection) {
+            console.warn("NewArrowAnimation: Seção de trigger '#section-1' não encontrada.");
+            return; 
+        }
+
+        if (!newArrowSvgContainer && !newArrowSvgContainerMobile) {
+            console.warn("NewArrowAnimation: Seletores globais para containers da seta não encontraram elementos.");
+        }
+
+        gsap.set(currentArrowHead, { opacity: 0 });
+        gsap.set(currentVisiblePath, { drawSVG: "0%" });
+
+        const adjustRightPosition = () => {
+            const screenWidth = window.innerWidth;
+            const R_inicial = -500;
+            const W_inicial = 1920;
+            const K_slope = -0.5; 
+            let calculatedRightValue = R_inicial + K_slope * (W_inicial - screenWidth);
+
+            if (document.querySelector('.new-arrow-path-container')) { 
+                document.querySelector('.new-arrow-path-container').style.right = `${calculatedRightValue}px`;
+            }
+            if (document.querySelector('.new-arrow-path-container-mobile')) { 
+                document.querySelector('.new-arrow-path-container-mobile').style.right = `${calculatedRightValue}px`;
+            }
+            
+            setTimeout(() => {
+                ScrollTrigger.refresh();
+            }, 0);
+        };
+
+        adjustRightPosition();
+        window.addEventListener('resize', adjustRightPosition);
 
         const arrowTimeline = gsap.timeline();
-
-        arrowTimeline.to(arrowHeadElement, {
-            opacity: 1,
-            duration: 0.01,
-            ease: "none"
-        }, 0);
-
-        arrowTimeline.to(arrowHeadElement, {
+        arrowTimeline.to(currentArrowHead, { opacity: 1, duration: 0.01, ease: "none" }, 0);
+        arrowTimeline.to(currentArrowHead, {
             motionPath: {
-                path: mainPathForMotion,
-                align: mainPathForMotion,
-                alignOrigin: [ 0.5, 0.5 ],
+                path: currentMainPath,
+                align: currentMainPath,
+                alignOrigin: [0.5, 0.5],
                 autoRotate: 265,
                 start: 0,
                 end: 1
             },
             ease: "none"
         }, 0);
-
-        arrowTimeline.to(visiblePathToDraw, {
-            drawSVG: "100%",
-            ease: "none"
-        }, 0);
+        arrowTimeline.to(currentVisiblePath, { drawSVG: "100%", ease: "none" }, 0);
 
         ScrollTrigger.create({
-            trigger: "#section-1",
+            trigger: triggerSection,
             start: "top 80%",
-            end: () => "+=" + (document.querySelector("#section-1").offsetHeight * 1.3),
+            end: () => "+=" + (triggerSection.offsetHeight * 1.3),
             scrub: 1.5,
             animation: arrowTimeline,
         });
     };
 
-    // Animação dos cards de serviços
-    const setupStackingCardsAnimation = () => {
-        if (!servicesSection || !servicesContainerForPin || !serviceCards.length) return;
+const setupStackingCardsAnimation = () => {
+    if (!servicesSection || !servicesContainerForPin || !serviceCards.length) {
+        console.warn("StackingCards: Elementos essenciais não encontrados (servicesSection, servicesContainerForPin, ou serviceCards).");
+        return;
+    }
 
-        // Estado inicial dos cards
-        serviceCards.forEach((card, index) => {
+    serviceCards.forEach((card, index) => {
+        if (index === 0) {
             gsap.set(card, {
-                x: index === 0 ? "-50%" : "110%",
+                xPercent: -50, 
+                yPercent: -50, 
                 opacity: 1,
-                scale: index === 0 ? 1 : 1.1,
-                padding: index === 0 ? "0px" : "200px",
-                zIndex: index === 0 ? serviceCards.length : index,
+                scale: 1,
+                padding: "0px", 
+                zIndex: serviceCards.length 
             });
-        });
-
-        if (serviceCards.length > 0) {
-            gsap.set(serviceCards[ 0 ], { zIndex: serviceCards.length });
+        } else {
+            gsap.set(card, {
+                x: "110%",     
+                yPercent: -50, 
+                opacity: 1,    
+                scale: 1.1,   
+                padding: "200px", 
+                zIndex: serviceCards.length - index 
+            });
         }
+    });
 
-        const cardStackTimeline = gsap.timeline({
-            scrollTrigger: {
-                trigger: servicesSection,
-                pin: servicesContainerForPin,
-                pinSpacing: true,
-                start: "top top",
-                end: () => "+=" + (window.innerHeight * (serviceCards.length - 1) * 0.5),
-                scrub: 1,
-                invalidateOnRefresh: true,
-            }
-        });
+    const cardStackTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: servicesSection,
+            pin: servicesContainerForPin,
+            pinSpacing: true,
+            start: "top top",
+            end: () => "+=" + (window.innerHeight * (serviceCards.length - 1) * 0.5), 
+            scrub: 1,
+            invalidateOnRefresh: true, 
+        }
+    });
 
-        serviceCards.forEach((card, index) => {
-            if (index > 0) {
-                cardStackTimeline.to(card, {
-                    x: "-50%",
-                    scale: 1,
-                    duration: 0.8,
-                    ease: "expo.inOut",
-                    onStart: () => {
-                        gsap.set(card, { zIndex: serviceCards.length + index + 1 });
-                    }
-                }, `-=${ 0.35 }`);
-            }
-        });
-    };
+    serviceCards.forEach((card, index) => {
+        if (index > 0) { 
+            cardStackTimeline.to(card, {
+                x: "0%",     
+                xPercent: -50, 
+                scale: 1,     
+                padding: "0px",
+                opacity: 1,    
+                duration: 0.8, 
+                ease: "expo.inOut",
+                onStart: () => {
+                    gsap.set(card, { zIndex: serviceCards.length + 10 + index }); 
+                },
+                onComplete: () => {
+                }
+            }, `-=${0.35}`); 
+        }
+    });
+};
 
+    // Função: Contador e Animação da Seta de Serviços
     const setupServicesCounter = () => {
         if (!servicesCounterElement || !serviceCards.length || !servicePath || !serviceArrowPoint) {
-            console.error("Elementos necessários não encontrados!");
+             console.warn("ServicesCounter: Elementos necessários não encontrados!");
             return;
         }
-
         const total = serviceCards.length;
         servicesCounterElement.textContent = `01 / ${ formatCounterNumber(total) }`;
-
         gsap.set(serviceArrowPoint, {
             opacity: 1,
-            x: -400, // Posição X inicial do path
-            y: 461, // Posição Y inicial do path
+            x: -400, 
+            y: 461, 
             rotation: 0,
             transformOrigin: "center center"
         });
-
-        // Cria uma timeline principal
         const servicesTl = gsap.timeline({
             scrollTrigger: {
                 trigger: servicesSection,
@@ -447,15 +484,7 @@ if (typeof ScrollSmoother !== 'undefined') {
                 }
             }
         });
-
-        // Animação da linha
-        servicesTl.fromTo(serviceDraw,
-            { drawSVG: "0%" },
-            { drawSVG: "100%", ease: "none" },
-            0
-        );
-
-        // Animação da seta
+        servicesTl.fromTo(serviceDraw, { drawSVG: "0%" }, { drawSVG: "100%", ease: "none" }, 0);
         servicesTl.to(serviceArrowPoint, {
             motionPath: {
                 path: servicePath,
@@ -467,51 +496,97 @@ if (typeof ScrollSmoother !== 'undefined') {
             },
             ease: "none",
         }, 0);
-
     };
 
-const setupFooterArrow = () => {
-    if (!footerArrow || !footerPath || !footerDraw || !footerArrowPoint) return;
+        // Função: Contador e Animação da Seta de Serviços Mobile
+const setupServicesCounterMobile = () => {
+    if (!servicePathMobile || !serviceArrowPointMobile || !serviceDrawMobile) {
+        console.warn("setupServicesCounterMobile: Elementos da seta mobile (path, point, ou draw) não encontrados!");
+        return;
+    }
 
-    gsap.set(footerArrowPoint, { opacity: 0, transformOrigin: "50% 50%" });
-    gsap.set(footerDraw, { drawSVG: "0%" });
+    if (servicesCounterElement && serviceCards && serviceCards.length > 0) {
+        const total = serviceCards.length; 
+        servicesCounterElement.textContent = `01 / ${formatCounterNumber(total)}`; 
+    } else {
+        console.warn("setupServicesCounterMobile: Elementos do contador ou cards não encontrados para a lógica do contador.");
+    }
 
-    const arrowTimeline = gsap.timeline();
+    gsap.set(serviceArrowPointMobile, {
+        opacity: 1, // Garante que a ponta da seta esteja visível
+        // x: 0, // Removido - MotionPathPlugin posicionará no início do path
+        // y: 0, // Removido
+        rotation: 0, // Pode ser necessário se o ícone da seta não estiver orientado corretamente
+        transformOrigin: "center center"
+    });
 
-    arrowTimeline.to(footerArrowPoint, {
-        opacity: 1,
-        duration: 0.01,
-        ease: "none"
-    }, 0);
+    const servicesTlMobile = gsap.timeline({
+        scrollTrigger: {
+            trigger: servicesSection, 
+            start: "top top",
+            end: () => "+=" + (window.innerHeight * (serviceCards.length - 1) * 0.5), 
+            scrub: true,
+            invalidateOnRefresh: true, 
+            onUpdate: self => {
+                if (servicesCounterElement && serviceCards && serviceCards.length > 0) {
+                    const progress = self.progress;
+                    const total = serviceCards.length; 
+                    const currentIndex = Math.min(Math.floor(progress * total), total - 1);
+                    servicesCounterElement.textContent = `${formatCounterNumber(currentIndex + 1)} / ${formatCounterNumber(total)}`; 
+                }
+            }
+        }
+    });
 
-    arrowTimeline.to(footerArrowPoint, {
+    servicesTlMobile.fromTo(serviceDrawMobile, 
+        { drawSVG: "0%" }, 
+        { drawSVG: "100%", ease: "none" }
+    , 0); 
+
+    servicesTlMobile.to(serviceArrowPointMobile, {
         motionPath: {
-            path: footerPath,
-            align: footerPath,
+            path: servicePathMobile,
+            align: servicePathMobile,
             alignOrigin: [0.5, 0.5],
-            autoRotate: -90, // ou um valor específico em graus
-            start: 0,
+            autoRotate: -90, 
+            start: 0, // Garante que comece no início do path
             end: 1
         },
-        ease: "none"
-    }, 0);
-
-    arrowTimeline.to(footerDraw, {
-        drawSVG: "100%",
-        ease: "none"
-    }, 0);
-
-    ScrollTrigger.create({
-        trigger: "#footer",
-        start: "top 80%",
-        end: "bottom bottom",
-        scrub: 1.5,
-        animation: arrowTimeline,
-    });
+        ease: "none",
+    }, 0); 
 };
 
+    // Função: Animação da Seta do Footer
+    const setupFooterArrow = () => {
+        if (!footerArrow || !footerPath || !footerDraw || !footerArrowPoint) return;
+        gsap.set(footerArrowPoint, { opacity: 0, transformOrigin: "50% 50%" });
+        gsap.set(footerDraw, { drawSVG: "0%" });
+        const arrowTimeline = gsap.timeline();
+        arrowTimeline.to(footerArrowPoint, { opacity: 1, duration: 0.01, ease: "none" }, 0);
+        arrowTimeline.to(footerArrowPoint, {
+            motionPath: {
+                path: footerPath,
+                align: footerPath,
+                alignOrigin: [0.5, 0.5],
+                autoRotate: -90, 
+                start: 0,
+                end: 1
+            },
+            ease: "none"
+        }, 0);
+        arrowTimeline.to(footerDraw, { drawSVG: "100%", ease: "none" }, 0);
+        ScrollTrigger.create({
+            trigger: "#footer",
+            start: "top 80%",
+            end: "bottom bottom",
+            scrub: 1.5,
+            animation: arrowTimeline,
+        });
+    };
     
 
+
+    // Chamadas de Inicialização
     setupMenu();
     setupContactModal();
     setupMenuHoverEffects();
@@ -520,7 +595,7 @@ const setupFooterArrow = () => {
     if (typeof initializeHeaderAnimation === 'function') {
         initializeHeaderAnimation(gsap, ScrollTrigger, smoother);
     } else {
-        console.error("Função initializeHeaderAnimation não encontrada. Verifique se header.js está carregado corretamente.");
+        console.warn("Função initializeHeaderAnimation não encontrada.");
     }
 
     if (line1 && line2 && line3 && scrambleGroup) {
@@ -545,35 +620,32 @@ const setupFooterArrow = () => {
         setupTextAppearAnimation('transformeText');
     }
 
-    if (newArrowSvgContainer) {
+    const arrowContainerForCheck = document.querySelector('.new-arrow-path-container');
+    if (arrowContainerForCheck) {
         setupNewArrowAnimation();
     }
 
     if (servicesSection) {
         setupStackingCardsAnimation();
         setupServicesCounter();
+                setupServicesCounterMobile();
     }
 
-if (document.getElementById('section-3')) {
-    setupLogoMarqueeWithGSAP();
-    setupTestimonialSlider();
-    
-    // Configura o ScrollTrigger para trabalhar com ScrollSmoother
-    ScrollTrigger.normalizeScroll(true);
-    ScrollTrigger.config({
-        limitCallbacks: true,
-        ignoreMobileResize: true
-    });
-    
-    setupSVGAnimation();
-}
 
-   if (footerArrow) { 
-    setupFooterArrow();
-}
+    if (document.getElementById('section-3')) {
+        setupLogoMarqueeWithGSAP();
+        setupTestimonialSlider();
+        ScrollTrigger.normalizeScroll(true);
+        ScrollTrigger.config({
+            limitCallbacks: true,
+            ignoreMobileResize: true
+        });
+        setupSVGAnimation();
+    }
 
-
-    
+    if (footerArrow) { 
+        setupFooterArrow();
+    }
 
     gsap.delayedCall(0.3, () => {
         if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {

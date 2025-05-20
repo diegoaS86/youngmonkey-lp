@@ -127,6 +127,7 @@
                             transform="scale(0.8)" />
                     </svg>
                 </div>
+
             </section>
             <section id="section-2" class="section-2 services-section">
                 <div class="services-container">
@@ -145,6 +146,21 @@
 
                                 <path id="service-arrow-point" d="M108 122.5L215 0H0L108 122.5Z"
                                     fill="var(--accent-color)" transform="scale(0.8)" />
+                            </svg>
+                        </div>
+                        <div class="service-arrow-mobile">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1350">
+                                <path id="service-path-mobile" transform="translate(0, 50)"
+                                    d="M0 1180.5H729.5C817.866 1180.5 889.5 1108.87 889.5 1020.5V0"
+                                    fill="none" stroke="transparent" />
+
+                                <path class="service-draw-mobile" transform="translate(0, 50)"
+                                    d="M0 1180.5H729.5C817.866 1180.5 889.5 1108.87 889.5 1020.5V0"
+                                    fill="none" stroke="var(--accent-color)" stroke-linecap="butt"
+                                    stroke-miterlimit="10" stroke-width="100" />
+
+                                <path id="service-arrow-point-mobile" d="M108 122.5L215 0H0L108 122.5Z"
+                                    fill="var(--accent-color)" transform="scale(1)" />
                             </svg>
                         </div>
                         <div class="services-left-panel">
@@ -247,6 +263,14 @@
                                     </clipPath>
                                 </defs>
                             </svg>
+                            <svg class="clip-path-svg-mobile" width="380" height="554" viewBox="0 0 380 554" fill="none">
+                                <defs>
+                                    <clipPath id="speechBubbleMaskMobile" clipPathUnits="userSpaceOnUse">
+                                        <path
+                                            d="M10.127 500.002L52.1723 554V517.984C52.1723 507.874 60.3776 499.683 70.4877 499.701L331.916 500.16C358.458 500.207 380 478.703 380 452.16V48.5034C380 22.0222 358.554 0.543632 332.073 0.503482L48.0728 0.0728869C21.5347 0.0326505 0 21.5347 0 48.0728V470.512C0 481.195 3.56376 491.573 10.127 500.002Z" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
                             <div class="testimonial-bubble">
                                 <div class="testimonial-bubble-content">
                                     <div class="testimonial-identity">
@@ -266,6 +290,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="testimonial-navigation">
                                 <button id="prevTestimonial" aria-label="Depoimento Anterior"
                                     class="testimonial-nav-button">
@@ -447,6 +472,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js"></script>
 
+    <script src="assets/js/section-1.js"></script>
     <script src="assets/js/showcase.js"></script>
     <script src="assets/js/svgLoader.js"></script>
     <script src="assets/js/header.js"></script>

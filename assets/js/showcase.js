@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let currentIndex = 0;
     let isAnimating = false;
-    const slideWidth = 1280;
+    const slideWidth = 1150;
     const containerWidth = 1920;
 
     const positions = {
@@ -52,8 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
         leftPreview: { left: (containerWidth / 2) - (slideWidth / 2) - 1200, top: 222, scale: 1, opacity: 0.9, zIndex: 1 },
         rightPreview: { left: (containerWidth / 2) - (slideWidth / 2) + 1200, top: 222, scale: 1, opacity: 0.9, zIndex: 1 },
         // Posições para onde os itens deslizam para FORA da tela, mantendo scale: 1
-        hiddenSlideOutLeft: { left: (containerWidth / 2) - (slideWidth / 2) - 1330 - (slideWidth * 0.7), top: 222, scale: 1, opacity: 0, zIndex: 0 },
-        hiddenSlideOutRight: { left: (containerWidth / 2) - (slideWidth / 2) + 1330 + (slideWidth * 0.7), top: 222, scale: 1, opacity: 0, zIndex: 0 },
+        hiddenSlideOutLeft: { left: (containerWidth / 2) - (slideWidth / 2) - 1200 - (slideWidth * 0.7), top: 222, scale: 1, opacity: 0, zIndex: 0 },
+        hiddenSlideOutRight: { left: (containerWidth / 2) - (slideWidth / 2) + 1200 + (slideWidth * 0.7), top: 222, scale: 1, opacity: 0, zIndex: 0 },
         // Estado inicial para itens ocultos, com scale: 1 e zIndex: 0
         initialHidden: { left: (containerWidth / 2) - (slideWidth / 2), top: 222, scale: 1, opacity: 0, zIndex: 0 }
     };
