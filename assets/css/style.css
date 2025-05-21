@@ -402,6 +402,8 @@ body {
 
 .hero__content {
   position: relative;
+  display: flex;
+  justify-content: center;
   z-index: 1;
   color: var(--light-color);
   padding: 0 20px;
@@ -411,6 +413,7 @@ body {
 }
 
 .scramble-title {
+  align-self: center;
   display: inline-block;
 }
 
@@ -649,6 +652,8 @@ body {
 
 .section-1-content {
   position: relative;
+  display: flex;
+  justify-content: center;
   z-index: 1;
   text-align: center;
 }
@@ -659,6 +664,7 @@ body {
   color: var(--light-color);
   line-height: 1.2;
   padding: 10px;
+  align-self: center;
 }
 
 .long-shadow-text span {
@@ -1562,7 +1568,7 @@ textarea:focus {
 
 .container {
   width: 100%;
-  height: auto;
+  height: 100vh;
   max-width: 1520px;
   margin: 0 auto;
   padding: 0 15px;
