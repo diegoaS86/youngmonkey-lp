@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const wordSets = {
         line1: [ "Design", "Videos", "Campaigns", "Content", "Reels", "Branding" ],
         line2: [ "solves", "sells", "speaks", "adds", "gets", "is" ],
-        line3: [ "problem", "more", "loud", "value", "attention", "is" ]
+        line3: [ "problem", "more", "loud", "value", "attention", "sexy" ]
     };
 
     // Inicialização do ScrollSmoother
@@ -192,15 +192,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const allDots = gsap.utils.toArray(dotsContainer.querySelectorAll(".dot"));
         const totalDots = allDots.length;
         let lastRandomizeScroll = 0;
-        const scrollThreshold = 150;
+        const scrollThreshold = 50;
         const randomizeDotOpacity = () => {
             gsap.to(allDots, {
-                opacity: 0.2,
+                opacity: 0.1,
                 scale: 1,
                 backgroundColor: 'var(--light-color)',
                 boxShadow: 'none',
-                duration: 0.2,
-                ease: "power2.out"
+                duration: 0.1,
+                ease: "expo.InOut"
             });
             const numToActivate = Math.floor(totalDots * (0.1 + Math.random() * 0.4));
             const shuffledDots = gsap.utils.shuffle(allDots.slice());
@@ -210,8 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 scale: 1.4,
                 backgroundColor: 'var(--accent-color)',
                 boxShadow: '0 0 10px var(--accent-color)',
-                duration: 0.3,
-                ease: "power2.out",
+                duration: 0.1,
+                ease: "expo.InOut",
                 stagger: { each: 0.05, from: "random" }
             });
         };
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dynamicCounterElement.textContent = "000";
         const counterData = { value: 0 };
         const counterTween = gsap.to(counterData, {
-            value: 490,
+            value: 560,
             ease: "none",
             onUpdate: () => {
                 dynamicCounterElement.textContent = Math.round(counterData.value).toString().padStart(3, '0');
@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const screenWidth = window.innerWidth;
             const R_inicial = -500;
             const W_inicial = 1920;
-            const K_slope = -0.5; 
+            const K_slope = 0.12; 
             let calculatedRightValue = R_inicial + K_slope * (W_inicial - screenWidth);
 
             if (document.querySelector('.new-arrow-path-container')) { 

@@ -44,7 +44,7 @@
   --text-placeholder: #628a97;
   --border-radius: 16px;
   --transition-speed: 0.2s;
-  --speedometer-font-size: clamp(900px, 90vw, 900px);
+  --speedometer-font-size: clamp(150px, 40vw, 900px);
   --title-size: clamp(2.8rem, 7vw, 5rem);
   --title-weight: 800;
   --subTitle-size: clamp(1rem, 1.7vw, 1.15rem);
@@ -90,7 +90,8 @@ body {
 }
 
 .nav-left__box {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   background-color: var(--secondary-color);
   border-radius: var(--border-radius);
   overflow: hidden;
@@ -679,10 +680,12 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-      width: 2300px;
-  height: 100vh;
+  width: 100%;
+  max-width: 2300px;
+  height: auto;
   z-index: 0;
   pointer-events: none;
+  overflow: visible;
 }
 
 .new-arrow-path-container svg {
@@ -697,24 +700,17 @@ body {
 
 .services-container {
   display: flex;
-  /* Mantido para estrutura interna */
   width: 100%;
   height: 100vh;
-  /* O container "pinado" precisa de altura definida */
   position: relative;
-  /* REMOVIDO padding: 0 6%; */
 }
 
-/* NOVO SELETOR para o wrapper que receberá o padding */
 .services-content-wrapper {
   display: flex;
-  /* Para manter o layout dos painéis lado a lado */
   width: 100%;
   height: 100%;
   position: relative;
-  /* Para que os painéis e a seta se posicionem corretamente dentro dele */
   padding: 0 8%;
-  /* Padding aplicado aqui */
 }
 
 
@@ -746,7 +742,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 120vw;
+  width: 100vw;
   height: 80vh;
   transform: translate(calc(-50% - 15vw - (-130px)), -50%);
   z-index: 1;
@@ -811,7 +807,6 @@ body {
   align-items: center;
   justify-content: center;
   padding-left: 3%;
-  /* Ajustar se necessário, agora relativo ao wrapper */
   height: 100%;
 }
 
@@ -819,28 +814,23 @@ body {
   font-size: clamp(6rem, 10vw, 7rem);
   font-weight: 700;
   color: var(--text-color);
-  /* Corrigido para uma variável existente */
   line-height: 1.2;
 }
 
 .service-card {
-  width: 787px; /* ou seu valor desejado */
-  height: 600px; /* ou seu valor desejado */
-  max-width: 90%;
-  max-height: 80vh;
+  width: 100%;
+  max-width: 787px;
+  min-height: 450px;
+  aspect-ratio: 787 / 650;
   background-color: var(--primary-color);
   border: 2px solid var(--accent-tertiary-color);
   border-radius: calc(var(--border-radius)*2);
-  /* padding: 0; /* Definido pelo GSAP, mas pode ser 0 por padrão */
   display: flex;
   flex-direction: column;
-  /* ... outros estilos ... */
   position: absolute;
   top: 50%;
   left: 50%;
-  /* NENHUM 'transform' aqui no CSS base, GSAP cuidará disso */
-  /* NENHUMA 'opacity' inicial aqui se GSAP controla */
-  will-change: transform, opacity, z-index;
+  will-change: transform, opacity, z-index, padding;
 }
 
 .service-card:first-child {
@@ -851,7 +841,7 @@ body {
 
 .service-card-image-placeholder {
   width: 100%;
-  height: 75%;
+  height: 70%;
   background-color: #2a3b47;
   border-top-left-radius: calc(var(--border-radius)*2);
   border-top-right-radius: calc(var(--border-radius)*2);
@@ -908,21 +898,16 @@ body {
 .logo-marquee-track {
   display: flex;
   align-items: center;
-  /* Centraliza verticalmente */
   will-change: transform;
   height: 90px;
-  /* Altura correspondente aos SVGs */
 }
 
-/* Estilo para os SVGs */
 .logo-marquee-track svg {
   flex: 0 0 auto;
-  /* Impede que os SVGs encolham ou estiquem */
   margin: 0 50px;
   fill: var(--accent-secondary-color) !important;
   transition: filter 0.3s ease;
   display: block;
-  /* Remove espaços indesejados abaixo do SVG */
 }
 
 .logo-marquee-track svg:hover {
@@ -930,47 +915,39 @@ body {
   scale: 1.2;
 }
 
-/* Ou usando transform para não afetar o layout */
 .logo-marquee-track .icon-gpa {
   transform: translateY(-20px);
-  /* Método alternativo */
 }
 
-/* Conteúdo dos Depoimentos */
 
 .testimonials-wrapper.container {
   display: flex;
-  /* O wrapper principal já é flex */
   flex-direction: column;
   align-items: center;
+  height: auto;
 }
 
 .testimonial-main-content {
   display: flex;
   width: 100%;
   gap: 60px;
-  /* Espaço entre coluna esquerda (balão) e direita (título) */
   align-items: flex-start;
-  /* Centraliza verticalmente as duas colunas */
 }
 
 .testimonial-left-column {
+  width: 100%;
   flex: 1 1 60%;
-  /* Balão ocupa mais espaço */
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Centraliza o balão e a navegação */
 }
 
 .testimonial-right-column {
   flex: 1 1 40%;
-  /* Título ocupa menos espaço */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   padding-left: 30px;
-  /* Pequeno espaçamento à esquerda do texto */
 }
 
 .section-title-testimonial {
@@ -987,34 +964,43 @@ body {
   font-size: var(--subTitle-size);
   color: var(--sub-text);
   text-align: left;
+  max-width: 450px;
   line-height: 1.6;
 }
 
 
-.clip-path-svg,
-.clip-path-svg-mobile {
-    width: 0;
-    height: 0;
-    position: absolute;
-    overflow: hidden;
-}
 
 .testimonial-bubble {
-  background-color: var(--light-color);
-  padding: 35px 45px;
-  width: 860.23px;
-  height: 639px;
-  clip-path: url(#speechBubbleMask);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
-  color: var(--dark-text);
-  margin-bottom: 30px;
-}
+    position: relative;
+    width: 100%;
+    max-width: 860.23px;
+    margin: 0 auto 130px auto;
+  }
 
-.testimonial-bubble-content {
-  display: flex;
-  gap: 50px;
+  .testimonial-bubble-content {
+      display: flex;
+  gap: clamp(20px, 4vw, 50px);
   align-items: flex-start;
-}
+    background-color: var(--light-color);
+    padding: 35px 45px;
+    width: 100%;
+    height: 100%;
+    min-height: 450px;
+    border-radius: 48px;
+    position: relative;
+    z-index: 5;
+  }
+
+ .testimonial-svg {
+    position: absolute;
+    fill: var(--light-color);
+    bottom: 0;
+    left: 0;
+    transform: translateY(50%);
+    width: 143px;
+    height: 206px;
+    z-index: 2;
+  }
 
 .testimonial-identity {
   flex: 0 0 150px;
@@ -1056,26 +1042,23 @@ body {
   gap: 30px;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .testimonial-quote-title {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
   color: var(--dark-text);
   margin-bottom: 10px;
 }
 
 .testimonial-text {
-  font-size: 1.8rem;
-  /* Tamanho do texto do depoimento */
+  font-size: clamp(1rem, 2.2vw, 1.8rem);
   line-height: 1.65;
-  color: #333;
-  /* Cor principal do texto do depoimento */
+  color: var(--primary-color);
   font-style: normal;
-  /* Remove itálico se não desejado */
 }
 
-/* Removendo as aspas automáticas via ::before e ::after para um visual mais limpo como na imagem */
 .testimonial-text::before,
 .testimonial-text::after {
   content: none;
@@ -1084,19 +1067,20 @@ body {
 
 .testimonial-navigation {
   display: flex;
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   height: 75px;
   gap: 20px;
   margin-top: -100px;
   align-self: flex-start;
-  padding-left: 140px;
+  padding-left: clamp(20px, 15%, 140px);
 }
 
 .testimonial-nav-button {
   background-color: transparent;
   color: var(--light-color);
   border: 3px solid var(--light-color);
-  width: inherit;
+  width: 100%;
   height: inherit;
   border-radius: 8px;
   cursor: pointer;
@@ -1108,20 +1092,17 @@ body {
 
 
 .testimonial-nav-button svg {
-  width: 60px;
-  height: 16px;
+  width: clamp(40px, 10vw, 60px);
+  height: auto;
   fill: var(--light-color);
-  /* Usa a cor do texto do botão (definida acima) */
 }
 
 .svg-container {
   position: absolute;
   bottom: 0 !important;
-  /* Percentual pode ser melhor que pixels fixos */
   right: 5% !important;
-  width: 300px !important;
+  width: clamp(200px, 25vw, 300px) !important; /* Largura responsiva */
   z-index: 0;
-  /* Atrás do conteúdo */
   pointer-events: none;
 }
 
@@ -1140,19 +1121,18 @@ body {
 
 .section-title-showcase {
   position: absolute;
-  width: 587px;
-  height: 75px;
-  left: 185px;
-  top: 76px;
+  width: auto;
+  max-width: 90%;
+  left: calc(50% - 1150px/2);
+  top: clamp(30px, 8vh, 76px);
   font-weight: var(--title-weight);
   font-size: var(--title-size);
   line-height: 1.05;
   color: var(--text-color);
   z-index: 4;
+  text-align: left;
 }
 
-
-/* Wrapper para os itens do carrossel, necessário para o Observer */
 .carousel-wrapper {
   position: absolute;
   width: 100%;
@@ -1170,14 +1150,15 @@ body {
 /* Estilo base para os itens do carrossel (vídeos) */
 .carousel-item {
   position: absolute;
-  width: 1150px;
-  height: 647px;
+  width: clamp(60vw, 1150px, 70vw);
+  aspect-ratio: 1150 / 647;
+  max-height: 70vh; 
   background: #D9D9D9;
   border-radius: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 48px;
+  font-size: clamp(24px, 5vw, 48px);
   font-weight: bold;
   color: #333;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
