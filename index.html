@@ -151,13 +151,13 @@
                         <div class="service-arrow-mobile">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1350">
                                 <path id="service-path-mobile" transform="translate(0, 50)"
-                                    d="M0 1180.5H729.5C817.866 1180.5 889.5 1108.87 889.5 1020.5V0"
-                                    fill="none" stroke="transparent" />
+                                    d="M0 1180.5H729.5C817.866 1180.5 889.5 1108.87 889.5 1020.5V0" fill="none"
+                                    stroke="transparent" />
 
                                 <path class="service-draw-mobile" transform="translate(0, 50)"
-                                    d="M0 1180.5H729.5C817.866 1180.5 889.5 1108.87 889.5 1020.5V0"
-                                    fill="none" stroke="var(--accent-color)" stroke-linecap="butt"
-                                    stroke-miterlimit="10" stroke-width="100" />
+                                    d="M0 1180.5H729.5C817.866 1180.5 889.5 1108.87 889.5 1020.5V0" fill="none"
+                                    stroke="var(--accent-color)" stroke-linecap="butt" stroke-miterlimit="10"
+                                    stroke-width="100" />
 
                                 <path id="service-arrow-point-mobile" d="M108 122.5L215 0H0L108 122.5Z"
                                     fill="var(--accent-color)" transform="scale(1)" />
@@ -256,7 +256,7 @@
                     <div class="testimonial-main-content">
                         <div class="testimonial-left-column">
 
-<div class="testimonial-bubble">
+                            <div class="testimonial-bubble">
                                 <div class="testimonial-bubble-content">
                                     <div class="testimonial-identity">
                                         <img src="https://placehold.co/80x80/cccccc/333333?text=Foto"
@@ -274,11 +274,14 @@
                                             industry's standard dummy text ever since the 1500s..."</p>
                                     </div>
                                 </div>
-  <svg class="testimonial-svg" width="143" height="206" viewBox="0 0 143 206" xmlns="http://www.w3.org/2000/svg">
-    <path d="M15.4969 98.1503L99.7334 206V121.248C99.7334 111.14 107.935 102.95 118.043 102.965L142.5 103V0H0V53.1334C0 69.4475 5.45482 85.2932 15.4969 98.1503Z" fill="#none"/>
-  </svg>
-</div>
-                            
+                                <svg class="testimonial-svg" width="143" height="206" viewBox="0 0 143 206"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.4969 98.1503L99.7334 206V121.248C99.7334 111.14 107.935 102.95 118.043 102.965L142.5 103V0H0V53.1334C0 69.4475 5.45482 85.2932 15.4969 98.1503Z"
+                                        fill="#none" />
+                                </svg>
+                            </div>
+
                             <div class="testimonial-navigation">
                                 <button id="prevTestimonial" aria-label="Depoimento Anterior"
                                     class="testimonial-nav-button">
@@ -339,22 +342,24 @@
                         Vídeo 3</div>
                 </div>
 
-                <div class="video-title-client">Título vídeo / Cliente</div>
-                <div class="buttons-nav">
-                    <button id="carousel-prev" aria-label="Depoimento Anterior" class="testimonial-nav-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="70" height="21" viewBox="0 0 70 21" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M68.5129 11.8048C69.2702 11.8048 69.8841 11.1909 69.8841 10.4336C69.8841 9.67628 69.2702 9.06235 68.5129 9.06235V11.8048ZM1.26644 9.46398C0.730933 9.99948 0.730933 10.8677 1.26644 11.4032L9.99298 20.1298C10.5285 20.6653 11.3967 20.6653 11.9322 20.1298C12.4677 19.5943 12.4677 18.726 11.9322 18.1905L4.17529 10.4336L11.9322 2.67666C12.4677 2.14116 12.4677 1.27293 11.9322 0.737431C11.3967 0.201926 10.5285 0.201926 9.99298 0.737431L1.26644 9.46398ZM68.5129 10.4336V9.06235H2.23605V10.4336V11.8048H68.5129V10.4336Z" />
-                        </svg>
-                    </button>
-                    <button id="carousel-next" aria-label="Próximo Depoimento" class="testimonial-nav-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="70" height="21" viewBox="0 0 70 21" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M58.7977 0.82373C59.3331 0.28857 60.2007 0.288561 60.7361 0.82373L69.4627 9.55029C69.998 10.0858 69.9982 10.9543 69.4627 11.4897L60.7361 20.2163C60.2007 20.7511 59.333 20.7512 58.7977 20.2163C58.2623 19.6809 58.2625 18.8124 58.7977 18.2769L65.1834 11.8911H2.21661C1.45951 11.891 0.84578 11.2771 0.84552 10.52C0.84552 9.76274 1.45935 9.14899 2.21661 9.14893H65.1834L58.7977 2.76318C58.2623 2.22778 58.2625 1.35926 58.7977 0.82373Z" />
-                        </svg>
-                    </button>
+                <div class="nav-video">
+                    <div class="video-title-client">Título vídeo / Cliente</div>
+                    <div class="buttons-nav">
+                        <button id="carousel-prev" aria-label="Depoimento Anterior" class="carousel-nav">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="70" height="21" viewBox="0 0 70 21"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M68.5129 11.8048C69.2702 11.8048 69.8841 11.1909 69.8841 10.4336C69.8841 9.67628 69.2702 9.06235 68.5129 9.06235V11.8048ZM1.26644 9.46398C0.730933 9.99948 0.730933 10.8677 1.26644 11.4032L9.99298 20.1298C10.5285 20.6653 11.3967 20.6653 11.9322 20.1298C12.4677 19.5943 12.4677 18.726 11.9322 18.1905L4.17529 10.4336L11.9322 2.67666C12.4677 2.14116 12.4677 1.27293 11.9322 0.737431C11.3967 0.201926 10.5285 0.201926 9.99298 0.737431L1.26644 9.46398ZM68.5129 10.4336V9.06235H2.23605V10.4336V11.8048H68.5129V10.4336Z" />
+                            </svg>
+                        </button>
+                        <button id="carousel-next" aria-label="Próximo Depoimento" class="carousel-nav">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="70" height="21" viewBox="0 0 70 21"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M58.7977 0.82373C59.3331 0.28857 60.2007 0.288561 60.7361 0.82373L69.4627 9.55029C69.998 10.0858 69.9982 10.9543 69.4627 11.4897L60.7361 20.2163C60.2007 20.7511 59.333 20.7512 58.7977 20.2163C58.2623 19.6809 58.2625 18.8124 58.7977 18.2769L65.1834 11.8911H2.21661C1.45951 11.891 0.84578 11.2771 0.84552 10.52C0.84552 9.76274 1.45935 9.14899 2.21661 9.14893H65.1834L58.7977 2.76318C58.2623 2.22778 58.2625 1.35926 58.7977 0.82373Z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
             </section>

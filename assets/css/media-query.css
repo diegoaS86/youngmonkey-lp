@@ -9,6 +9,7 @@
   .testimonial-main-content {
     flex-direction: column;
     z-index: 4;
+    gap: 30px;
   }
 
   .testimonial-left-column {
@@ -246,11 +247,9 @@
     left: 15px;
     padding: 8px 15px;
   }
-
   .service-card h3 {
     font-size: clamp(1rem, 1.8vw, 1.4rem);
   }
-
   .service-arrow-mobile {
     display: block;
     width: 100%;
@@ -264,15 +263,14 @@
     .testimonial-left-column {
     display: block;
   }
-
   .testimonial-bubble-content{
     flex-direction: column;
-    align-items: center;
-    min-height: 600px;
+    align-items: start;
+    min-height: 350px;
   }
   .testimonial-quote-area{
-    align-items: center;
-    font-size: 1.5rem;
+    text-align: left;
+    gap: 15px;
   }
   .testimonial-text{
     font-size: 1rem;
@@ -281,5 +279,54 @@
     padding-left: 130px;
     width: 300px;
   }
+  .testimonial-identity{
+    flex: 0 0 50px;
+    flex-direction: row;
+    order: 2;
+    align-items: start;
+  }
+  .testimonial-person-details{
+    text-align: left;
+  }
+  .testimonial-quote-title{
+    margin-bottom: 0;
+  }
+
+  .nav-video {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    bottom: 12%;
+    padding: 10px;
+  }
+
+  .video-title-client,
+  .buttons-nav {
+    position: static; 
+    width: 100%;    
+    left: auto;
+    right: auto;
+    bottom: auto;
+  }
+
+  .video-title-client {
+    text-align: center;
+    opacity: 1; 
+    order: 1; 
+  }
+
+  .buttons-nav {
+    justify-content: center; 
+    order: 2; 
+  }
 
 }
+
+
+@media (max-width: 460px) {
+  .testimonial-bubble-content{
+    min-height: 350px;
+  }
+
+}
+
