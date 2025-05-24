@@ -49,7 +49,7 @@
     .section-2 {
         min-height: auto; /* PERMITE CRESCER */
         height: auto;
-        padding: 50px 15px; /* Padding para espaçamento geral */
+        padding: 0 15px; /* Padding para espaçamento geral */
         overflow: visible; /* Importante para o pin funcionar */
     }
 
