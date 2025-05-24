@@ -62,7 +62,7 @@
         width: 100%;
         max-width: 550px;
         padding-left: 0;
-        margin: 5vh 0 5vh 0; /* Aumenta margem inferior para dar espaço */
+        margin: 0 0 2vh 0; /* Aumenta margem inferior para dar espaço */
         text-align: left;
         order: 1;
         justify-content: left;
@@ -252,7 +252,7 @@ min-height: calc(var(--vh, 1vh) * 30);
   }
 
   .service-card {
-    min-height: calc(var(--vh, 1vh) * 30);
+    min-height: calc(var(--vh, 1vh) * 50);
   }
 
   .service-card-image-placeholder {
