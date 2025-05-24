@@ -284,6 +284,11 @@ min-height: calc(var(--vh, 1vh) * 39.5);
     flex-direction: column;
     align-items: start;
     min-height: 350px;
+    border-radius: 24px 24px 24px 48px;
+  }
+  .testimonial-svg{
+    scale: 0.5;
+    transform: translateY(100%) translateX(-50%);
   }
   .testimonial-quote-area{
     text-align: left;
@@ -293,8 +298,10 @@ min-height: calc(var(--vh, 1vh) * 39.5);
     font-size: 1rem;
   }
   .testimonial-navigation{
-    padding-left: 130px;
-    width: 300px;
+padding-left: 64px;
+        width: 250px;
+        height: 45px;
+        margin-top: -120px;
   }
   .testimonial-identity{
     flex: 0 0 50px;
