@@ -300,13 +300,17 @@ min-height: calc(var(--vh, 1vh) * 39.5);
     flex: 0 0 50px;
     flex-direction: row;
     order: 2;
-    align-items: start;
+    align-items: center;
   }
   .testimonial-person-details{
     text-align: left;
   }
   .testimonial-quote-title{
     margin-bottom: 0;
+  }
+
+  .testimonial-bubble-content {
+    padding: 20px 20px 15px 45px;
   }
 
   .nav-video {
@@ -340,12 +344,26 @@ min-height: calc(var(--vh, 1vh) * 39.5);
     height: clamp(40px, calc(var(--vh, 1vh) * 8), 50px);
 
 }
+.logo-marquee-container{
+  padding: 10px 0;
+}
+
+.testimonial-person-photo {
+  width: 80px;
+    height: 80px;
+}
+.testimonial-name{
+  font-size: 1.2rem;
+}
+.testimonial-title{
+  font-size: 0.7rem;
+}
 }
 
 
 @media (max-width: 460px) {
   .testimonial-bubble-content{
-    min-height: 350px;
+    min-height: 380px;
   }
 
 }
