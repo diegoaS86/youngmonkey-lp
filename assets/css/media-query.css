@@ -255,7 +255,7 @@ min-height: calc(var(--vh, 1vh) * 30);
   }
 
   .service-card {
-    min-height: 400px;
+    min-height: calc(var(--vh, 1vh) * 30);
   }
 
   .service-card-image-placeholder {
