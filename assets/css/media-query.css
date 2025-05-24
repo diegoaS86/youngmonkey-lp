@@ -40,34 +40,37 @@
     transform-origin: top right;
   }
 
-  .services-content-wrapper {
-    flex-direction: column;
-    align-items: center;
-    /* Remova o padding: 0 5%; se existir */
-    padding: 50px 5%; /* Aplica padding vertical e ajusta horizontal */
-    height: auto;
-  }
+    .services-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        padding: 0 5%; 
+        height: auto; 
+    }
 
     .section-2 {
-      min-height: calc(var(--vh, 1vh) * 100);
-      padding: 0 15px; /* Confirma que não tem padding vertical */
-  }
+        min-height: auto; /* PERMITE CRESCER */
+        height: auto;
+        padding: 50px 15px; /* Padding para espaçamento geral */
+        overflow: visible; /* Importante para o pin funcionar */
+    }
 
-  /* E .services-container também */
-   .services-container {
-      height: calc(var(--vh, 1vh) * 100);
-   }
+    .services-container {
+        height: auto; /* PERMITE CRESCER */
+        position: relative;
+    }
 
-  .services-left-panel {
-    width: 100%;
-    max-width: 550px;
-    padding-left: 0;
-    margin: calc(var(--vh, 1vh) * 5) 0 calc(var(--vh, 1vh) * 5) 0;
-    text-align: left;
-    order: 1;
-    justify-content: left;
-    align-self: flex-start;
-  }
+    .services-left-panel {
+        width: 100%;
+        max-width: 550px;
+        padding-left: 0;
+        margin: 5vh 0 10vh 0; /* Aumenta margem inferior para dar espaço */
+        text-align: left;
+        order: 1;
+        justify-content: left;
+        align-self: flex-start;
+        position: relative; /* Garante que não saia do fluxo */
+        z-index: 15; /* Deixa acima dos cards inicialmente */
+    }
 
   .services-left-panel .services-title,
   .services-left-panel .services-subtitle {
@@ -98,15 +101,21 @@
       top: 0; /* Reseta top */
   }
 
-  .service-card {
-    width: 100%;
-    max-width: 1366px;
-    height: auto;
-    min-height: 650px;
-  }
+    .service-card {
+        position: absolute; /* MANTÉM absoluto para o GSAP */
+        width: 85%; /* Reduz um pouco a largura */
+        max-width: 450px; /* Limita a largura máxima */
+        min-height: 300px; /* !! REDUZ drasticamente a altura mínima */
+        aspect-ratio: 787 / 650; /* Mantém proporção, mas a altura manda */
+        /* Reseta transformações CSS, o GSAP vai controlar */
+        transform: none; 
+        /* Mantém as propriedades que o GSAP usa, mas o JS vai setar */
+        top: 50%;
+        left: 50%;
+    }
 
   .service-card-image-placeholder {
-    height: 65%;
+    height: 60%;
   }
 
   .service-arrow {
@@ -237,7 +246,7 @@
   }
 
   .services-right-panel {
-min-height: calc(var(--vh, 1vh) * 60);
+min-height: calc(var(--vh, 1vh) * 30);
     margin-bottom: calc(var(--vh, 1vh) * 3);
   }
 
