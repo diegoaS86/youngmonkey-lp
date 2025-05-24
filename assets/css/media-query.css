@@ -43,7 +43,6 @@
     .services-content-wrapper {
         flex-direction: column;
         align-items: center;
-        padding: 0 5%; 
         height: auto; 
     }
 
@@ -63,7 +62,7 @@
         width: 100%;
         max-width: 550px;
         padding-left: 0;
-        margin: 5vh 0 10vh 0; /* Aumenta margem inferior para dar espaço */
+        margin: 5vh 0 5vh 0; /* Aumenta margem inferior para dar espaço */
         text-align: left;
         order: 1;
         justify-content: left;
@@ -93,7 +92,6 @@
       padding-left: 0;
       height: auto; /* Altura auto */
       min-height: auto; /* Remove min-height vh */
-      margin-bottom: 50px; /* Reduz margem, ou ajuste conforme necessário */
       order: 2;
       display: flex;
       justify-content: center;
@@ -247,7 +245,6 @@
 
   .services-right-panel {
 min-height: calc(var(--vh, 1vh) * 30);
-    margin-bottom: calc(var(--vh, 1vh) * 3);
   }
 
   .services-left-panel .services__counter {
