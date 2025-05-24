@@ -1,35 +1,26 @@
-// --- INÍCIO: Adição para correção de VH ---
 function setViewportHeight() {
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 
-    // Tenta atualizar o ScrollTrigger se ele estiver pronto
     if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
         ScrollTrigger.refresh();
-        console.log("ScrollTrigger refreshed by setViewportHeight. VH:", vh); // DEBUG
+        console.log("ScrollTrigger refreshed by setViewportHeight. VH:", vh); 
     } else {
-        console.log("ScrollTrigger not ready yet. VH:", vh); // DEBUG
+        console.log("ScrollTrigger not ready yet. VH:", vh); 
     }
 }
 
-// 1. Chamada imediata (tenta pegar o valor o mais cedo possível)
 setViewportHeight();
 
-// 2. Listener de 'resize' (crucial para barras de UI móveis)
 window.addEventListener('resize', setViewportHeight);
-
-// 3. Listener de 'orientationchange' (importante para mobile)
 window.addEventListener('orientationchange', setViewportHeight);
 
-// --- FIM: Adição para correção de VH ---
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 4. Chamada dentro do DOMContentLoaded (garante que o DOM está pronto)
-    console.log("DOMContentLoaded - Calling setViewportHeight"); // DEBUG
+    console.log("DOMContentLoaded - Calling setViewportHeight");
     setViewportHeight();
 
-    // Elementos do DOM (mantidos como no seu original)
     const hamburger = document.getElementById('hamburger');
     const navBox = document.getElementById('navBox');
     const menu = document.getElementById('menu');
@@ -106,23 +97,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     smooth: 1.2,
                     effects: true,
                     smoothTouch: 0.1,
-                    // Adicionar invalidateOnRefresh pode ajudar em alguns casos responsivos
                     invalidateOnRefresh: true,
                 });
-                console.log("ScrollSmoother created."); // DEBUG
+                console.log("ScrollSmoother created."); 
             }
         } catch (e) {
             console.error("Erro no ScrollSmoother:", e);
         }
     }
 
-    // ... (Restante das suas funções: formatCounterNumber, setupMenu, etc. - MANTENHA-AS AQUI) ...
-        // Função: Formatar Números do Contador
     const formatCounterNumber = (num) => {
         return num.toString().padStart(2, '0');
     };
 
-    // Função: Configuração do Menu Hamburguer
     const setupMenu = () => {
         if (!hamburger || !navBox || !menu) return;
         hamburger.addEventListener('click', () => {
@@ -136,14 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Função: Configuração do Modal de Contato
     const setupContactModal = () => {
         if (contactBtn) {
             // Implementação do modal aqui
         }
     };
 
-    // Função: Efeitos de Hover nos Links do Menu
     const setupMenuHoverEffects = () => {
         if (!menuLinks.length) return;
         menuLinks.forEach(link => {
@@ -156,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Função: Animação de Texto Scramble
     const animateScrambleText = () => {
         if (!line1 || !line2 || !line3 || !scrambleGroup) return;
         let counter = 0;
@@ -193,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
         animate();
     };
 
-    // Função: Controles de Performance
     const setupPerformanceControls = () => {
         document.addEventListener('visibilitychange', () => {
             if (gsap.globalTimeline) {
@@ -202,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Função: Criação dos Pontos Animados
     const setupDotsCreation = () => {
         if (!dotsContainer) return;
         const rows = 4;
@@ -220,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.set(dotsContainer.querySelectorAll('.dot'), { opacity: 0.3, scale: 1 });
     };
 
-    // Função: Animação dos Pontos com Scroll
     const setupDotsScrollAnimation = () => {
         if (!dotsContainer || !dotsContainer.children.length) return;
         const allDots = gsap.utils.toArray(dotsContainer.querySelectorAll(".dot"));
@@ -264,7 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
         randomizeDotOpacity();
     };
 
-    // Função: Animação dos Pontos no CTA
     const setupCtaDotsAnimation = () => {
         if (!ctaDotsPattern) return;
         const patternClasses = [ 'pattern-1', 'pattern-2', 'pattern-3' ];
@@ -277,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .to({}, { duration: 1 });
     };
 
-    // Função: Animação do Contador Dinâmico (Seção 1)
     const setupDynamicCounterAnimation = () => {
         if (!dynamicCounterElement) return;
         dynamicCounterElement.textContent = "000";
@@ -299,7 +278,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Função: Efeito de Sombra Longa no Texto
     const applyLongShadow = (elementId, shadowColor = '#00151B', length = 100, spacing = 0.1) => {
         const textElement = document.getElementById(elementId);
         if (!textElement) return;
@@ -310,7 +288,6 @@ document.addEventListener('DOMContentLoaded', () => {
         textElement.style.textShadow = shadow.join(', ');
     };
 
-    // Função: Animação de Aparecimento do Texto
     const setupTextAppearAnimation = (elementId) => {
         const textContainer = document.getElementById(elementId);
         if (!textContainer) return;
@@ -335,7 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Função: Animação da Seta (Seção 1)
     const setupNewArrowAnimation = () => {
         const newArrowSvgContainer = document.querySelector('.new-arrow-path-container');
         const newArrowSvgContainerMobile = document.querySelector('.new-arrow-path-container-mobile');
@@ -464,7 +440,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 pin: servicesContainerForPin,
                 pinSpacing: true,
                 start: "top top",
-                // Tenta usar a altura real da janela para o cálculo
                 end: () => "+=" + (window.innerHeight * (serviceCards.length - 1) * 0.5),
                 scrub: 1,
                 invalidateOnRefresh: true,

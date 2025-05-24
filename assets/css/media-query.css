@@ -25,7 +25,8 @@
     text-align: right;
     align-self: flex-end;
   }
-  .svg-container{
+
+  .svg-container {
     transform: translateY(-40px) translateX(300px) !important;
   }
 }
@@ -40,36 +41,36 @@
     transform-origin: top right;
   }
 
-    .services-content-wrapper {
-        flex-direction: column;
-        align-items: center;
-        height: auto; 
-    }
+  .services-content-wrapper {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
 
-    .section-2 {
-        min-height: auto; /* PERMITE CRESCER */
-        height: auto;
-        padding: 0 15px; /* Padding para espaçamento geral */
-        overflow: visible; /* Importante para o pin funcionar */
-    }
+  .section-2 {
+    min-height: auto;
+    height: auto;
+    padding: 0 15px;
+    overflow: visible;
+  }
 
-    .services-container {
-        height: auto; /* PERMITE CRESCER */
-        position: relative;
-    }
+  .services-container {
+    height: auto;
+    position: relative;
+  }
 
-    .services-left-panel {
-        width: 100%;
-        max-width: 550px;
-        padding-left: 0;
-        margin: 5vh 0 2vh 0; /* Aumenta margem inferior para dar espaço */
-        text-align: left;
-        order: 1;
-        justify-content: left;
-        align-self: flex-start;
-        position: relative; /* Garante que não saia do fluxo */
-        z-index: 15; /* Deixa acima dos cards inicialmente */
-    }
+  .services-left-panel {
+    width: 100%;
+    max-width: 550px;
+    padding-left: 0;
+    margin: 5vh 0 2vh 0;
+    text-align: left;
+    order: 1;
+    justify-content: left;
+    align-self: flex-start;
+    position: relative;
+    z-index: 15;
+  }
 
   .services-left-panel .services-title,
   .services-left-panel .services-subtitle {
@@ -86,31 +87,28 @@
     font-size: clamp(4rem, 10vw, 5rem);
   }
 
-.services-right-panel {
-      width: 100%;
-      max-width: 100%;
-      padding-left: 0;
-      height: auto; /* Altura auto */
-      min-height: auto; /* Remove min-height vh */
-      order: 2;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      top: 0; /* Reseta top */
+  .services-right-panel {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0;
+    height: auto;
+min-height: calc(var(--vh, 1vh) * 60);     order: 2;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    top: 0;
   }
 
-    .service-card {
-        position: absolute; /* MANTÉM absoluto para o GSAP */
-        width: 85%; /* Reduz um pouco a largura */
-        max-width: 450px; /* Limita a largura máxima */
-        min-height: 300px; /* !! REDUZ drasticamente a altura mínima */
-        aspect-ratio: 787 / 650; /* Mantém proporção, mas a altura manda */
-        /* Reseta transformações CSS, o GSAP vai controlar */
-        transform: none; 
-        /* Mantém as propriedades que o GSAP usa, mas o JS vai setar */
-        top: 50%;
-        left: 50%;
-    }
+  .service-card {
+    position: absolute;
+    width: 85%;
+    max-width: 750px;
+    min-height: 300px;
+    aspect-ratio: 787 / 650;
+    transform: none;
+    top: 50%;
+    left: 50%;
+  }
 
   .service-card-image-placeholder {
     height: 60%;
@@ -244,7 +242,7 @@
   }
 
   .services-right-panel {
-min-height: calc(var(--vh, 1vh) * 39.5);
+    min-height: calc(var(--vh, 1vh) * 39.5);
   }
 
   .services-left-panel .services__counter {
@@ -264,9 +262,11 @@ min-height: calc(var(--vh, 1vh) * 39.5);
     left: 15px;
     padding: 8px 15px;
   }
+
   .service-card h3 {
     font-size: clamp(1rem, 1.8vw, 1.4rem);
   }
+
   .service-arrow-mobile {
     display: block;
     width: 100%;
@@ -277,47 +277,64 @@ min-height: calc(var(--vh, 1vh) * 39.5);
     overflow: hidden;
     scale: 1.5;
   }
-    .testimonial-left-column {
+
+  .testimonial-left-column {
     display: block;
   }
-  .testimonial-bubble-content{
+
+  .testimonial-bubble-content {
     flex-direction: column;
     align-items: start;
     min-height: 350px;
     border-radius: 24px 24px 24px 48px;
   }
-  .testimonial-svg{
+
+  .testimonial-svg {
     scale: 0.5;
     transform: translateY(100%) translateX(-50%);
   }
-  .testimonial-quote-area{
+
+  .testimonial-quote-area {
     text-align: left;
     gap: 15px;
   }
-  .testimonial-text{
+
+  .testimonial-text {
     font-size: 1rem;
   }
-  .testimonial-navigation{
-padding-left: 64px;
-        width: 250px;
-        height: 45px;
-        margin-top: -120px;
+
+  .testimonial-navigation {
+    padding-left: 64px;
+    width: 250px;
+    height: 45px;
+    margin-top: -120px;
   }
-  .testimonial-identity{
+
+  .testimonial-identity {
     flex: 0 0 50px;
     flex-direction: row;
     order: 2;
     align-items: center;
   }
-  .testimonial-person-details{
+
+  .testimonial-person-details {
     text-align: left;
   }
-  .testimonial-quote-title{
+
+  .testimonial-quote-title {
     margin-bottom: 0;
   }
 
   .testimonial-bubble-content {
     padding: 20px 20px 15px 45px;
+  }
+
+  .section-title-testimonial {
+    margin-bottom: 0;
+  }
+
+  .section-subtitle-testimonial {
+    display: none;
   }
 
   .nav-video {
@@ -330,8 +347,8 @@ padding-left: 64px;
 
   .video-title-client,
   .buttons-nav {
-    position: static; 
-    width: 100%;    
+    position: static;
+    width: 100%;
     left: auto;
     right: auto;
     bottom: auto;
@@ -339,39 +356,42 @@ padding-left: 64px;
 
   .video-title-client {
     text-align: center;
-    opacity: 1; 
-    order: 1; 
+    opacity: 1;
+    order: 1;
   }
 
   .buttons-nav {
-    justify-content: center; 
-    order: 2; 
+    justify-content: center;
+    order: 2;
   }
+
   .carousel-nav {
     height: clamp(40px, calc(var(--vh, 1vh) * 8), 50px);
 
-}
-.logo-marquee-container{
-  padding: 10px 0;
-}
+  }
 
-.testimonial-person-photo {
-  width: 80px;
+  .logo-marquee-container {
+    padding: 10px 0;
+  }
+
+  .testimonial-person-photo {
+    width: 80px;
     height: 80px;
-}
-.testimonial-name{
-  font-size: 1.2rem;
-}
-.testimonial-title{
-  font-size: 0.7rem;
-}
+  }
+
+  .testimonial-name {
+    font-size: 1.2rem;
+  }
+
+  .testimonial-title {
+    font-size: 0.7rem;
+  }
 }
 
 
 @media (max-width: 460px) {
-  .testimonial-bubble-content{
+  .testimonial-bubble-content {
     min-height: 380px;
   }
 
 }
-
