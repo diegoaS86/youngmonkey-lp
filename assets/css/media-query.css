@@ -51,7 +51,7 @@
     width: 100%;
     max-width: 550px;
     padding-left: 0;
-    margin: 5vh 0 5vh 0;
+    margin: calc(var(--vh, 1vh) * 5) 0 calc(var(--vh, 1vh) * 5) 0;
     text-align: left;
     order: 1;
     justify-content: left;
@@ -78,7 +78,7 @@
     max-width: 100%;
     padding-left: 0;
     height: auto;
-    min-height: 65vh;
+    min-height: calc(var(--vh, 1vh) * 65);
     margin-bottom: 200px;
     order: 2;
     display: flex;
@@ -186,7 +186,7 @@
   }
 
   .dots-container {
-    bottom: clamp(20px, 5vh, 60px);
+    bottom: clamp(20px, calc(var(--vh, 1vh) * 5), 60px);
   }
 
   .cta-fixed-container {
@@ -226,8 +226,8 @@
   }
 
   .services-right-panel {
-    min-height: calc(var(--vh, 1vh) * 60);
-    margin-bottom: 3vh;
+min-height: calc(var(--vh, 1vh) * 60);
+    margin-bottom: calc(var(--vh, 1vh) * 3);
   }
 
   .services-left-panel .services__counter {
@@ -319,7 +319,10 @@
     justify-content: center; 
     order: 2; 
   }
+  .carousel-nav {
+    height: clamp(40px, calc(var(--vh, 1vh) * 8), 50px);
 
+}
 }
 
 
