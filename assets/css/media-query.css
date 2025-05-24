@@ -244,7 +244,7 @@
   }
 
   .services-right-panel {
-min-height: calc(var(--vh, 1vh) * 40);
+min-height: calc(var(--vh, 1vh) * 38);
   }
 
   .services-left-panel .services__counter {
@@ -252,7 +252,7 @@ min-height: calc(var(--vh, 1vh) * 40);
   }
 
   .service-card {
-    min-height: calc(var(--vh, 1vh) * 40);
+    min-height: calc(var(--vh, 1vh) * 38);
   }
 
   .service-card-image-placeholder {
