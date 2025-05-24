@@ -596,15 +596,26 @@ body {
 }
 
 .section-1,
-.section-2,
 .section-3 {
-  min-height: calc(var(--vh, 1vh) * 100);  padding: 50px 15px;
+  min-height: auto; 
+  padding: 50px 15px;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.section-2 {
+    min-height: calc(var(--vh, 1vh) * 100); /* Mantém 100vh */
+    padding: 0 15px; /* REMOVE o padding vertical, mantém horizontal */
+    position: relative;
+    overflow: hidden;
+    display: flex; /* Mantém flex para alinhar o .services-container */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .section-4 {
@@ -706,19 +717,22 @@ body {
   transform-origin: center center;
 }
 
+/* Ajuste para .services-container (ele já tem 100vh, vamos confirmar) */
 .services-container {
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100); /* Mantém 100vh */
   position: relative;
 }
 
+/* Ajuste para .services-content-wrapper (ADICIONA o padding aqui) */
 .services-content-wrapper {
   display: flex;
   width: 100%;
   height: 100%;
   position: relative;
-  padding: 0 8%;
+  padding: 50px 8%; /* ADICIONA o padding vertical (50px) e ajusta horizontal (8%) */
+  box-sizing: border-box; /* Garante que o padding está dentro */
 }
 
 
