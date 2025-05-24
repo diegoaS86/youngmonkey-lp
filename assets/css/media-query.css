@@ -130,7 +130,7 @@
     height: auto;
     top: -20%;
     left: -60px;
-    transform: none;
+    transform: translateY(50px);
     overflow: hidden;
 
   }
