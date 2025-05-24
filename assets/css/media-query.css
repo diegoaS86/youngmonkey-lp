@@ -62,7 +62,7 @@
         width: 100%;
         max-width: 550px;
         padding-left: 0;
-        margin: 0 0 2vh 0; /* Aumenta margem inferior para dar espaço */
+        margin: 5vh 0 2vh 0; /* Aumenta margem inferior para dar espaço */
         text-align: left;
         order: 1;
         justify-content: left;
