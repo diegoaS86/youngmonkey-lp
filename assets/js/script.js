@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Elementos do DOM
+
+    function setViewportHeight() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+        if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
+            ScrollTrigger.refresh();
+        }
+    }
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight)
+
     const hamburger = document.getElementById('hamburger');
     const navBox = document.getElementById('navBox');
     const menu = document.getElementById('menu');

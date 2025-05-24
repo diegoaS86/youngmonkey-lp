@@ -226,7 +226,7 @@
   }
 
   .services-right-panel {
-    min-height: 60vh;
+    min-height: calc(var(--vh, 1vh) * 60);
     margin-bottom: 3vh;
   }
 
