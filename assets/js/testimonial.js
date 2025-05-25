@@ -1,62 +1,127 @@
 function setupLogoMarqueeWithGSAP() {
     const container = document.querySelector('.logo-marquee-container');
     const track = document.querySelector('.logo-marquee-track');
-    const logos = Array.from(track.children);
 
-    // Calcula a largura total do track
+    if (!container || !track) {
+        console.error("Logo Marquee: Container or track not found.");
+        return;
+    }
+
+    const logos = Array.from(track.children);
+    if (logos.length === 0) {
+        console.warn("Logo Marquee: No logos found to animate.");
+        return;
+    }
+
+    gsap.set(track, { x: 0 }); 
+
     let totalWidth = 0;
     logos.forEach(svg => {
+        let itemWidth = svg.getBoundingClientRect().width;
+        if (itemWidth === 0 && svg.hasAttribute('width')) {
+            itemWidth = parseFloat(svg.getAttribute('width')) || 0;
+        }
+        
         const style = window.getComputedStyle(svg);
         const marginLeft = parseFloat(style.marginLeft) || 0;
         const marginRight = parseFloat(style.marginRight) || 0;
-        const width = svg.getBoundingClientRect().width;
-        totalWidth += width + marginLeft + marginRight;
+        totalWidth += itemWidth + marginLeft + marginRight;
     });
 
-    // Divide por 2 pois duplicamos os logos
-    const segmentWidth = totalWidth / 2;
+    const segmentWidth = totalWidth / 2; 
+    if (segmentWidth === 0) {
+        console.error("Logo Marquee: Calculated segment width is still zero. Ensure SVGs are fully loaded and visible with dimensions before this script runs.");
+        return;
+    }
+    console.log("Logo Marquee: Calculated segmentWidth:", segmentWidth);
 
-    // Animação principal
-    let animation = gsap.to(track, {
-        x: -segmentWidth,
-        duration: 40,
-        ease: "none",
+    const progressWrap = gsap.utils.wrap(0, 1);
+    const xWrap = gsap.utils.wrap(0, -segmentWidth); 
+    let draggableInstance;
+
+    const proxy = document.createElement("div");
+    gsap.set(proxy, { x: 0 }); 
+
+    const loopTimeline = gsap.timeline({
         repeat: -1,
+        paused: true, 
+        defaults: { duration: 40, ease: "none" },
+        onUpdate: function() {
+            if (draggableInstance && !draggableInstance.isPressed && !draggableInstance.isDragging && !draggableInstance.isThrowing) {
+                let totalProgress = this.totalProgress(); 
+                gsap.set(proxy, { x: totalProgress * -segmentWidth });
+            }
+        }
+    })
+    .to(track, {
+        x: `-=${segmentWidth}`,
         modifiers: {
-            x: gsap.utils.unitize(x => parseFloat(x) % segmentWidth)
+            x: gsap.utils.unitize(value => xWrap(parseFloat(value)))
         }
     });
 
-    // Draggable (opcional)
-    let draggable = Draggable.create(track, {
-        type: "x",
+    gsap.set(proxy, { x: 0 }); 
+    loopTimeline.play(); 
+
+    let timelineInitialProgress = 0;
+    let proxyElementInitialXAtDragStart = 0;
+    let wasPlaying = true;
+    function alignTimeline() {
+        let currentProxyElementX = this.x;
+        let dx = currentProxyElementX - proxyElementInitialXAtDragStart;
+        let newProgress = timelineInitialProgress - (dx / segmentWidth);
+        loopTimeline.progress(progressWrap(newProgress));
+    }
+
+    draggableInstance = Draggable.create(proxy, { 
+        type: 'x',              
+        trigger: container,     
         inertia: true,
-        onDragStart: () => animation.pause(),
-        onDragEnd: function () {
-            const velocity = this.getVelocity().x;
-            const direction = velocity > 0 ? 1 : -1;
-
-            animation.kill();
-            animation = gsap.to(track, {
-                x: `+=${ direction * segmentWidth * 2 }`,
-                duration: 40,
-                ease: "none",
-                repeat: -1,
-                modifiers: {
-                    x: gsap.utils.unitize(x => parseFloat(x) % segmentWidth)
-                }
-            });
+        allowNativeTouchScrolling: false,
+        overshootTolerance: 0,
+        cursor: "grab",
+        activeCursor: "grabbing",
+        inertia: {
+            x: {
+                resistance: 200
+            }
         },
-        onThrowUpdate: function () {
-            if (this.x < -segmentWidth) this.x += segmentWidth;
-            else if (this.x > 0) this.x -= segmentWidth;
-        }
-    })[ 0 ];
 
-    // Pausa/play no hover
-    container.addEventListener('mouseenter', () => !draggable.isDragging && animation.pause());
-    container.addEventListener('mouseleave', () => !draggable.isDragging && animation.play());
-};
+        onPressInit: function() {
+            wasPlaying = !loopTimeline.paused();
+            loopTimeline.pause();
+
+            timelineInitialProgress = loopTimeline.totalProgress();
+            let currentUnwrappedX = timelineInitialProgress * -segmentWidth;
+            gsap.set(proxy, { x: currentUnwrappedX }); 
+            
+            proxyElementInitialXAtDragStart = currentUnwrappedX; 
+
+            this.startX = currentUnwrappedX; 
+            this.update(true); 
+
+            console.log(`onPressInit: tlTotalProg=${timelineInitialProgress.toFixed(4)}, proxy.x set to ${gsap.getProperty(proxy, "x").toFixed(1)}, drag.startX=${this.startX.toFixed(1)}`);
+        },
+        onDrag: alignTimeline,
+        onThrowUpdate: alignTimeline, 
+
+        onRelease: function() {
+            console.log(`onRelease: isThrowing=${this.isThrowing}, proxy.x=${gsap.getProperty(proxy, "x").toFixed(1)}`);
+            if (!this.isThrowing && wasPlaying) {
+                loopTimeline.play();
+            }
+        },
+        onThrowComplete: function() {
+            console.log("onThrowComplete - Final proxy.x:", gsap.getProperty(proxy, "x").toFixed(1));
+            if (wasPlaying) {
+                loopTimeline.play();
+            }
+            // Suaviza a volta para a velocidade normal da timeline
+            gsap.to(loopTimeline, { timeScale: 1, duration: 0.01, ease: "power1.inOut" });
+        }
+    })[0];
+}
+
 function setupTestimonialSlider() {
     const testimonials = [
         {
@@ -246,11 +311,11 @@ function setupSVGAnimation() {
     });
 
     // Animação em cascata
-    tl.to(svgs[ 4 ], { y: 0, duration: 0.8, ease: "power4InOut" })
-        .to(svgs[ 3 ], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45")
-        .to(svgs[ 2 ], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45")
-        .to(svgs[ 1 ], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45")
-        .to(svgs[ 0 ], { y: 0, duration: 0.8, ease: "power4InOut" }, "-=0.45");
+    tl.to(svgs[ 4 ], { y: 0, duration: 0.8, ease: "power2.inOut" })
+        .to(svgs[ 3 ], { y: 0, duration: 0.8, ease: "power2.inOut" }, "-=0.45")
+        .to(svgs[ 2 ], { y: 0, duration: 0.8, ease: "power2.inOut" }, "-=0.45")
+        .to(svgs[ 1 ], { y: 0, duration: 0.8, ease: "power2.inOut" }, "-=0.45")
+        .to(svgs[ 0 ], { y: 0, duration: 0.8, ease: "power2.inOut" }, "-=0.45");
 
     // Atualiza após carregamento
     gsap.delayedCall(0.5, () => ScrollTrigger.refresh());

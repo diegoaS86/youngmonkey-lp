@@ -937,7 +937,7 @@ body {
 }
 
 /* ==========================================================================
-   Logo Marquee
+   Brands Marquee
    ========================================================================== */
 
 .logo-marquee-container {
@@ -953,19 +953,19 @@ body {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 100px;
+  width: 101px;
   z-index: 2;
   pointer-events: none;
 }
 
 .logo-marquee-container::before {
-  left: 0;
-  background: linear-gradient(90deg, #00151b 0%, rgba(0, 21, 27, 0) 100%);
+  left: -10px;
+  background: linear-gradient(90deg, #00151b 30%, rgba(0, 21, 27, 0) 100%);
 }
 
 .logo-marquee-container::after {
-  right: 0;
-  background: linear-gradient(270deg, #00151b 0%, rgba(0, 21, 27, 0) 100%);
+  right: -2px;
+  background: linear-gradient(270deg, #00151b 15%, rgba(0, 21, 27, 0) 100%);
 }
 
 .logo-marquee-track {
@@ -1548,15 +1548,16 @@ textarea {
 }
 
 .footer-arrow {
-  position: absolute;
+ position: absolute;
   top: 0;
-  width: 100%;
+  width: 1011px; 
   max-width: 1011px;
   height: auto;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50px);
   z-index: 2;
   pointer-events: none;
-  overflow: visible;
+  overflow: visible; 
 }
 
 .footer-arrow svg {

@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
             DrawSVGPlugin,
             ScrollSmoother,
             ScrollToPlugin,
-            TextPlugin
+            TextPlugin,
+            InertiaPlugin
         );
     } catch (error) {
         console.error("Erro ao registrar plugins GSAP:", error);
