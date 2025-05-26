@@ -1,8 +1,9 @@
-@media (min-width: 1025px) {
-  .service-arrow-mobile {
-    display: none;
-  }
+@media (min-width: 1920.01px) {
+  .copyright {
+    font-size: 17.98px;
+    padding-right: 96px;
 
+  }
 }
 
 @media (max-width: 1240px) {
@@ -18,6 +19,7 @@
 
   .testimonial-right-column {
     align-self: self-end;
+    padding-left: 0;
   }
 
   .section-title-testimonial,
@@ -29,6 +31,54 @@
   .svg-container {
     transform: translateY(-40px) translateX(300px) !important;
   }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 15vh;
+  }
+
+  .footer-left {
+    padding-right: 0;
+    gap: unset;
+  }
+
+  .icon-whatsApp,
+  .icon-fiverr {
+    display: none;
+  }
+
+  .btn-label-bg {
+    margin-left: 0;
+  }
+
+  .logo-section {
+    align-self: center;
+    align-items: center;
+  }
+
+  .logo-section .icon-logoYM {
+    transform: translateY(0);
+  }
+
+  .copyright {
+    font-weight: 400;
+    width: 100%;
+    font-size: 2vw;
+    white-space: unset;
+    overflow: unset;
+    text-overflow: unset;
+    padding-top: 0;
+    padding-right: 0;
+    text-align: center;
+  }
+}
+
+@media (min-width: 1025px) {
+  .service-arrow-mobile {
+    display: none;
+  }
+
 }
 
 @media (max-width: 1024px) {
@@ -92,7 +142,8 @@
     max-width: 100%;
     padding-left: 0;
     height: auto;
-min-height: calc(var(--vh, 1vh) * 60);     order: 2;
+    min-height: calc(var(--vh, 1vh) * 60);
+    order: 2;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -386,6 +437,8 @@ min-height: calc(var(--vh, 1vh) * 60);     order: 2;
   .testimonial-title {
     font-size: 0.7rem;
   }
+
+
 }
 
 

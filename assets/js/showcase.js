@@ -112,7 +112,7 @@ function updateCarouselPositions() {
 
     const minTranslateYWidth = 360;
     const maxTranslateYWidth = 1200;
-    const minTranslateY = 0;
+    const minTranslateY = 20;
     const maxTranslateY = -20;
     let currentTranslateY;
 
@@ -163,7 +163,6 @@ function applyCurrentItemStates(useAnimation = false) {
         }
 
         if (useAnimation) {
-            // Animation logic
         } else {
             gsap.set(item, { ...positions[targetPosKey], width: slideWidth + 'px' });
         }
@@ -205,7 +204,7 @@ function adjustSectionHeight() {
     const gapBetweenItemsAndNav = 20;
 
     const requiredCarouselWrapperHeight = carouselItemsLowestPoint + gapBetweenItemsAndNav + navVideoHeight;
-    if (carouselWrapper) { // Check if carouselWrapper exists before setting its style
+    if (carouselWrapper) { 
         carouselWrapper.style.height = `${requiredCarouselWrapperHeight}px`;
     }
 

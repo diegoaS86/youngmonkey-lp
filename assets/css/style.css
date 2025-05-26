@@ -49,7 +49,7 @@
   --speedometer-font-size: clamp(150px, 60vw, 900px);
   --title-size: clamp(2.5rem, 7vw, 5rem);
   --title-weight: 800;
-  --subTitle-size: clamp(0.8rem, 1.7vw, 1.15rem);
+  --subTitle-size: clamp(1rem, 2.5vw, 1.5rem);
   --rotation-angle: 0deg;
 }
 
@@ -312,9 +312,8 @@ body {
   width: 100%;
   height: 100%;
   background-color: var(--accent-color);
-  clip-path: path(
-    'M7.50901 54.7931L21.5 65V56C21.5 55.4477 21.9477 55 22.5 55H180C188.837 55 196 47.8366 196 39V16C196 7.16344 188.837 0 180 0H16.9388C8.10229 0 0.938843 7.16344 0.938843 16V41.8673C0.938843 46.9779 3.38027 51.7811 7.50901 54.7931Z'
-  );
+  clip-path: path('M7.50901 54.7931L21.5 65V56C21.5 55.4477 21.9477 55 22.5 55H180C188.837 55 196 47.8366 196 39V16C196 7.16344 188.837 0 180 0H16.9388C8.10229 0 0.938843 7.16344 0.938843 16V41.8673C0.938843 46.9779 3.38027 51.7811 7.50901 54.7931Z'
+    );
   z-index: 1;
 }
 
@@ -677,16 +676,12 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(
-      34.1% 34.1% at 50% 50%,
+  background: radial-gradient(34.1% 34.1% at 50% 50%,
       rgba(107, 255, 247, 0.2) 0%,
-      rgba(107, 255, 247, 0) 100%
-    ),
-    radial-gradient(
-      44% 44% at 50% 43.17%,
+      rgba(107, 255, 247, 0) 100%),
+    radial-gradient(44% 44% at 50% 43.17%,
       rgba(107, 255, 247, 0.1) 0%,
-      rgba(107, 255, 247, 0) 100%
-    );
+      rgba(107, 255, 247, 0) 100%);
   background-blend-mode: color-dodge, overlay;
   overflow: hidden;
   z-index: -1;
@@ -700,11 +695,9 @@ body {
   opacity: 0.15;
   mix-blend-mode: color-dodge;
   pointer-events: none;
-  mask-image: radial-gradient(
-    34.1% 34.1% at 50% 50%,
-    rgba(107, 255, 247, 0.2) 0%,
-    rgba(107, 255, 247, 0) 100%
-  );
+  mask-image: radial-gradient(34.1% 34.1% at 50% 50%,
+      rgba(107, 255, 247, 0.2) 0%,
+      rgba(107, 255, 247, 0) 100%);
   mask-repeat: no-repeat;
   mask-position: center;
   mask-size: 100% 100%;
@@ -791,7 +784,7 @@ body {
 .service-arrow {
   position: absolute;
   top: 55%;
-  left: 50%;
+  left: 60%;
   width: 120vw;
   height: calc(var(--vh, 1vh) * 80);
   transform: translate(calc(-50% - 15vw - (-130px)), -50%);
@@ -1300,7 +1293,7 @@ body {
   min-height: calc(var(--vh, 1vh) * 100);
   box-sizing: border-box;
   position: relative;
-  padding-top: clamp(100px, calc(var(--vh, 1vh) * 15), 178px);
+  padding-top: clamp(100px, calc(var(--vh, 1vh) * 20), 178px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1310,7 +1303,7 @@ body {
 .footer-top-bar {
   position: absolute;
   width: 100%;
-  height: clamp(100px, calc(var(--vh, 1vh) * 15), 178px);
+  height: clamp(100px, calc(var(--vh, 1vh) * 20), 178px);
   left: 0px;
   top: 0px;
   background: var(--primary-color);
@@ -1321,24 +1314,34 @@ body {
 .footer-content {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: stretch;
   max-width: 1600px;
   width: 90%;
+  height: 100%;
   margin: 0 auto;
-  gap: clamp(20px, 5vw, 40px);
   padding: clamp(40px, calc(var(--vh, 1vh) * 8), 80px) 20px;
   position: relative;
   z-index: 2;
   box-sizing: border-box;
+  gap: 6vw;
 }
 
 .footer-left {
-  flex-basis: 50%;
+  flex-basis: 45%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: clamp(50px, calc(var(--vh, 1vh) * 10), 100px);
-  padding-right: 20px;
+  gap: 10vh;
+}
+
+.footer-right {
+  flex-basis: 55%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: flex-end;
+  text-align: right;
 }
 
 .footer-title {
@@ -1353,7 +1356,7 @@ body {
 
 .footer-left .subtitle {
   font-weight: 800;
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-size: var(--subTitle-size);
   color: var(--accent-color);
   margin-bottom: clamp(20px, 4vh, 40px);
 }
@@ -1361,16 +1364,23 @@ body {
 .contact-buttons {
   display: flex;
   width: 100%;
-  max-width: 442px;
-  padding-top: 20px;
+  max-width: 550px;
+  padding-top: 2%;
   justify-content: space-between;
   gap: 2%;
 }
 
-.button-group {
+.button-group-top {
   display: flex;
   justify-content: space-between;
   width: 48.5%;
+  height: 50px;
+}
+
+.button-group-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 33%;
   height: 50px;
 }
 
@@ -1438,9 +1448,9 @@ body {
 .email-form-container {
   display: flex;
   width: 100%;
-  max-width: 442px;
+  max-width: 550px;
   gap: 2%;
-  padding-top: 30px;
+  padding-top: 4%;
 }
 
 .form-col-left {
@@ -1506,58 +1516,29 @@ textarea {
   color: var(--accent-color);
 }
 
-.footer-right {
-  flex-basis: 40%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-  margin-top: 9%;
-  gap: clamp(50px, calc(var(--vh, 1vh) * 10), 100px);
-}
+/*.footer-right {
+    flex-basis: 40%;
+    justify-content: space-between; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    margin-top: 9%;
+    height: 100%; 
+}*/
 
-.footer-social {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.footer-social a {
-  color: var(--light-color);
-  text-decoration: none;
-  transition: all var(--transition-speed);
-  font-size: clamp(1rem, 2vw, 1.2rem);
-}
-
-.footer-social a:hover {
-  color: var(--accent-color);
-  transform: translateX(5px);
-}
-
-.footer-social a::after {
-  content: '→';
-  display: inline-block;
-  margin-left: 0.5rem;
-  transform: rotate(-45deg);
-  transition: all var(--transition-speed);
-}
-
-.footer-social a:hover::after {
-  transform: rotate(-45deg) translateY(-3px) translateX(3px);
-  color: var(--accent-color);
-}
 
 .footer-arrow {
- position: absolute;
+  position: absolute;
   top: 0;
-  width: 1011px; 
-  max-width: 1011px;
+  width: 1500px;
+  max-width: 1500px;
   height: auto;
   left: 50%;
   transform: translateX(-50px);
   z-index: 2;
   pointer-events: none;
-  overflow: visible; 
+  overflow: visible;
 }
 
 .footer-arrow svg {
@@ -1572,6 +1553,7 @@ textarea {
 
 .logo-section {
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: flex-end;
 }
@@ -1582,7 +1564,8 @@ textarea {
 }
 
 .logo-section .icon-logoYM {
-  width: 500px;
+  width: auto;
+  transform: translateY(25px);
   height: auto;
 }
 
@@ -1594,8 +1577,13 @@ textarea {
 
 .copyright {
   font-weight: 400;
-  font-size: 14px;
-  line-height: 1.5;
+  width: 65%;
+  font-size: .95vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: .8vh;
+  padding-right: 5vw;
   text-align: right;
   color: var(--accent-color);
 }
