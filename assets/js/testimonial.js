@@ -13,7 +13,7 @@ function setupLogoMarqueeWithGSAP() {
         return;
     }
 
-    gsap.set(track, { x: 0 }); 
+    gsap.set(track, { x: 0 });
 
     let totalWidth = 0;
     logos.forEach(svg => {
@@ -21,14 +21,14 @@ function setupLogoMarqueeWithGSAP() {
         if (itemWidth === 0 && svg.hasAttribute('width')) {
             itemWidth = parseFloat(svg.getAttribute('width')) || 0;
         }
-        
+
         const style = window.getComputedStyle(svg);
         const marginLeft = parseFloat(style.marginLeft) || 0;
         const marginRight = parseFloat(style.marginRight) || 0;
         totalWidth += itemWidth + marginLeft + marginRight;
     });
 
-    const segmentWidth = totalWidth / 2; 
+    const segmentWidth = totalWidth / 2;
     if (segmentWidth === 0) {
         console.error("Logo Marquee: Calculated segment width is still zero. Ensure SVGs are fully loaded and visible with dimensions before this script runs.");
         return;
@@ -36,32 +36,32 @@ function setupLogoMarqueeWithGSAP() {
     console.log("Logo Marquee: Calculated segmentWidth:", segmentWidth);
 
     const progressWrap = gsap.utils.wrap(0, 1);
-    const xWrap = gsap.utils.wrap(0, -segmentWidth); 
+    const xWrap = gsap.utils.wrap(0, -segmentWidth);
     let draggableInstance;
 
     const proxy = document.createElement("div");
-    gsap.set(proxy, { x: 0 }); 
+    gsap.set(proxy, { x: 0 });
 
     const loopTimeline = gsap.timeline({
         repeat: -1,
-        paused: true, 
+        paused: true,
         defaults: { duration: 40, ease: "none" },
-        onUpdate: function() {
+        onUpdate: function () {
             if (draggableInstance && !draggableInstance.isPressed && !draggableInstance.isDragging && !draggableInstance.isThrowing) {
-                let totalProgress = this.totalProgress(); 
+                let totalProgress = this.totalProgress();
                 gsap.set(proxy, { x: totalProgress * -segmentWidth });
             }
         }
     })
-    .to(track, {
-        x: `-=${segmentWidth}`,
-        modifiers: {
-            x: gsap.utils.unitize(value => xWrap(parseFloat(value)))
-        }
-    });
+        .to(track, {
+            x: `-=${ segmentWidth }`,
+            modifiers: {
+                x: gsap.utils.unitize(value => xWrap(parseFloat(value)))
+            }
+        });
 
-    gsap.set(proxy, { x: 0 }); 
-    loopTimeline.play(); 
+    gsap.set(proxy, { x: 0 });
+    loopTimeline.play();
 
     let timelineInitialProgress = 0;
     let proxyElementInitialXAtDragStart = 0;
@@ -73,9 +73,9 @@ function setupLogoMarqueeWithGSAP() {
         loopTimeline.progress(progressWrap(newProgress));
     }
 
-    draggableInstance = Draggable.create(proxy, { 
-        type: 'x',              
-        trigger: container,     
+    draggableInstance = Draggable.create(proxy, {
+        type: 'x',
+        trigger: container,
         inertia: true,
         allowNativeTouchScrolling: false,
         overshootTolerance: 0,
@@ -87,31 +87,31 @@ function setupLogoMarqueeWithGSAP() {
             }
         },
 
-        onPressInit: function() {
+        onPressInit: function () {
             wasPlaying = !loopTimeline.paused();
             loopTimeline.pause();
 
             timelineInitialProgress = loopTimeline.totalProgress();
             let currentUnwrappedX = timelineInitialProgress * -segmentWidth;
-            gsap.set(proxy, { x: currentUnwrappedX }); 
-            
-            proxyElementInitialXAtDragStart = currentUnwrappedX; 
+            gsap.set(proxy, { x: currentUnwrappedX });
 
-            this.startX = currentUnwrappedX; 
-            this.update(true); 
+            proxyElementInitialXAtDragStart = currentUnwrappedX;
 
-            console.log(`onPressInit: tlTotalProg=${timelineInitialProgress.toFixed(4)}, proxy.x set to ${gsap.getProperty(proxy, "x").toFixed(1)}, drag.startX=${this.startX.toFixed(1)}`);
+            this.startX = currentUnwrappedX;
+            this.update(true);
+
+            console.log(`onPressInit: tlTotalProg=${ timelineInitialProgress.toFixed(4) }, proxy.x set to ${ gsap.getProperty(proxy, "x").toFixed(1) }, drag.startX=${ this.startX.toFixed(1) }`);
         },
         onDrag: alignTimeline,
-        onThrowUpdate: alignTimeline, 
+        onThrowUpdate: alignTimeline,
 
-        onRelease: function() {
-            console.log(`onRelease: isThrowing=${this.isThrowing}, proxy.x=${gsap.getProperty(proxy, "x").toFixed(1)}`);
+        onRelease: function () {
+            console.log(`onRelease: isThrowing=${ this.isThrowing }, proxy.x=${ gsap.getProperty(proxy, "x").toFixed(1) }`);
             if (!this.isThrowing && wasPlaying) {
                 loopTimeline.play();
             }
         },
-        onThrowComplete: function() {
+        onThrowComplete: function () {
             console.log("onThrowComplete - Final proxy.x:", gsap.getProperty(proxy, "x").toFixed(1));
             if (wasPlaying) {
                 loopTimeline.play();
@@ -119,7 +119,7 @@ function setupLogoMarqueeWithGSAP() {
             // Suaviza a volta para a velocidade normal da timeline
             gsap.to(loopTimeline, { timeScale: 1, duration: 0.01, ease: "power1.inOut" });
         }
-    })[0];
+    })[ 0 ];
 }
 
 function setupTestimonialSlider() {

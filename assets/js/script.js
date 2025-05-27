@@ -1,12 +1,12 @@
 function setViewportHeight() {
     let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    document.documentElement.style.setProperty('--vh', `${ vh }px`);
 
     if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
         ScrollTrigger.refresh();
-        console.log("ScrollTrigger refreshed by setViewportHeight. VH:", vh); 
+        console.log("ScrollTrigger refreshed by setViewportHeight. VH:", vh);
     } else {
-        console.log("ScrollTrigger not ready yet. VH:", vh); 
+        console.log("ScrollTrigger not ready yet. VH:", vh);
     }
 }
 
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     smoothTouch: 0.1,
                     invalidateOnRefresh: true,
                 });
-                console.log("ScrollSmoother created."); 
+                console.log("ScrollSmoother created.");
             }
         } catch (e) {
             console.error("Erro no ScrollSmoother:", e);
@@ -258,26 +258,91 @@ document.addEventListener('DOMContentLoaded', () => {
             .to({}, { duration: 1 });
     };
 
-    const setupDynamicCounterAnimation = () => {
-        if (!dynamicCounterElement) return;
-        dynamicCounterElement.textContent = "000";
-        const counterData = { value: 0 };
-        const counterTween = gsap.to(counterData, {
-            value: 560,
-            ease: "none",
-            onUpdate: () => {
-                dynamicCounterElement.textContent = Math.round(counterData.value).toString().padStart(3, '0');
+    function setupOdometerCounterAnimation() {
+        const odometerContainer = document.getElementById('dynamicOdometer'); // ID do novo container HTML
+        const hundredsReel = document.getElementById('odometer-hundreds');
+        const tensReel = document.getElementById('odometer-tens');
+        const unitsReel = document.getElementById('odometer-units');
+        const scrollTriggerElement = document.getElementById('section-1'); // Gatilho no seu site
+
+        if (!odometerContainer || !hundredsReel || !tensReel || !unitsReel || !scrollTriggerElement) {
+            console.error("Elementos do odômetro ou gatilho de scroll (#section-1) não encontrados.");
+            if (!odometerContainer) console.error("dynamicOdometer não encontrado");
+            if (!hundredsReel) console.error("odometer-hundreds não encontrado");
+            if (!tensReel) console.error("odometer-tens não encontrado");
+            if (!unitsReel) console.error("odometer-units não encontrado");
+            if (!scrollTriggerElement) console.error("#section-1 não encontrado como gatilho");
+            return;
+        }
+
+        let digitHeight = 0;
+        if (unitsReel.children.length > 0) {
+            const reelSpanStyle = window.getComputedStyle(unitsReel.children[ 0 ]);
+            digitHeight = parseFloat(reelSpanStyle.height);
+        }
+
+        if (isNaN(digitHeight) || digitHeight === 0) {
+            const odometerStyle = window.getComputedStyle(odometerContainer);
+            const baseFontSize = odometerStyle.fontSize;
+
+            if (baseFontSize.startsWith('var(')) {
+                const varName = baseFontSize.match(/--[a-zA-Z0-9_-]+/)[ 0 ];
+                const resolvedVar = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+                digitHeight = parseFloat(resolvedVar);
+            } else {
+                digitHeight = parseFloat(baseFontSize);
             }
-        });
+
+            if (isNaN(digitHeight) || digitHeight === 0) {
+                console.error("Não foi possível determinar a altura do dígito para o odômetro. Verifique o CSS e a variável --speedometer-font-size ou o font-size de .dynamic-odometer.");
+                return;
+            }
+        }
+        console.log("Altura do dígito para o odômetro (digitHeight):", digitHeight, "px");
+
+        let currentDisplayValue = -1;
+        const MAX_ODOMETER_VALUE = 560;
+
+        const counterData = { value: 0 };
+
+        function setOdometerReels(valueToDisplay) {
+            const hundreds = Math.floor(valueToDisplay / 100) % 10;
+            const tens = Math.floor(valueToDisplay / 10) % 10;
+            const units = valueToDisplay % 10;
+
+            gsap.set(hundredsReel, { y: -hundreds * digitHeight });
+            gsap.set(tensReel, { y: -tens * digitHeight });
+            gsap.set(unitsReel, { y: -units * digitHeight });
+        }
+
+        setOdometerReels(0);
+
         ScrollTrigger.create({
-            trigger: "#section-1",
+            trigger: scrollTriggerElement,
             start: "top 90%",
-            endTrigger: "body",
-            end: "bottom bottom",
-            scrub: 1.5,
-            animation: counterTween,
+            end: "+=4550",
+
+            scrub: true,
+            animation: gsap.fromTo(counterData,
+                { value: 0 },
+                {
+                    value: MAX_ODOMETER_VALUE,
+                    ease: "none",
+                    onUpdate: () => {
+                        const newValue = Math.round(counterData.value);
+                        if (newValue !== currentDisplayValue) {
+                            currentDisplayValue = newValue;
+                            setOdometerReels(currentDisplayValue);
+                        }
+                    }
+                }
+            ),
+            onEnter: () => console.log("ScrollTrigger Odômetro (section-1): Entrou na área"),
+            onLeave: () => console.log("ScrollTrigger Odômetro (section-1): Saiu da área (fim)"),
+            onEnterBack: () => console.log("ScrollTrigger Odômetro (section-1): Entrou de volta (subindo)"),
+            onLeaveBack: () => console.log("ScrollTrigger Odômetro (section-1): Saiu de volta (topo)")
         });
-    };
+    }
 
     const applyLongShadow = (elementId, shadowColor = '#00151B', length = 100, spacing = 0.1) => {
         const textElement = document.getElementById(elementId);
@@ -369,10 +434,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let calculatedRightValue = R_inicial + K_slope * (W_inicial - screenWidth);
 
             if (document.querySelector('.new-arrow-path-container')) {
-                document.querySelector('.new-arrow-path-container').style.right = `${calculatedRightValue}px`;
+                document.querySelector('.new-arrow-path-container').style.right = `${ calculatedRightValue }px`;
             }
             if (document.querySelector('.new-arrow-path-container-mobile')) {
-                document.querySelector('.new-arrow-path-container-mobile').style.right = `${calculatedRightValue}px`;
+                document.querySelector('.new-arrow-path-container-mobile').style.right = `${ calculatedRightValue }px`;
             }
 
             setTimeout(() => {
@@ -389,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
             motionPath: {
                 path: currentMainPath,
                 align: currentMainPath,
-                alignOrigin: [0.5, 0.5],
+                alignOrigin: [ 0.5, 0.5 ],
                 autoRotate: 265,
                 start: 0,
                 end: 1
@@ -462,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     onComplete: () => {
                     }
-                }, `-=${0.35}`);
+                }, `-=${ 0.35 }`);
             }
         });
     };
@@ -470,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função: Contador e Animação da Seta de Serviços
     const setupServicesCounter = () => {
         if (!servicesCounterElement || !serviceCards.length || !servicePath || !serviceArrowPoint) {
-             console.warn("ServicesCounter: Elementos necessários não encontrados!");
+            console.warn("ServicesCounter: Elementos necessários não encontrados!");
             return;
         }
         const total = serviceCards.length;
@@ -518,7 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (servicesCounterElement && serviceCards && serviceCards.length > 0) {
             const total = serviceCards.length;
-            servicesCounterElement.textContent = `01 / ${formatCounterNumber(total)}`;
+            servicesCounterElement.textContent = `01 / ${ formatCounterNumber(total) }`;
         } else {
             console.warn("setupServicesCounterMobile: Elementos do contador ou cards não encontrados para a lógica do contador.");
         }
@@ -541,7 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const progress = self.progress;
                         const total = serviceCards.length;
                         const currentIndex = Math.min(Math.floor(progress * total), total - 1);
-                        servicesCounterElement.textContent = `${formatCounterNumber(currentIndex + 1)} / ${formatCounterNumber(total)}`;
+                        servicesCounterElement.textContent = `${ formatCounterNumber(currentIndex + 1) } / ${ formatCounterNumber(total) }`;
                     }
                 }
             }
@@ -550,13 +615,13 @@ document.addEventListener('DOMContentLoaded', () => {
         servicesTlMobile.fromTo(serviceDrawMobile,
             { drawSVG: "0%" },
             { drawSVG: "100%", ease: "none" }
-        , 0);
+            , 0);
 
         servicesTlMobile.to(serviceArrowPointMobile, {
             motionPath: {
                 path: servicePathMobile,
                 align: servicePathMobile,
-                alignOrigin: [0.5, 0.5],
+                alignOrigin: [ 0.5, 0.5 ],
                 autoRotate: -90,
                 start: 0,
                 end: 1
@@ -576,7 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
             motionPath: {
                 path: footerPath,
                 align: footerPath,
-                alignOrigin: [0.5, 0.5],
+                alignOrigin: [ 0.5, 0.5 ],
                 autoRotate: -90,
                 start: 0,
                 end: 1
@@ -592,7 +657,7 @@ document.addEventListener('DOMContentLoaded', () => {
             animation: arrowTimeline,
         });
     };
-    
+
 
     // Chamadas de Inicialização
     setupMenu();
@@ -619,8 +684,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setupCtaDotsAnimation();
     }
 
-    if (dynamicCounterElement) {
-        setupDynamicCounterAnimation();
+    if (document.getElementById('dynamicOdometer')) {
+        setupOdometerCounterAnimation();
+    } else {
+        console.warn("Elemento #dynamicOdometer não encontrado. A animação do odômetro não será iniciada.");
     }
 
     if (transformeTextElement) {
@@ -651,7 +718,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setupSVGAnimation();
     }
 
-    if (footerArrow) { 
+    if (footerArrow) {
         setupFooterArrow();
     }
 
@@ -670,9 +737,9 @@ window.addEventListener('load', () => {
     setViewportHeight();
     // Um último refresh, só por garantia, após tudo (imagens, etc) carregar
     gsap.delayedCall(0.1, () => {
-         if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
+        if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
             console.log("Final refresh on window load."); // DEBUG
             ScrollTrigger.refresh();
-         }
+        }
     });
 });

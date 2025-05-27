@@ -614,6 +614,7 @@ body {
 .section-1 {
   min-height: calc(var(--vh, 1vh) * 100);
   padding: 0 15px;
+  margin-top: 10vh;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -707,23 +708,56 @@ body {
    Section 1 - Counter & Arrow
    ========================================================================== */
 
-.dynamic-counter {
+/* ... (seu CSS existente) ... */
+
+/* ==========================================================================
+   Odometer Counter Styles
+   ========================================================================== */
+
+.dynamic-odometer {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: var(--speedometer-font-size);
+  font-size: 999px;
   font-weight: 900;
   color: var(--primary-color);
   z-index: 0;
   pointer-events: none;
   line-height: 1;
-  font-family: 'MuseoModerno', sans-serif;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center center;
+}
+
+.digit-slot {
+  height: 1em;
+  overflow: hidden;
+  position: relative;
+  width: 0.64em;
+}
+
+.digit-reel {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+.digit-reel span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1em;
+  width: 100%;
+  text-align: center;
 }
 
 .long-shadow-text {
-  font-size: clamp(0.5rem, 2vw, 2rem);
+  font-size: clamp(0.5rem, 4vw, 3rem);
   font-weight: 700;
   color: var(--light-color);
   line-height: 1.2;

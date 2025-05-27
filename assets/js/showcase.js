@@ -124,7 +124,7 @@ function updateCarouselPositions() {
         const widthRatio = (viewportWidth - minTranslateYWidth) / (maxTranslateYWidth - minTranslateYWidth);
         currentTranslateY = minTranslateY + (maxTranslateY - minTranslateY) * widthRatio;
     }
-    const dynamicTranslateYString = `${currentTranslateY.toFixed(2)}px`;
+    const dynamicTranslateYString = `${ currentTranslateY.toFixed(2) }px`;
 
     positions = {
         center: {
@@ -164,14 +164,14 @@ function applyCurrentItemStates(useAnimation = false) {
 
         if (useAnimation) {
         } else {
-            gsap.set(item, { ...positions[targetPosKey], width: slideWidth + 'px' });
+            gsap.set(item, { ...positions[ targetPosKey ], width: slideWidth + 'px' });
         }
     });
 
-    if (videoTitleClientElement && items[currentIndex]) {
-        videoTitleClientElement.textContent = items[currentIndex].dataset.title || 'Título Indisponível';
+    if (videoTitleClientElement && items[ currentIndex ]) {
+        videoTitleClientElement.textContent = items[ currentIndex ].dataset.title || 'Título Indisponível';
         if (!useAnimation) {
-             gsap.set(videoTitleClientElement, { opacity: 1 });
+            gsap.set(videoTitleClientElement, { opacity: 1 });
         }
     }
 }
@@ -204,8 +204,8 @@ function adjustSectionHeight() {
     const gapBetweenItemsAndNav = 20;
 
     const requiredCarouselWrapperHeight = carouselItemsLowestPoint + gapBetweenItemsAndNav + navVideoHeight;
-    if (carouselWrapper) { 
-        carouselWrapper.style.height = `${requiredCarouselWrapperHeight}px`;
+    if (carouselWrapper) {
+        carouselWrapper.style.height = `${ requiredCarouselWrapperHeight }px`;
     }
 
 
@@ -217,7 +217,7 @@ function adjustSectionHeight() {
     const minOverallHeightPx = viewportHeight * (minOverallHeightVh / 100);
 
     const finalSectionContentHeight = Math.max(minOverallHeightPx, totalRequiredContentHeight);
-    section4Element.style.height = `${finalSectionContentHeight}px`;
+    section4Element.style.height = `${ finalSectionContentHeight }px`;
 }
 
 function handleResize() {
@@ -265,7 +265,7 @@ window.addEventListener('load', function () {
     adjustSectionHeight();
 
     function goToSlide(newCenterIndex, swipeDirection) {
-        if (isAnimating || (items.length > 1 && newCenterIndex === currentIndex) || (items.length <=1 && newCenterIndex === currentIndex) ) { return; }
+        if (isAnimating || (items.length > 1 && newCenterIndex === currentIndex) || (items.length <= 1 && newCenterIndex === currentIndex)) { return; }
         isAnimating = true; const oldCenterIndex = currentIndex; currentIndex = newCenterIndex;
         const tl = gsap.timeline({ onComplete: () => { isAnimating = false; items.forEach((item, i) => { let finalZIndex = positions.initialHidden.zIndex; if (i === currentIndex) finalZIndex = positions.center.zIndex; else if (items.length > 1 && i === (currentIndex - 1 + items.length) % items.length) finalZIndex = positions.leftPreview.zIndex; else if (items.length > 1 && i === (currentIndex + 1) % items.length) finalZIndex = positions.rightPreview.zIndex; gsap.set(item, { zIndex: finalZIndex }); }); } });
         items.forEach((item, index) => {
@@ -279,9 +279,9 @@ window.addEventListener('load', function () {
             }
             if (isNewCenter) { targetPosKey = "center"; } else if (isNewLeftPreview) { targetPosKey = "leftPreview"; } else if (isNewRightPreview) { targetPosKey = "rightPreview"; }
             else { if (swipeDirection === "left") { targetPosKey = "hiddenSlideOutLeft"; } else { targetPosKey = "hiddenSlideOutRight"; } }
-            tl.to(item, { ...positions[targetPosKey], duration: 1, ease: "elastic.out(0.8,0.6)", width: slideWidth + 'px' }, 0);
+            tl.to(item, { ...positions[ targetPosKey ], duration: 1, ease: "elastic.out(0.8,0.6)", width: slideWidth + 'px' }, 0);
         });
-        if (videoTitleClientElement) { const activeItem = items[currentIndex]; gsap.to(videoTitleClientElement, { opacity: 0, duration: 0.35, onComplete: () => { videoTitleClientElement.textContent = activeItem.dataset.title || 'Título Indisponível'; gsap.to(videoTitleClientElement, { opacity: 1, duration: 0.35 }); } }); }
+        if (videoTitleClientElement) { const activeItem = items[ currentIndex ]; gsap.to(videoTitleClientElement, { opacity: 0, duration: 0.35, onComplete: () => { videoTitleClientElement.textContent = activeItem.dataset.title || 'Título Indisponível'; gsap.to(videoTitleClientElement, { opacity: 1, duration: 0.35 }); } }); }
     }
 
     Observer.create({
