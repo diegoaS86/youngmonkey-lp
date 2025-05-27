@@ -181,7 +181,7 @@
 
   .service-arrow-mobile {
     display: block;
-    width: 100%;
+    width: 2560px;
     height: auto;
     top: -20%;
     left: -60px;
@@ -194,6 +194,9 @@
     position: relative;
   }
 
+  .new-arrow-path-container {
+    transform: translateY(-50%) translateX(20%) rotate(7deg)
+  }
 
 }
 
@@ -211,7 +214,7 @@
 
   .nav-left {
     margin-top: 2%;
-    flex-basis: auto;
+    flex-basis: fit-content;
     min-width: 0;
   }
 
@@ -237,6 +240,10 @@
     height: 2px;
   }
 
+  .nav-left__box.expanded{
+    height: 435px;
+  }
+
   .nav-left__box.expanded .hamburger span:nth-child(1) {
     transform: translateY(6px) rotate(25deg);
   }
@@ -247,6 +254,10 @@
 
   .nav-right {
     display: none;
+  }
+  .menu-social{
+    flex-direction: column;
+    gap: 1.2rem
   }
 
   .scramble-line {
@@ -294,8 +305,8 @@
   }
 
   .new-arrow-path-container {
-    scale: 3;
-    transform: translateY(10%) translateX(10%) rotate(15deg)
+    transform: translateY(-70%) translateX(55%) rotate(35deg);
+        scale: 0.7;
   }
 
   .services-right-panel {
@@ -322,17 +333,6 @@
 
   .service-card h3 {
     font-size: clamp(1rem, 1.8vw, 1.4rem);
-  }
-
-  .service-arrow-mobile {
-    display: block;
-    width: 100%;
-    height: auto;
-    top: 0;
-    left: 0;
-    transform: none;
-    overflow: hidden;
-    scale: 1.5;
   }
 
   .testimonial-left-column {
@@ -444,7 +444,19 @@
     font-size: 0.7rem;
   }
 
+.service-arrow-mobile{
+      scale: 0.7;
+    transform: translateY(-10%) translateX(-33%);
+}
 
+.footer-arrow{
+  scale: 0.7;
+    transform: translateX(-71.4%) translateX(-71.4vw) translateY(-20%);
+}
+
+.footer-top-bar{
+    height: clamp(100px, calc(var(--vh, 1vh) * 20), 130px);
+ }
 }
 
 

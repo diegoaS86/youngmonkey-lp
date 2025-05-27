@@ -378,99 +378,124 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const setupNewArrowAnimation = () => {
-        const newArrowSvgContainer = document.querySelector('.new-arrow-path-container');
-        const newArrowSvgContainerMobile = document.querySelector('.new-arrow-path-container-mobile');
-        const triggerSection = document.querySelector("#section-1");
+// Dentro de document.addEventListener('DOMContentLoaded', () => { ... });
+// E dentro da função const setupNewArrowAnimation = () => { ... };
 
-        let currentMainPath;
-        let currentVisiblePath;
-        let currentArrowHead;
-        let activeContainer = null;
+const setupNewArrowAnimation = () => {
+    const newArrowSvgContainer = document.querySelector('.new-arrow-path-container');
+    const newArrowSvgContainerMobile = document.querySelector('.new-arrow-path-container-mobile');
+    const triggerSection = document.querySelector("#section-1");
 
-        if (window.innerWidth < 1200 && newArrowSvgContainerMobile && getComputedStyle(newArrowSvgContainerMobile).display !== 'none') {
-            activeContainer = newArrowSvgContainerMobile;
-        } else if (newArrowSvgContainer && getComputedStyle(newArrowSvgContainer).display !== 'none') {
-            activeContainer = newArrowSvgContainer;
-        } else if (newArrowSvgContainerMobile && getComputedStyle(newArrowSvgContainerMobile).display !== 'none') {
-            activeContainer = newArrowSvgContainerMobile;
-        } else if (newArrowSvgContainer) {
-            activeContainer = newArrowSvgContainer;
+    let currentMainPath;
+    let currentVisiblePath;
+    let currentArrowHead;
+    let activeContainer = null;
+
+    if (window.innerWidth < 1200 && newArrowSvgContainerMobile && getComputedStyle(newArrowSvgContainerMobile).display !== 'none') {
+        activeContainer = newArrowSvgContainerMobile;
+    } else if (newArrowSvgContainer && getComputedStyle(newArrowSvgContainer).display !== 'none') {
+        activeContainer = newArrowSvgContainer;
+    } else if (newArrowSvgContainerMobile && getComputedStyle(newArrowSvgContainerMobile).display !== 'none') {
+        activeContainer = newArrowSvgContainerMobile;
+    } else if (newArrowSvgContainer) {
+        activeContainer = newArrowSvgContainer;
+    }
+
+    if (!activeContainer) {
+        console.warn("NewArrowAnimation: Nenhum container da seta ativo/visível ou encontrado para #arrow.");
+        return;
+    }
+
+    currentMainPath = activeContainer.querySelector('#main-path');
+    currentVisiblePath = activeContainer.querySelector('.draw');
+    currentArrowHead = activeContainer.querySelector('#arrow');
+
+    if (!currentMainPath || !currentVisiblePath || !currentArrowHead) {
+        console.warn("NewArrowAnimation: Elementos SVG internos (#main-path, .draw, ou #arrow) não encontrados no container ativo.");
+        return;
+    }
+
+    if (!triggerSection) {
+        console.warn("NewArrowAnimation: Seção de trigger '#section-1' não encontrada.");
+        return;
+    }
+
+    gsap.set(currentVisiblePath, { drawSVG: "0%" });
+    gsap.set(currentArrowHead, {
+        opacity: 1,
+        transformOrigin: "center center"
+    });
+
+    ScrollTrigger.matchMedia({
+        "(min-width: 1025px)": () => {
+            gsap.set(currentArrowHead, { scale: 0.8 });
+        },
+        "(min-width: 768px) and (max-width: 1024px)": () => {
+            gsap.set(currentArrowHead, { scale: 1.0 }); // Mantido em 1.0 para tablet
+        },
+        "(max-width: 767px)": () => {
+            gsap.set(currentArrowHead, { scale: 1.0 }); // Mantido em 1.0 para mobile <767px (a escala do container CSS faz o trabalho)
         }
+    });
 
-        if (!activeContainer) {
-            console.warn("NewArrowAnimation: Nenhum container da seta ativo/visível ou encontrado.");
-            return;
+    const adjustRightPosition = () => {
+        const screenWidth = window.innerWidth;
+        const R_inicial = -500;
+        const W_inicial = 2560;
+        const K_slope = 0.12;
+        let calculatedRightValue = R_inicial + K_slope * (W_inicial - screenWidth);
+
+        if (document.querySelector('.new-arrow-path-container')) {
+            document.querySelector('.new-arrow-path-container').style.right = `${calculatedRightValue}px`;
         }
-
-        if (activeContainer) {
-            currentMainPath = activeContainer.querySelector('#main-path');
-            currentVisiblePath = activeContainer.querySelector('.draw');
-            currentArrowHead = activeContainer.querySelector('#arrow');
+        if (document.querySelector('.new-arrow-path-container-mobile')) {
+            document.querySelector('.new-arrow-path-container-mobile').style.right = `${calculatedRightValue}px`;
         }
-
-        if (!currentMainPath || !currentVisiblePath || !currentArrowHead) {
-            console.warn("NewArrowAnimation: Elementos SVG internos não encontrados no container ativo.");
-            return;
-        }
-
-        if (!triggerSection) {
-            console.warn("NewArrowAnimation: Seção de trigger '#section-1' não encontrada.");
-            return;
-        }
-
-        if (!newArrowSvgContainer && !newArrowSvgContainerMobile) {
-            console.warn("NewArrowAnimation: Seletores globais para containers da seta não encontraram elementos.");
-        }
-
-        gsap.set(currentArrowHead, { opacity: 0 });
-        gsap.set(currentVisiblePath, { drawSVG: "0%" });
-
-        const adjustRightPosition = () => {
-            const screenWidth = window.innerWidth;
-            const R_inicial = -500;
-            const W_inicial = 1920;
-            const K_slope = 0.12;
-            let calculatedRightValue = R_inicial + K_slope * (W_inicial - screenWidth);
-
-            if (document.querySelector('.new-arrow-path-container')) {
-                document.querySelector('.new-arrow-path-container').style.right = `${ calculatedRightValue }px`;
-            }
-            if (document.querySelector('.new-arrow-path-container-mobile')) {
-                document.querySelector('.new-arrow-path-container-mobile').style.right = `${ calculatedRightValue }px`;
-            }
-
-            setTimeout(() => {
-                ScrollTrigger.refresh();
-            }, 0);
-        };
-
-        adjustRightPosition();
-        window.addEventListener('resize', adjustRightPosition);
-
-        const arrowTimeline = gsap.timeline();
-        arrowTimeline.to(currentArrowHead, { opacity: 1, duration: 0.01, ease: "none" }, 0);
-        arrowTimeline.to(currentArrowHead, {
-            motionPath: {
-                path: currentMainPath,
-                align: currentMainPath,
-                alignOrigin: [ 0.5, 0.5 ],
-                autoRotate: 265,
-                start: 0,
-                end: 1
-            },
-            ease: "none"
-        }, 0);
-        arrowTimeline.to(currentVisiblePath, { drawSVG: "100%", ease: "none" }, 0);
-
-        ScrollTrigger.create({
-            trigger: triggerSection,
-            start: "top 80%",
-            end: () => "+=" + (triggerSection.offsetHeight * 1.3),
-            scrub: 1.5,
-            animation: arrowTimeline,
-        });
+        setTimeout(() => { ScrollTrigger.refresh(); }, 0);
     };
+
+    adjustRightPosition();
+    window.addEventListener('resize', adjustRightPosition);
+
+    const arrowTimeline = gsap.timeline(); 
+
+    arrowTimeline.to(currentArrowHead, {
+        opacity: 1,
+        motionPath: {
+            path: currentMainPath,
+            align: currentMainPath,
+            alignOrigin: [0.5, 0.5],
+            autoRotate: 265,
+            start: 0,
+            end: 1
+        },
+        ease: "none"
+    }, 0);
+    arrowTimeline.to(currentVisiblePath, { drawSVG: "100%", ease: "none" }, 0);
+
+    ScrollTrigger.matchMedia({
+        "(max-width: 767px)": () => {
+            ScrollTrigger.create({
+                trigger: triggerSection,
+                start: "top bottom+=50px", 
+                end: () => "+=" + (triggerSection.offsetHeight * 1.1),
+                scrub: 1.5,
+                animation: arrowTimeline,
+                id: "newArrowMobileStart" 
+            });
+        },
+        "(min-width: 768px)": () => {
+            ScrollTrigger.create({
+                trigger: triggerSection,
+                start: "top 80%", 
+                end: () => "+=" + (triggerSection.offsetHeight * 1.1),
+                scrub: 1.5,
+                animation: arrowTimeline,
+                id: "newArrowDesktopStart" 
+            });
+        }
+    });
+};
 
     const setupStackingCardsAnimation = () => {
         if (!servicesSection || !servicesContainerForPin || !serviceCards.length) {
@@ -541,9 +566,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const total = serviceCards.length;
         servicesCounterElement.textContent = `01 / ${ formatCounterNumber(total) }`;
         gsap.set(serviceArrowPoint, {
-            opacity: 1,
-            x: -400,
-            y: 461,
+            opacity: 0,
+            scale: 0.8,
             rotation: 0,
             transformOrigin: "center center"
         });
@@ -560,6 +584,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        servicesTl.to(serviceArrowPoint, { opacity: 1, duration: 0.01 }, 0);
+
         servicesTl.fromTo(serviceDraw, { drawSVG: "0%" }, { drawSVG: "100%", ease: "none" }, 0);
         servicesTl.to(serviceArrowPoint, {
             motionPath: {
@@ -589,7 +616,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         gsap.set(serviceArrowPointMobile, {
-            opacity: 1,
+            opacity: 0,
+            scale: 0.8,
             rotation: 0,
             transformOrigin: "center center"
         });
@@ -611,6 +639,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        servicesTlMobile.to(serviceArrowPointMobile, { opacity: 1, duration: 0.01 }, 0);
 
         servicesTlMobile.fromTo(serviceDrawMobile,
             { drawSVG: "0%" },
@@ -636,7 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.set(footerArrowPoint, { opacity: 0, transformOrigin: "50% 50%" });
         gsap.set(footerDraw, { drawSVG: "0%" });
         const arrowTimeline = gsap.timeline();
-        arrowTimeline.to(footerArrowPoint, { opacity: 1, duration: 0.01, ease: "none" }, 0);
+        arrowTimeline.to(footerArrowPoint, { opacity: 1, duration: 0.01, scale: 0.8, ease: "none" }, 0);
         arrowTimeline.to(footerArrowPoint, {
             motionPath: {
                 path: footerPath,
