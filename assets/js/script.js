@@ -24,25 +24,16 @@ window.addEventListener('orientationchange', setViewportHeight);
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOMContentLoaded - Main Script");
-    setViewportHeight(); // Call again after DOM is ready
+    setViewportHeight(); 
 
-    // -------------------------------------------------------------------------
-    // 2.1. Seletores de Elementos DOM Globais (Menu)
-    // -------------------------------------------------------------------------
-    const hamburger = document.getElementById('hamburger'); //
-    const navBox = document.getElementById('navBox'); //
-    const menu = document.getElementById('menu'); //
-    const menuLinks = document.querySelectorAll('.menu-nav a, .menu-social a, .menu-lang a'); //
-    const menuNavLinks = document.querySelectorAll('.menu .menu-nav a'); // Seleciona apenas os links de navegação do menu principal
+    const hamburger = document.getElementById('hamburger');
+    const navBox = document.getElementById('navBox');
+    const menu = document.getElementById('menu');
+    const menuLinks = document.querySelectorAll('.menu-nav a, .menu-social a, .menu-lang a');
+    const menuNavLinks = document.querySelectorAll('.menu .menu-nav a'); 
 
-    // -------------------------------------------------------------------------
-    // 2.2. Variável de Escopo para ScrollSmoother
-    // -------------------------------------------------------------------------
-    let smoother; //
+    let smoother;
 
-    // -------------------------------------------------------------------------
-    // 2.3. Registro de Plugins GSAP (apenas uma vez)
-    // -------------------------------------------------------------------------
     try {
         if (typeof gsap === 'undefined') {
             console.error("GSAP não carregado. Algumas animações podem não funcionar.");
@@ -57,16 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 ScrollToPlugin,
                 TextPlugin,
                 InertiaPlugin
-            ); //
+            ); 
             console.log("GSAP Plugins Registrados.");
         }
     } catch (error) {
         console.error("Erro ao registrar plugins GSAP:", error);
     }
 
-    // -------------------------------------------------------------------------
-    // 2.4. Inicialização do ScrollSmoother
-    // -------------------------------------------------------------------------
     if (typeof ScrollSmoother !== 'undefined' && typeof gsap !== 'undefined') {
         try {
             if (document.getElementById('smooth-wrapper') && document.getElementById('smooth-content')) {
@@ -77,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     effects: true,
                     smoothTouch: 0.1,
                     invalidateOnRefresh: true,
-                }); //
+                }); 
                 console.log("ScrollSmoother created.");
             } else {
                 console.warn("ScrollSmoother: Wrapper ou content não encontrado.");
@@ -88,11 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.warn("ScrollSmoother ou GSAP não definido. Scroll suave não será ativado.");
     }
-
-    // -------------------------------------------------------------------------
-    // 2.5. Definições de Funções de Setup Globais (Menu, Performance)
-    // -------------------------------------------------------------------------
-
+    
     const setupMenu = () => {
         if (!hamburger || !navBox || !menu) {
             console.warn("Menu: Elementos não encontrados.");
@@ -106,35 +90,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 duration: 0.3,
                 ease: "power2.inOut"
             });
-        }); //
+        }); 
 
-        // ** ADICIONADO: Lógica para rolagem suave dos links de navegação do menu **
         if (menuNavLinks.length > 0 && typeof gsap !== 'undefined') {
             menuNavLinks.forEach(link => {
                 link.addEventListener('click', function(event) {
-                    const rawHref = this.getAttribute('href'); // Ex: "#servicos", "#contato"
+                    const rawHref = this.getAttribute('href'); 
                     let targetId = rawHref;
 
                     if (rawHref && rawHref.startsWith('#')) {
-                        event.preventDefault(); // Previne o comportamento padrão de pular
+                        event.preventDefault(); 
 
-                        // Mapeia os hrefs do menu para os IDs corretos das seções
-                        // (conforme os IDs no seu index.html)
-                        if (rawHref === "#servicos") { // Link original do menu
-                            targetId = "#section-2"; // ID real da seção de serviços
-                        } else if (rawHref === "#depoimentos") { // Link original do menu
-                            targetId = "#section-3"; // ID real da seção de depoimentos
-                        } else if (rawHref === "#showcase") { // Link original do menu
-                            targetId = "#section-4"; // ID real da seção de showcase
-                        } else if (rawHref === "#contato") { // Link original do menu
-                            targetId = "#footer"; // ID real da seção do rodapé
+                        if (rawHref === "#servicos") { 
+                            targetId = "#section-2"; 
+                        } else if (rawHref === "#depoimentos") { 
+                            targetId = "#section-3"; 
+                        } else if (rawHref === "#showcase") { 
+                            targetId = "#section-4"; 
+                        } else if (rawHref === "#contato") { 
+                            targetId = "#footer"; 
                         }
-                        // Se o href já for o ID correto (ex: href="#section-2"), o mapeamento não altera.
-
+                        
                         if (smoother) {
-                            smoother.scrollTo(targetId, true, "top"); // Rola para o topo do alvo
+                            smoother.scrollTo(targetId, true, "top"); 
                         } else {
-                            // Fallback se o smoother não estiver disponível
                             const targetElement = document.querySelector(targetId);
                             if (targetElement) {
                                 targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -143,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         }
 
-                        // Fecha o menu se estiver expandido
                         if (navBox && menu && navBox.classList.contains('expanded')) {
                             navBox.classList.remove('expanded');
                             gsap.to(menu, {
@@ -157,7 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
-        // ** FIM DA ADIÇÃO **
     };
 
     const setupMenuHoverEffects = () => {
@@ -170,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 gsap.to(link, { x: 0, color: 'var(--light-color)', duration: 0.3 });
             });
         });
-    }; //
+    }; 
 
     const setupPerformanceControls = () => {
         document.addEventListener('visibilitychange', () => {
@@ -178,16 +155,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 gsap.globalTimeline[document.hidden ? 'pause' : 'resume']();
             }
         });
-    }; //
+    }; 
 
-    // -------------------------------------------------------------------------
-    // 2.6. Chamadas de Inicialização das Funções de Setup
-    // -------------------------------------------------------------------------
-    setupMenu(); // Agora inclui a lógica para os links de âncora do menu
-    setupMenuHoverEffects(); //
-    setupPerformanceControls(); //
+    // --- INÍCIO: LÓGICA PARA O BOTÃO DE CONTATO MOBILE ---
+    const contactBtnMobile = document.getElementById('contactBtnMobile');
+    const heroSection = document.getElementById('hero');
 
-    // Inicialização dos módulos (GSAP e ScrollTrigger são passados como dependências)
+    if (contactBtnMobile && heroSection && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
+        ScrollTrigger.create({
+            trigger: heroSection,
+            start: "bottom top", // Quando o final da seção hero atinge o topo da viewport
+            end: "max", 
+            toggleClass: {
+                targets: contactBtnMobile,
+                className: "is-visible" // Adiciona/remove a classe definida no CSS
+            },
+            // markers: true, // Descomente esta linha para depuração visual do ScrollTrigger
+            onEnter: () => { 
+                console.log('Hero saiu de vista, mostrando botão mobile (ScrollTrigger onEnter)');
+            },
+            onLeaveBack: () => { 
+                console.log('Hero voltou à vista, escondendo botão mobile (ScrollTrigger onLeaveBack)');
+            }
+        });
+    } else {
+        if (!contactBtnMobile) console.warn("Botão de contato mobile #contactBtnMobile não encontrado para ScrollTrigger.");
+        if (!heroSection) console.warn("Seção Hero #hero não encontrada para ScrollTrigger do botão mobile.");
+    }
+    // --- FIM: LÓGICA PARA O BOTÃO DE CONTATO MOBILE ---
+
+    setupMenu(); 
+    setupMenuHoverEffects(); 
+    setupPerformanceControls(); 
+
     if (typeof initializeLightbox === 'function') {
         initializeLightbox(gsap, smoother);
     } else { console.warn("initializeLightbox não definida. Verifique se lightbox.js está carregado antes de script.js"); }
@@ -230,11 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
         });
     }
-}); // Fim do DOMContentLoaded
+}); 
 
-// -----------------------------------------------------------------------------
-// 3. Listener Global 'load'
-// -----------------------------------------------------------------------------
 window.addEventListener('load', () => {
     console.log("Window loaded - Main Script");
     setViewportHeight();

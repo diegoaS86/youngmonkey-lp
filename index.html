@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="nav-right">
-                <a href="#" class="contact-button" id="contactBtn">
+                <div class="contact-button" id="contactBtn">
                     <div class="button-shape"></div>
                     <div class="button-text-container">
                         <div class="button-text-wrapper">
@@ -64,7 +64,7 @@
                         </div>
                         <div class="button-background"></div>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
     </header>
@@ -362,7 +362,7 @@
                     <div class="video-title-client">Título vídeo / Cliente</div>
                     <div class="buttons-nav">
                         <button id="carousel-prev" aria-label="Depoimento Anterior" class="carousel-nav">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="70" height="21" viewBox="0 0 2560 1080"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="70" height="21" viewBox="0 0 70 21"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path
                                     d="M68.5129 11.8048C69.2702 11.8048 69.8841 11.1909 69.8841 10.4336C69.8841 9.67628 69.2702 9.06235 68.5129 9.06235V11.8048ZM1.26644 9.46398C0.730933 9.99948 0.730933 10.8677 1.26644 11.4032L9.99298 20.1298C10.5285 20.6653 11.3967 20.6653 11.9322 20.1298C12.4677 19.5943 12.4677 18.726 11.9322 18.1905L4.17529 10.4336L11.9322 2.67666C12.4677 2.14116 12.4677 1.27293 11.9322 0.737431C11.3967 0.201926 10.5285 0.201926 9.99298 0.737431L1.26644 9.46398ZM68.5129 10.4336V9.06235H2.23605V10.4336V11.8048H68.5129V10.4336Z" />
@@ -555,77 +555,76 @@
                     <h2 class="footer-title">Pronto pra<br>vender mais?</h2>
                     <p class="subtitle">Então chama a gente e bora começar.</p>
                 </div>
-                        <div class="fotter-action">
-                            <div class="contact-buttons">
-                                <div class="button-group-top">
+                <div class="fotter-action">
+                    <div class="contact-buttons">
+                        <div class="button-group-top">
 
-                                    <a href="#" class="btn button-bg">
-                                        <svg class="icon-whatsApp"></svg>
-                                        <span class="btn-label-bg">Whatsapp</span>
-                                    </a>
-                                </div>
-                                <div class="button-group-top">
-                                    <a href="#" class="btn button-bg">
-                                        <svg class="icon-fiverr" heigth="32"></svg>
-
-                                        <span class="btn-label-bg">Fiverr</span>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="contact-buttons">
-                                <div class="button-group-bottom">
-
-                                    <a href="#" class="btn button-bg">
-                                        <svg class="icon-email"></svg>
-                                        <span class="btn-label-bg">Email</span>
-                                    </a>
-                                </div>
-                                <div class="button-group-bottom">
-                                    <a href="#" class="btn button-bg">
-                                        <svg class="icon-linkedin"></svg>
-
-                                        <span class="btn-label-bg">Linkedin</span>
-                                    </a>
-                                </div>
-                                <div class="button-group-bottom">
-                                    <a href="#" class="btn button-bg">
-                                        <svg class="icon-instagram"></svg>
-
-                                        <span class="btn-label-bg">Insta</span>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                            <form id="contactForm" method="POST" action="php/processForm.php">
-                                <!-- 1) Honeypot -->
-                                <input type="text" name="website" style="display:none" autocomplete="off" tabindex="-1">
-
-                                <!-- 2) Timer -->
-                                <input type="hidden" name="startTime" value="<?= time() ?>">
-
-                                <!-- 3) CSRF -->
-                                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-
-                                <!-- Campos visíveis -->
-                                <div class="email-form-container">
-                                    <div class="form-col form-col-left">
-                                        <div class="form line1">
-                                            <input type="text" name="nome" placeholder="Nome" required />
-                                        </div>
-                                        <div class="form line2">
-                                            <input type="email" name="email" placeholder="Email" required />
-                                        </div>
-                                    </div>
-                                    <div class="form-col form-col-right">
-                                        <button type="submit" class="send-btn"
-                                            data-i18n="index.submit_button">Enviar</button>
-                                    </div>
-                                </div>
-                                <div id="feedbackMessage"></div>
-                            </form>
+                            <a href="#" class="btn button-bg">
+                                <svg class="icon-whatsApp"></svg>
+                                <span class="btn-label-bg">Whatsapp</span>
+                            </a>
                         </div>
+                        <div class="button-group-top">
+                            <a href="#" class="btn button-bg">
+                                <svg class="icon-fiverr" heigth="32"></svg>
+
+                                <span class="btn-label-bg">Fiverr</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="contact-buttons">
+                        <div class="button-group-bottom">
+
+                            <a href="#" class="btn button-bg">
+                                <svg class="icon-email"></svg>
+                                <span class="btn-label-bg">Email</span>
+                            </a>
+                        </div>
+                        <div class="button-group-bottom">
+                            <a href="#" class="btn button-bg">
+                                <svg class="icon-linkedin"></svg>
+
+                                <span class="btn-label-bg">Linkedin</span>
+                            </a>
+                        </div>
+                        <div class="button-group-bottom">
+                            <a href="#" class="btn button-bg">
+                                <svg class="icon-instagram"></svg>
+
+                                <span class="btn-label-bg">Insta</span>
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <form id="contactForm" method="POST" action="php/processForm.php">
+                        <!-- 1) Honeypot -->
+                        <input type="text" name="website" style="display:none" autocomplete="off" tabindex="-1">
+
+                        <!-- 2) Timer -->
+                        <input type="hidden" name="startTime" value="<?= time() ?>">
+
+                        <!-- 3) CSRF -->
+                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+
+                        <!-- Campos visíveis -->
+                        <div class="email-form-container">
+                            <div class="form-col form-col-left">
+                                <div class="form line1">
+                                    <input type="text" name="nome" placeholder="Nome" required />
+                                </div>
+                                <div class="form line2">
+                                    <input type="email" name="email" placeholder="Email" required />
+                                </div>
+                            </div>
+                            <div class="form-col form-col-right">
+                                <button type="submit" class="send-btn" data-i18n="index.submit_button">Enviar</button>
+                            </div>
+                        </div>
+                        <div id="feedbackMessage"></div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -636,6 +635,17 @@
             <path d="M1 1L13 13" stroke="#00151B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     </button>
+
+    <div class="contact-button contact-button-mobile" id="contactBtnMobile">
+        <div class="button-shape"></div>
+        <div class="button-text-container">
+            <div class="button-text-wrapper">
+                <div class="button-text">SAIBA MAIS</div>
+                <div class="button-text hover-text">SAIBA MAIS</div>
+            </div>
+            <div class="button-background"></div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
