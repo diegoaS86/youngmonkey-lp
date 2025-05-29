@@ -44,6 +44,7 @@
   --sub-text: #6bfff7;
   --dark-text: #0a2e3a;
   --text-placeholder: #628a97;
+  --primary-color-rgb-components: 0, 21, 27;
   --border-radius: 16px;
   --transition-speed: 0.2s;
   --speedometer-font-size: clamp(150px, 60vw, 900px);
@@ -570,13 +571,13 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.cta-fixed-container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(35, 252, 148, 0.2);
-}
-
 .cta-text {
   white-space: nowrap;
+}
+
+.cta-text a {
+  text-decoration: none;
+  color: var(--sub-text);
 }
 
 .cta-dots-animation {
@@ -1422,19 +1423,22 @@ body {
   padding: 0 10px;
 }
 
-.btn-whatsapp-bg,
-.btn-fiverr-bg {
+.button-bg,
+.button-bg {
   background-color: var(--accent-color);
   gap: 5%;
 }
 
-.btn-whatsapp-bg:hover,
-.btn-fiverr-bg:hover {
+.button-bg:hover,
+.button-bg:hover {
   background-color: var(--primary-color);
 }
 
 .icon-whatsApp,
-.icon-fiverr {
+.icon-fiverr,
+.icon-email,
+.icon-linkedin,
+.icon-instagram {
   width: 30px;
   height: 30px;
   display: flex;
@@ -1443,18 +1447,27 @@ body {
 }
 
 .icon-whatsApp svg,
-.icon-fiverr svg {
+.icon-fiverr svg,
+.iicon-email svg,
+.icon-linkedin svg,
+.icon-instagram svg{
   width: 100%;
   height: 100%;
 }
 
 .icon-whatsApp path.whatsApp,
-.icon-fiverr path {
+.icon-fiverr path,
+.icon-email path.email,
+.icon-linkedin path,
+.icon-instagram path {
   fill: var(--secondary-color);
 }
 
-.btn-whatsapp-bg:hover .icon-whatsApp path,
-.btn-fiverr-bg:hover .icon-fiverr path {
+.button-bg:hover .icon-whatsApp path,
+.button-bg:hover .icon-fiverr path,
+.button-bg:hover .icon-email path,
+.button-bg:hover .icon-linkedin path,
+.button-bg:hover .icon-instagram path {
   fill: var(--accent-color);
 }
 
@@ -1496,6 +1509,11 @@ body {
 .form {
   display: flex;
   gap: 16px;
+}
+
+#contactForm{
+  width: 100%;
+    max-width: 550px;
 }
 
 .line1 input {
@@ -1543,15 +1561,15 @@ textarea {
 }
 
 .footer-arrow {
-    position: absolute;
-    top: 0;
-    width: 2560px;
-    transform: translateX(-50%) translateX(-50vw);
-    height: auto;
-    right: -2560px;
-    z-index: 2;
-    pointer-events: none;
-    overflow: visible;
+  position: absolute;
+  top: 0;
+  width: 2560px;
+  transform: translateX(-50%) translateX(-50vw);
+  height: auto;
+  right: -2560px;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
 }
 
 .footer-arrow svg {
@@ -1562,6 +1580,13 @@ textarea {
 
 .footer-arrow #footer-arrow-point {
   transform-origin: center center;
+}
+
+.fotter-action{
+  width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .logo-section {
@@ -1601,34 +1626,6 @@ textarea {
   color: var(--accent-color);
 }
 
-/* ==========================================================================
-   Arrow Styles
-   ========================================================================== 
-
-.new-arrow-path-container .draw,
-.service-arrow .service-draw,
-.service-arrow-mobile .service-draw-mobile,
-.footer-arrow .footer-draw {
-  stroke-width: 70px;
-}
-
-#footer-arrow-point {
-  stroke-width: 20px;
-}
-
-#arrow,
-#service-arrow-point,
-#service-arrow-point-mobile,
-#footer-arrow-point {
-  transform-box: fill-box;
-  transform-origin: center center;
-}
-
-
-/* ==========================================================================
-   Utilities & Helpers
-   ========================================================================== */
-
 .smooth-wrapper {
   position: relative;
 }
@@ -1648,4 +1645,328 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+/* ==========================================================================
+   Lightbox Styles
+   ========================================================================== */
+
+.lightbox-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(var(--primary-color-rgb-components), 0.6);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.lightbox-backdrop.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90vh;
+  background-color: var(--light-color);
+  z-index: 10000;
+  transform: translateY(100%);
+  border-radius: 32px 32px 0 0;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 60px;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+  transition: transform 0.6s cubic-bezier(1.000, 0.000, 0.000, 1.000),
+    opacity 0.6s cubic-bezier(1.000, 0.000, 0.000, 1.000),
+    visibility 0.6s cubic-bezier(1.000, 0.000, 0.000, 1.000);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.lightbox.open {
+  transform: translateY(0);
+  visibility: visible;
+  opacity: 1;
+}
+
+.lightbox-close-external {
+  position: fixed;
+  top: calc(10vh - 50px);
+  right: 4%;
+  background: var(--accent-color);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease 0.4s,
+    visibility 0.5s ease 0.4s,
+    transform 0.3s ease;
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.lightbox-close-external:hover {
+  transform: scale(1.1);
+  background-color: var(--light-color);
+}
+
+.lightbox-close-external.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.lightbox-content-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: 1600px;
+  height: calc(100% - 40px);
+  gap: 60px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.lightbox-column {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.lightbox-column-left {
+  margin-top: 3%;
+  flex: 0.9;
+  overflow-y: auto;
+
+}
+
+.lightbox-column-right {
+  flex: 1.4;
+  justify-content: center;
+  align-items: center;
+  gap: 2vh;
+  display: flex;
+  flex-direction: column;
+  padding: 70px;
+  background-color: var(--secondary-color);
+  border-radius: calc(var(--border-radius) * 2);
+
+}
+
+.faq-title {
+  font-size: clamp(20px, 40px, 80px);
+  font-weight: 400;
+  color: var(--dark-text);
+  padding-left: 20px;
+  margin-bottom: 60px;
+  text-align: center;
+  line-height: 1;
+}
+
+.faq-accordion {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  position: relative;
+  padding-bottom: 20px;
+  overflow: hidden;
+}
+
+.faq-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-58%);
+  width: 80%;
+  height: 3px;
+  background-color: var(--primary-color);
+  border-radius: 10px;
+}
+
+.faq-question {
+  background: transparent;
+  border: none;
+  width: 100%;
+  padding: 18px 20px;
+  text-align: left;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 600;
+  color: var(--primary-color);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.faq-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+  color: var(--primary-color);
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  overflow: hidden;
+}
+
+.faq-answer p {
+  padding: 0px 20px 20px 20px;
+  font-size: clamp(0.9rem, 1.8vw, 1rem);
+  line-height: 1.7;
+  color: var(--dark-text);
+  margin: 0;
+}
+
+.footer-text-lightbox .footer-title {
+  font-size: var(--title-size);
+  font-weight: var(--title-weight);
+  line-height: 1.05;
+  color: var(--text-color);
+  margin-bottom: 15px;
+  text-align: center;
+
+  z-index: 4;
+}
+
+.footer-text-lightbox .subtitle {
+  font-weight: 800;
+  font-size: var(--subTitle-size);
+  color: var(--accent-color);
+  text-align: center;
+
+  margin-bottom: clamp(20px, 4vh, 40px);
+}
+
+/* No seu style.css */
+
+/* Para a seção .fotter-action dentro da coluna esquerda da lightbox */
+.lightbox-column-left .fotter-action {
+  display: flex;
+  flex-direction: column; /* Empilha os grupos de botões e o formulário verticalmente */
+  align-items: center; /* Centraliza os filhos horizontalmente */
+  gap: 20px; /* Espaço entre os grupos de botões e o formulário */
+  width: 100%; /* Garante que o fotter-action ocupe a largura disponível */
+}
+
+/* Ajuste para os .contact-buttons e #lightboxContactForm dentro do .fotter-action da lightbox */
+.lightbox-column-left .fotter-action .contact-buttons,
+.lightbox-column-left .fotter-action #lightboxContactForm {
+  width: 100%; /* Fazem os filhos ocuparem a largura do .fotter-action */
+  max-width: 550px; /* Mantém a largura máxima que você já tinha, mas agora serão centralizados */
+  /* margin: 0 auto;  Não é mais necessário se o pai .fotter-action já centraliza */
+}
+
+
+/* Para a seção .fotter-action original no footer da página */
+.footer-left .fotter-action {
+  display: flex;
+  flex-direction: column; /* Empilha os .contact-buttons e o form */
+  align-items: flex-start; /* Mantém o alinhamento à esquerda como estava, ou mude para 'center' se quiser centralizar aqui também */
+  /* Se quiser centralizar também no footer original: */
+  /* align-items: center; */
+  width: 100%;
+  gap: 10px; /* Ajuste o espaçamento conforme necessário */
+}
+
+/* Os .contact-buttons e #contactForm originais já são max-width: 550px e width: 100% */
+/* Se você mudou .footer-left .fotter-action para align-items: center;, eles serão centralizados. */
+
+body.lightbox-open {
+  overflow: hidden !important;
+}
+
+@media (max-width: 1024px) {
+  .lightbox-content-wrapper {
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    padding: 0 10px;
+    height: calc(100% - 20px);
+  }
+
+  .lightbox-column {
+    flex: none;
+    /* Remove flex-grow/shrink */
+    width: 100%;
+    max-height: 45%;
+    /* Limita altura de cada coluna em mobile */
+  }
+
+  .lightbox-column-left .footer-title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .lightbox {
+    height: 95vh;
+    border-radius: 20px 20px 0 0;
+    padding-top: 50px;
+  }
+
+  .lightbox-close-external {
+    top: calc(5vh - 45px);
+    /* Ajustado para 5% do topo */
+    right: 15px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .lightbox-content-wrapper {
+    max-width: 100%;
+    gap: 15px;
+  }
+
+  .lightbox-column {
+    padding: 15px;
+  }
+
+  .faq-title {
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    margin-bottom: 20px;
+  }
+
+  .faq-question {
+    padding: 15px;
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  }
+
+  .faq-answer p {
+    padding: 0px 15px 15px 15px;
+    font-size: clamp(0.85rem, 1.7vw, 0.95rem);
+  }
 }

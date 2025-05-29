@@ -9,8 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return response.json();
     })
     .then(data => {
-      const iconElements = document.querySelectorAll(".icon-logoYM, .icon-globo, .icon-dolby, .icon-uol, .icon-gpa, .icon-zello, .icon-iasys, .icon-halo, .icon-whatsApp, .icon-fiverr");
-
+      const iconElements = document.querySelectorAll(".icon-logoYM, .icon-globo, .icon-dolby, .icon-uol, .icon-gpa, .icon-zello, .icon-iasys, .icon-halo, .icon-whatsApp, .icon-fiverr, .icon-email, .icon-linkedin, .icon-instagram");
       iconElements.forEach((iconEl) => {
         let svgDataKey = null;
         if (iconEl.classList.contains("icon-logoYM")) svgDataKey = "logoYM";
@@ -23,6 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
         else if (iconEl.classList.contains("icon-halo")) svgDataKey = "halo";
         else if (iconEl.classList.contains("icon-whatsApp")) svgDataKey = "whatsApp";
         else if (iconEl.classList.contains("icon-fiverr")) svgDataKey = "fiverr";
+        else if (iconEl.classList.contains("icon-email")) svgDataKey = "email";
+        else if (iconEl.classList.contains("icon-linkedin")) svgDataKey = "linkedin";
+        else if (iconEl.classList.contains("icon-instagram")) svgDataKey = "instagram";
+
 
         if (svgDataKey && data[svgDataKey]) {
           iconEl.innerHTML = data[svgDataKey];

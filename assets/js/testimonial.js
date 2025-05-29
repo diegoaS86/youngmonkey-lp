@@ -117,7 +117,7 @@ function setupLogoMarqueeWithGSAP() {
                 loopTimeline.play();
             }
             // Suaviza a volta para a velocidade normal da timeline
-            gsap.to(loopTimeline, { timeScale: 1, duration: 0.01, ease: "power1.inOut" });
+            gsap.to(loopTimeline, { timeScale: 1, duration: 0.01, ease: "power2.inOut" });
         }
     })[ 0 ];
 }

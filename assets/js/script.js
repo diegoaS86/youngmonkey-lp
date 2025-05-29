@@ -1,95 +1,75 @@
+// assets/js/script.js (Main Orchestrator)
+
+// -----------------------------------------------------------------------------
+// 1. Funções e Listeners Globais (Core Utilities)
+// -----------------------------------------------------------------------------
+
 function setViewportHeight() {
     let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${ vh }px`);
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
 
     if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
         ScrollTrigger.refresh();
-        console.log("ScrollTrigger refreshed by setViewportHeight. VH:", vh);
+        // console.log("ScrollTrigger refreshed by setViewportHeight. VH:", vh);
     } else {
-        console.log("ScrollTrigger not ready yet. VH:", vh);
+        // console.log("ScrollTrigger not ready yet for refresh. VH:", vh);
     }
 }
 
-setViewportHeight();
+setViewportHeight(); // Initial call
 
 window.addEventListener('resize', setViewportHeight);
 window.addEventListener('orientationchange', setViewportHeight);
 
+// -----------------------------------------------------------------------------
+// 2. Lógica Principal no DOMContentLoaded
+// -----------------------------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOMContentLoaded - Main Script");
+    setViewportHeight(); // Call again after DOM is ready
 
-    console.log("DOMContentLoaded - Calling setViewportHeight");
-    setViewportHeight();
-
+    // -------------------------------------------------------------------------
+    // 2.1. Seletores de Elementos DOM Globais (Menu)
+    // -------------------------------------------------------------------------
     const hamburger = document.getElementById('hamburger');
     const navBox = document.getElementById('navBox');
     const menu = document.getElementById('menu');
-    const contactBtn = document.getElementById('contactBtn');
     const menuLinks = document.querySelectorAll('.menu-nav a, .menu-social a, .menu-lang a');
 
-    const line1 = document.getElementById('line1');
-    const line2 = document.getElementById('line2');
-    const line3 = document.getElementById('line3');
-    const scrambleGroup = document.getElementById('scrambleGroup');
-    const ctaDotsPattern = document.querySelector('.cta-dots-pattern');
-    const dotsContainer = document.getElementById('dotsContainer');
-    const dynamicCounterElement = document.getElementById('dynamicCounter');
-    const transformeTextElement = document.getElementById('transformeText');
-
-    const servicesSection = document.getElementById('section-2');
-    const servicesContainerForPin = servicesSection ? servicesSection.querySelector('.services-container') : null;
-    const servicesLeftPanel = servicesSection ? servicesSection.querySelector('.services-left-panel') : null;
-    const servicesRightPanel = servicesSection ? servicesSection.querySelector('.services-right-panel') : null;
-    const serviceCards = servicesSection ? gsap.utils.toArray(servicesSection.querySelectorAll('.service-card')) : [];
-    const servicesCounterElement = document.getElementById('servicesCounter');
-
-    const serviceArrow = document.querySelector('.service-arrow');
-    const servicePath = document.getElementById('service-path');
-    const serviceDraw = document.querySelector('.service-draw');
-    const serviceArrowPoint = document.getElementById('service-arrow-point');
-
-    const serviceArrowMobile = document.querySelector('.service-arrow-mobile');
-    const servicePathMobile = document.getElementById('service-path-mobile');
-    const serviceDrawMobile = document.querySelector('.service-draw-mobile');
-    const serviceArrowPointMobile = document.getElementById('service-arrow-point-mobile');
-
-    const footerArrow = document.querySelector('.footer-arrow');
-    const footerPath = document.getElementById('footer-path');
-    const footerDraw = document.querySelector('.footer-draw');
-    const footerArrowPoint = document.getElementById('footer-arrow-point');
-
+    // -------------------------------------------------------------------------
+    // 2.2. Variável de Escopo para ScrollSmoother
+    // -------------------------------------------------------------------------
     let smoother;
 
-    // Registro de Plugins GSAP
+    // -------------------------------------------------------------------------
+    // 2.3. Registro de Plugins GSAP (apenas uma vez)
+    // -------------------------------------------------------------------------
     try {
         if (typeof gsap === 'undefined') {
-            console.error("GSAP não carregado.");
-            return;
+            console.error("GSAP não carregado. Algumas animações podem não funcionar.");
+        } else {
+            gsap.registerPlugin(
+                MotionPathPlugin,
+                Observer,
+                ScrambleTextPlugin,
+                ScrollTrigger,
+                DrawSVGPlugin,
+                ScrollSmoother,
+                ScrollToPlugin,
+                TextPlugin,
+                InertiaPlugin
+            );
+            console.log("GSAP Plugins Registrados.");
         }
-        gsap.registerPlugin(
-            MotionPathPlugin,
-            Observer,
-            ScrambleTextPlugin,
-            ScrollTrigger,
-            DrawSVGPlugin,
-            ScrollSmoother,
-            ScrollToPlugin,
-            TextPlugin,
-            InertiaPlugin
-        );
     } catch (error) {
         console.error("Erro ao registrar plugins GSAP:", error);
-        return;
     }
 
-    const wordSets = {
-        line1: [ "Design", "Videos", "Campaigns", "Content", "Reels", "Branding" ],
-        line2: [ "solves", "sells", "speaks", "adds", "gets", "is" ],
-        line3: [ "problem", "more", "loud", "value", "attention", "sexy" ]
-    };
-
-    // Inicialização do ScrollSmoother
-    if (typeof ScrollSmoother !== 'undefined') {
+    // -------------------------------------------------------------------------
+    // 2.4. Inicialização do ScrollSmoother
+    // -------------------------------------------------------------------------
+    if (typeof ScrollSmoother !== 'undefined' && typeof gsap !== 'undefined') {
         try {
             if (document.getElementById('smooth-wrapper') && document.getElementById('smooth-content')) {
                 smoother = ScrollSmoother.create({
@@ -101,18 +81,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     invalidateOnRefresh: true,
                 });
                 console.log("ScrollSmoother created.");
+            } else {
+                console.warn("ScrollSmoother: Wrapper ou content não encontrado.");
             }
         } catch (e) {
-            console.error("Erro no ScrollSmoother:", e);
+            console.error("Erro ao criar ScrollSmoother:", e);
         }
+    } else {
+        console.warn("ScrollSmoother ou GSAP não definido. Scroll suave não será ativado.");
     }
 
-    const formatCounterNumber = (num) => {
-        return num.toString().padStart(2, '0');
-    };
+    // -------------------------------------------------------------------------
+    // 2.5. Definições de Funções de Setup Globais (Menu, Performance)
+    //      A lógica da Lightbox foi movida para lightbox.js
+    // -------------------------------------------------------------------------
 
     const setupMenu = () => {
-        if (!hamburger || !navBox || !menu) return;
+        if (!hamburger || !navBox || !menu) {
+            console.warn("Menu: Elementos não encontrados.");
+            return;
+        }
         hamburger.addEventListener('click', () => {
             navBox.classList.toggle('expanded');
             gsap.to(menu, {
@@ -122,12 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 ease: "power2.inOut"
             });
         });
-    };
-
-    const setupContactModal = () => {
-        if (contactBtn) {
-            // Implementação do modal aqui
-        }
     };
 
     const setupMenuHoverEffects = () => {
@@ -142,634 +124,76 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const animateScrambleText = () => {
-        if (!line1 || !line2 || !line3 || !scrambleGroup) return;
-        let counter = 0;
-        function animate() {
-            const word1 = wordSets.line1[ counter % wordSets.line1.length ];
-            const word2 = wordSets.line2[ counter % wordSets.line2.length ];
-            const word3 = wordSets.line3[ counter % wordSets.line3.length ];
-            const groupIndex = counter % wordSets.line1.length;
-            scrambleGroup.className = 'scramble-title';
-            scrambleGroup.classList.add(`group-${ groupIndex }`);
-            const tl = gsap.timeline({
-                onComplete: () => {
-                    gsap.delayedCall(3, animate);
-                }
-            });
-            tl.to(line1, {
-                duration: 1.5,
-                scrambleText: { text: word1, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 },
-                ease: "power3.out"
-            }, 0)
-                .to(line2, {
-                    duration: 1.5,
-                    scrambleText: { text: word2, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 },
-                    ease: "power3.out"
-                }, 0)
-                .to(line3, {
-                    duration: 1.5,
-                    scrambleText: { text: word3, chars: "!<>-_\\/[]{}—=+*^?#_", revealDelay: 0.3, speed: 0.7 },
-                    ease: "power3.out"
-                }, 0);
-            counter++;
-        }
-        gsap.set([ line1, line2, line3 ], { opacity: 1, delay: 0.1 });
-        animate();
-    };
-
     const setupPerformanceControls = () => {
         document.addEventListener('visibilitychange', () => {
-            if (gsap.globalTimeline) {
-                gsap.globalTimeline[ document.hidden ? 'pause' : 'resume' ]();
+            if (typeof gsap !== 'undefined' && gsap.globalTimeline) {
+                gsap.globalTimeline[document.hidden ? 'pause' : 'resume']();
             }
         });
     };
 
-    const setupDotsCreation = () => {
-        if (!dotsContainer) return;
-        const rows = 4;
-        const cols = 12;
-        for (let c = 0; c < cols; c++) {
-            const col = document.createElement('div');
-            col.className = 'dots-column';
-            for (let r = 0; r < rows; r++) {
-                const dot = document.createElement('div');
-                dot.className = 'dot';
-                col.appendChild(dot);
-            }
-            dotsContainer.appendChild(col);
-        }
-        gsap.set(dotsContainer.querySelectorAll('.dot'), { opacity: 0.3, scale: 1 });
-    };
-
-    const setupDotsScrollAnimation = () => {
-        if (!dotsContainer || !dotsContainer.children.length) return;
-        const allDots = gsap.utils.toArray(dotsContainer.querySelectorAll(".dot"));
-        const totalDots = allDots.length;
-        let lastRandomizeScroll = 0;
-        const scrollThreshold = 50;
-        const randomizeDotOpacity = () => {
-            gsap.to(allDots, {
-                opacity: 0.1,
-                scale: 1,
-                backgroundColor: 'var(--light-color)',
-                boxShadow: 'none',
-                duration: 0.1,
-                ease: "expo.InOut"
-            });
-            const numToActivate = Math.floor(totalDots * (0.1 + Math.random() * 0.4));
-            const shuffledDots = gsap.utils.shuffle(allDots.slice());
-            const dotsToActivate = shuffledDots.slice(0, numToActivate);
-            gsap.to(dotsToActivate, {
-                opacity: 1,
-                scale: 1.4,
-                backgroundColor: 'var(--accent-color)',
-                boxShadow: '0 0 10px var(--accent-color)',
-                duration: 0.1,
-                ease: "expo.InOut",
-                stagger: { each: 0.05, from: "random" }
-            });
-        };
-        ScrollTrigger.create({
-            trigger: 'body',
-            start: "top top",
-            end: "max",
-            onUpdate: (self) => {
-                const currentScroll = smoother ? smoother.scrollTop() : self.scroll();
-                if (Math.abs(currentScroll - lastRandomizeScroll) >= scrollThreshold) {
-                    randomizeDotOpacity();
-                    lastRandomizeScroll = currentScroll;
-                }
-            }
-        });
-        randomizeDotOpacity();
-    };
-
-    const setupCtaDotsAnimation = () => {
-        if (!ctaDotsPattern) return;
-        const patternClasses = [ 'pattern-1', 'pattern-2', 'pattern-3' ];
-        let currentPatternIndex = 0;
-        gsap.timeline({ repeat: -1, repeatDelay: 0.5 })
-            .call(() => {
-                ctaDotsPattern.className = 'cta-dots-pattern ' + patternClasses[ currentPatternIndex ];
-                currentPatternIndex = (currentPatternIndex + 1) % patternClasses.length;
-            })
-            .to({}, { duration: 1 });
-    };
-
-    function setupOdometerCounterAnimation() {
-        const odometerContainer = document.getElementById('dynamicOdometer'); // ID do novo container HTML
-        const hundredsReel = document.getElementById('odometer-hundreds');
-        const tensReel = document.getElementById('odometer-tens');
-        const unitsReel = document.getElementById('odometer-units');
-        const scrollTriggerElement = document.getElementById('section-1'); // Gatilho no seu site
-
-        if (!odometerContainer || !hundredsReel || !tensReel || !unitsReel || !scrollTriggerElement) {
-            console.error("Elementos do odômetro ou gatilho de scroll (#section-1) não encontrados.");
-            if (!odometerContainer) console.error("dynamicOdometer não encontrado");
-            if (!hundredsReel) console.error("odometer-hundreds não encontrado");
-            if (!tensReel) console.error("odometer-tens não encontrado");
-            if (!unitsReel) console.error("odometer-units não encontrado");
-            if (!scrollTriggerElement) console.error("#section-1 não encontrado como gatilho");
-            return;
-        }
-
-        let digitHeight = 0;
-        if (unitsReel.children.length > 0) {
-            const reelSpanStyle = window.getComputedStyle(unitsReel.children[ 0 ]);
-            digitHeight = parseFloat(reelSpanStyle.height);
-        }
-
-        if (isNaN(digitHeight) || digitHeight === 0) {
-            const odometerStyle = window.getComputedStyle(odometerContainer);
-            const baseFontSize = odometerStyle.fontSize;
-
-            if (baseFontSize.startsWith('var(')) {
-                const varName = baseFontSize.match(/--[a-zA-Z0-9_-]+/)[ 0 ];
-                const resolvedVar = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-                digitHeight = parseFloat(resolvedVar);
-            } else {
-                digitHeight = parseFloat(baseFontSize);
-            }
-
-            if (isNaN(digitHeight) || digitHeight === 0) {
-                console.error("Não foi possível determinar a altura do dígito para o odômetro. Verifique o CSS e a variável --speedometer-font-size ou o font-size de .dynamic-odometer.");
-                return;
-            }
-        }
-        console.log("Altura do dígito para o odômetro (digitHeight):", digitHeight, "px");
-
-        let currentDisplayValue = -1;
-        const MAX_ODOMETER_VALUE = 560;
-
-        const counterData = { value: 0 };
-
-        function setOdometerReels(valueToDisplay) {
-            const hundreds = Math.floor(valueToDisplay / 100) % 10;
-            const tens = Math.floor(valueToDisplay / 10) % 10;
-            const units = valueToDisplay % 10;
-
-            gsap.set(hundredsReel, { y: -hundreds * digitHeight });
-            gsap.set(tensReel, { y: -tens * digitHeight });
-            gsap.set(unitsReel, { y: -units * digitHeight });
-        }
-
-        setOdometerReels(0);
-
-        ScrollTrigger.create({
-            trigger: scrollTriggerElement,
-            start: "top 90%",
-            end: "+=4550",
-
-            scrub: true,
-            animation: gsap.fromTo(counterData,
-                { value: 0 },
-                {
-                    value: MAX_ODOMETER_VALUE,
-                    ease: "none",
-                    onUpdate: () => {
-                        const newValue = Math.round(counterData.value);
-                        if (newValue !== currentDisplayValue) {
-                            currentDisplayValue = newValue;
-                            setOdometerReels(currentDisplayValue);
-                        }
-                    }
-                }
-            ),
-            onEnter: () => console.log("ScrollTrigger Odômetro (section-1): Entrou na área"),
-            onLeave: () => console.log("ScrollTrigger Odômetro (section-1): Saiu da área (fim)"),
-            onEnterBack: () => console.log("ScrollTrigger Odômetro (section-1): Entrou de volta (subindo)"),
-            onLeaveBack: () => console.log("ScrollTrigger Odômetro (section-1): Saiu de volta (topo)")
-        });
-    }
-
-    const applyLongShadow = (elementId, shadowColor = '#00151B', length = 100, spacing = 0.1) => {
-        const textElement = document.getElementById(elementId);
-        if (!textElement) return;
-        let shadow = [];
-        for (let i = 1; i <= length; i++) {
-            shadow.push(`${ i * spacing }px ${ i * spacing }px ${ shadowColor }`);
-        }
-        textElement.style.textShadow = shadow.join(', ');
-    };
-
-    const setupTextAppearAnimation = (elementId) => {
-        const textContainer = document.getElementById(elementId);
-        if (!textContainer) return;
-        const words = gsap.utils.toArray(textContainer.querySelectorAll("span"));
-        if (words.length === 0) return;
-        const textAnimation = gsap.fromTo(words,
-            { autoAlpha: 0, y: 30 },
-            {
-                autoAlpha: 1,
-                y: 0,
-                duration: 1,
-                stagger: 0.2,
-                ease: "power4.out"
-            }
-        );
-        ScrollTrigger.create({
-            trigger: textContainer,
-            start: "top 90%",
-            end: "bottom 50%",
-            scrub: 1,
-            animation: textAnimation,
-        });
-    };
-
-// Dentro de document.addEventListener('DOMContentLoaded', () => { ... });
-// E dentro da função const setupNewArrowAnimation = () => { ... };
-
-const setupNewArrowAnimation = () => {
-    const newArrowSvgContainer = document.querySelector('.new-arrow-path-container');
-    const newArrowSvgContainerMobile = document.querySelector('.new-arrow-path-container-mobile');
-    const triggerSection = document.querySelector("#section-1");
-
-    let currentMainPath;
-    let currentVisiblePath;
-    let currentArrowHead;
-    let activeContainer = null;
-
-    if (window.innerWidth < 1200 && newArrowSvgContainerMobile && getComputedStyle(newArrowSvgContainerMobile).display !== 'none') {
-        activeContainer = newArrowSvgContainerMobile;
-    } else if (newArrowSvgContainer && getComputedStyle(newArrowSvgContainer).display !== 'none') {
-        activeContainer = newArrowSvgContainer;
-    } else if (newArrowSvgContainerMobile && getComputedStyle(newArrowSvgContainerMobile).display !== 'none') {
-        activeContainer = newArrowSvgContainerMobile;
-    } else if (newArrowSvgContainer) {
-        activeContainer = newArrowSvgContainer;
-    }
-
-    if (!activeContainer) {
-        console.warn("NewArrowAnimation: Nenhum container da seta ativo/visível ou encontrado para #arrow.");
-        return;
-    }
-
-    currentMainPath = activeContainer.querySelector('#main-path');
-    currentVisiblePath = activeContainer.querySelector('.draw');
-    currentArrowHead = activeContainer.querySelector('#arrow');
-
-    if (!currentMainPath || !currentVisiblePath || !currentArrowHead) {
-        console.warn("NewArrowAnimation: Elementos SVG internos (#main-path, .draw, ou #arrow) não encontrados no container ativo.");
-        return;
-    }
-
-    if (!triggerSection) {
-        console.warn("NewArrowAnimation: Seção de trigger '#section-1' não encontrada.");
-        return;
-    }
-
-    gsap.set(currentVisiblePath, { drawSVG: "0%" });
-    gsap.set(currentArrowHead, {
-        opacity: 1,
-        transformOrigin: "center center"
-    });
-
-    ScrollTrigger.matchMedia({
-        "(min-width: 1025px)": () => {
-            gsap.set(currentArrowHead, { scale: 0.8 });
-        },
-        "(min-width: 768px) and (max-width: 1024px)": () => {
-            gsap.set(currentArrowHead, { scale: 1.0 }); // Mantido em 1.0 para tablet
-        },
-        "(max-width: 767px)": () => {
-            gsap.set(currentArrowHead, { scale: 1.0 }); // Mantido em 1.0 para mobile <767px (a escala do container CSS faz o trabalho)
-        }
-    });
-
-    const adjustRightPosition = () => {
-        const screenWidth = window.innerWidth;
-        const R_inicial = -500;
-        const W_inicial = 2560;
-        const K_slope = 0.12;
-        let calculatedRightValue = R_inicial + K_slope * (W_inicial - screenWidth);
-
-        if (document.querySelector('.new-arrow-path-container')) {
-            document.querySelector('.new-arrow-path-container').style.right = `${calculatedRightValue}px`;
-        }
-        if (document.querySelector('.new-arrow-path-container-mobile')) {
-            document.querySelector('.new-arrow-path-container-mobile').style.right = `${calculatedRightValue}px`;
-        }
-        setTimeout(() => { ScrollTrigger.refresh(); }, 0);
-    };
-
-    adjustRightPosition();
-    window.addEventListener('resize', adjustRightPosition);
-
-    const arrowTimeline = gsap.timeline(); 
-
-    arrowTimeline.to(currentArrowHead, {
-        opacity: 1,
-        motionPath: {
-            path: currentMainPath,
-            align: currentMainPath,
-            alignOrigin: [0.5, 0.5],
-            autoRotate: 265,
-            start: 0,
-            end: 1
-        },
-        ease: "none"
-    }, 0);
-    arrowTimeline.to(currentVisiblePath, { drawSVG: "100%", ease: "none" }, 0);
-
-    ScrollTrigger.matchMedia({
-        "(max-width: 767px)": () => {
-            ScrollTrigger.create({
-                trigger: triggerSection,
-                start: "top bottom+=50px", 
-                end: () => "+=" + (triggerSection.offsetHeight * 1.1),
-                scrub: 1.5,
-                animation: arrowTimeline,
-                id: "newArrowMobileStart" 
-            });
-        },
-        "(min-width: 768px)": () => {
-            ScrollTrigger.create({
-                trigger: triggerSection,
-                start: "top 80%", 
-                end: () => "+=" + (triggerSection.offsetHeight * 1.1),
-                scrub: 1.5,
-                animation: arrowTimeline,
-                id: "newArrowDesktopStart" 
-            });
-        }
-    });
-};
-
-    const setupStackingCardsAnimation = () => {
-        if (!servicesSection || !servicesContainerForPin || !serviceCards.length) {
-            console.warn("StackingCards: Elementos essenciais não encontrados (servicesSection, servicesContainerForPin, ou serviceCards).");
-            return;
-        }
-
-        serviceCards.forEach((card, index) => {
-            if (index === 0) {
-                gsap.set(card, {
-                    xPercent: -50,
-                    yPercent: -50,
-                    opacity: 1,
-                    scale: 1,
-                    padding: "0px",
-                    zIndex: serviceCards.length
-                });
-            } else {
-                gsap.set(card, {
-                    x: "110%",
-                    yPercent: -50,
-                    opacity: 1,
-                    scale: 1.1,
-                    padding: "200px",
-                    zIndex: serviceCards.length - index
-                });
-            }
-        });
-
-        const cardStackTimeline = gsap.timeline({
-            scrollTrigger: {
-                trigger: servicesSection,
-                pin: servicesContainerForPin,
-                pinSpacing: true,
-                start: "top top",
-                end: () => "+=" + (window.innerHeight * (serviceCards.length - 1) * 0.5),
-                scrub: 1,
-                invalidateOnRefresh: true,
-            }
-        });
-
-        serviceCards.forEach((card, index) => {
-            if (index > 0) {
-                cardStackTimeline.to(card, {
-                    x: "0%",
-                    xPercent: -50,
-                    scale: 1,
-                    padding: "0px",
-                    opacity: 1,
-                    duration: 0.8,
-                    ease: "expo.inOut",
-                    onStart: () => {
-                        gsap.set(card, { zIndex: serviceCards.length + 10 + index });
-                    },
-                    onComplete: () => {
-                    }
-                }, `-=${ 0.35 }`);
-            }
-        });
-    };
-
-    // Função: Contador e Animação da Seta de Serviços
-    const setupServicesCounter = () => {
-        if (!servicesCounterElement || !serviceCards.length || !servicePath || !serviceArrowPoint) {
-            console.warn("ServicesCounter: Elementos necessários não encontrados!");
-            return;
-        }
-        const total = serviceCards.length;
-        servicesCounterElement.textContent = `01 / ${ formatCounterNumber(total) }`;
-        gsap.set(serviceArrowPoint, {
-            opacity: 0,
-            scale: 0.8,
-            rotation: 0,
-            transformOrigin: "center center"
-        });
-        const servicesTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: servicesSection,
-                start: "top top",
-                end: () => "+=" + (window.innerHeight * (serviceCards.length - 1) * 0.5),
-                scrub: true,
-                onUpdate: self => {
-                    const progress = self.progress;
-                    const currentIndex = Math.min(Math.floor(progress * total), total - 1);
-                    servicesCounterElement.textContent = `${ formatCounterNumber(currentIndex + 1) } / ${ formatCounterNumber(total) }`;
-                }
-            }
-        });
-
-        servicesTl.to(serviceArrowPoint, { opacity: 1, duration: 0.01 }, 0);
-
-        servicesTl.fromTo(serviceDraw, { drawSVG: "0%" }, { drawSVG: "100%", ease: "none" }, 0);
-        servicesTl.to(serviceArrowPoint, {
-            motionPath: {
-                path: servicePath,
-                align: servicePath,
-                alignOrigin: [ 0.5, 0.5 ],
-                autoRotate: -90,
-                start: 0,
-                end: 1
-            },
-            ease: "none",
-        }, 0);
-    };
-
-    // Função: Contador e Animação da Seta de Serviços Mobile
-    const setupServicesCounterMobile = () => {
-        if (!servicePathMobile || !serviceArrowPointMobile || !serviceDrawMobile) {
-            console.warn("setupServicesCounterMobile: Elementos da seta mobile (path, point, ou draw) não encontrados!");
-            return;
-        }
-
-        if (servicesCounterElement && serviceCards && serviceCards.length > 0) {
-            const total = serviceCards.length;
-            servicesCounterElement.textContent = `01 / ${ formatCounterNumber(total) }`;
-        } else {
-            console.warn("setupServicesCounterMobile: Elementos do contador ou cards não encontrados para a lógica do contador.");
-        }
-
-        gsap.set(serviceArrowPointMobile, {
-            opacity: 0,
-            scale: 0.8,
-            rotation: 0,
-            transformOrigin: "center center"
-        });
-
-        const servicesTlMobile = gsap.timeline({
-            scrollTrigger: {
-                trigger: servicesSection,
-                start: "top top",
-                end: () => "+=" + (window.innerHeight * (serviceCards.length - 1) * 0.5),
-                scrub: true,
-                invalidateOnRefresh: true,
-                onUpdate: self => {
-                    if (servicesCounterElement && serviceCards && serviceCards.length > 0) {
-                        const progress = self.progress;
-                        const total = serviceCards.length;
-                        const currentIndex = Math.min(Math.floor(progress * total), total - 1);
-                        servicesCounterElement.textContent = `${ formatCounterNumber(currentIndex + 1) } / ${ formatCounterNumber(total) }`;
-                    }
-                }
-            }
-        });
-
-        servicesTlMobile.to(serviceArrowPointMobile, { opacity: 1, duration: 0.01 }, 0);
-
-        servicesTlMobile.fromTo(serviceDrawMobile,
-            { drawSVG: "0%" },
-            { drawSVG: "100%", ease: "none" }
-            , 0);
-
-        servicesTlMobile.to(serviceArrowPointMobile, {
-            motionPath: {
-                path: servicePathMobile,
-                align: servicePathMobile,
-                alignOrigin: [ 0.5, 0.5 ],
-                autoRotate: -90,
-                start: 0,
-                end: 1
-            },
-            ease: "none",
-        }, 0);
-    };
-
-    // Função: Animação da Seta do Footer
-    const setupFooterArrow = () => {
-        if (!footerArrow || !footerPath || !footerDraw || !footerArrowPoint) return;
-        gsap.set(footerArrowPoint, { opacity: 0, transformOrigin: "50% 50%" });
-        gsap.set(footerDraw, { drawSVG: "0%" });
-        const arrowTimeline = gsap.timeline();
-        arrowTimeline.to(footerArrowPoint, { opacity: 1, duration: 0.01, scale: 0.8, ease: "none" }, 0);
-        arrowTimeline.to(footerArrowPoint, {
-            motionPath: {
-                path: footerPath,
-                align: footerPath,
-                alignOrigin: [ 0.5, 0.5 ],
-                autoRotate: -90,
-                start: 0,
-                end: 1
-            },
-            ease: "none"
-        }, 0);
-        arrowTimeline.to(footerDraw, { drawSVG: "100%", ease: "none" }, 0);
-        ScrollTrigger.create({
-            trigger: "#footer",
-            start: "top 80%",
-            end: "bottom bottom",
-            scrub: 1.5,
-            animation: arrowTimeline,
-        });
-    };
-
-
-    // Chamadas de Inicialização
+    // -------------------------------------------------------------------------
+    // 2.6. Chamadas de Inicialização das Funções de Setup
+    // -------------------------------------------------------------------------
     setupMenu();
-    setupContactModal();
     setupMenuHoverEffects();
     setupPerformanceControls();
 
+    // Inicialização dos módulos (GSAP e ScrollTrigger são passados como dependências)
+    if (typeof initializeLightbox === 'function') {
+        initializeLightbox(gsap, smoother); // Passa GSAP e smoother
+    } else { console.warn("initializeLightbox não definida. Verifique se lightbox.js está carregado antes de script.js"); }
+
     if (typeof initializeHeaderAnimation === 'function') {
         initializeHeaderAnimation(gsap, ScrollTrigger, smoother);
-    } else {
-        console.warn("Função initializeHeaderAnimation não encontrada.");
-    }
+    } else { console.warn("initializeHeaderAnimation não definida."); }
 
-    if (line1 && line2 && line3 && scrambleGroup) {
-        animateScrambleText();
-    }
+    if (typeof initializeHeroSection === 'function') {
+        initializeHeroSection(gsap, ScrollTrigger, smoother);
+    } else { console.warn("initializeHeroSection não definida."); }
 
-    if (dotsContainer) {
-        setupDotsCreation();
-        setupDotsScrollAnimation();
-    }
+    if (typeof initializeSection1 === 'function') {
+        initializeSection1(gsap, ScrollTrigger);
+    } else { console.warn("initializeSection1 não definida."); }
 
-    if (ctaDotsPattern) {
-        setupCtaDotsAnimation();
-    }
-
-    if (document.getElementById('dynamicOdometer')) {
-        setupOdometerCounterAnimation();
-    } else {
-        console.warn("Elemento #dynamicOdometer não encontrado. A animação do odômetro não será iniciada.");
-    }
-
-    if (transformeTextElement) {
-        applyLongShadow('transformeText', '#00151B', 80, 0.1);
-        setupTextAppearAnimation('transformeText');
-    }
-
-    const arrowContainerForCheck = document.querySelector('.new-arrow-path-container');
-    if (arrowContainerForCheck) {
-        setupNewArrowAnimation();
-    }
-
-    if (servicesSection) {
-        setupStackingCardsAnimation();
-        setupServicesCounter();
-        setupServicesCounterMobile();
-    }
-
+    if (typeof initializeServicesSection === 'function') {
+        initializeServicesSection(gsap, ScrollTrigger);
+    } else { console.warn("initializeServicesSection não definida."); }
 
     if (document.getElementById('section-3')) {
-        setupLogoMarqueeWithGSAP();
-        setupTestimonialSlider();
-        ScrollTrigger.normalizeScroll(true);
-        ScrollTrigger.config({
-            limitCallbacks: true,
-            ignoreMobileResize: true
-        });
-        setupSVGAnimation();
-    }
+        if (typeof setupLogoMarqueeWithGSAP === 'function') setupLogoMarqueeWithGSAP(); else console.warn("setupLogoMarqueeWithGSAP não definida.");
+        if (typeof setupTestimonialSlider === 'function') setupTestimonialSlider(); else console.warn("setupTestimonialSlider não definida.");
+        if (typeof setupSVGAnimation === 'function') setupSVGAnimation(); else console.warn("setupSVGAnimation não definida.");
 
-    if (footerArrow) {
-        setupFooterArrow();
-    }
-
-    // --- INÍCIO: Adição para refresh final ---
-    // 5. Chamada com um pequeno delay após DOMContentLoaded
-    gsap.delayedCall(0.5, () => {
-        console.log("Delayed call - Refreshing ScrollTrigger"); // DEBUG
-        setViewportHeight(); // Garante que temos o valor mais recente antes do refresh final
-    });
-    // --- FIM: Adição para refresh final ---
-});
-
-// 6. Listener de 'load' para garantir TUDO carregado
-window.addEventListener('load', () => {
-    console.log("Window loaded - Calling setViewportHeight"); // DEBUG
-    setViewportHeight();
-    // Um último refresh, só por garantia, após tudo (imagens, etc) carregar
-    gsap.delayedCall(0.1, () => {
-        if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
-            console.log("Final refresh on window load."); // DEBUG
-            ScrollTrigger.refresh();
+        if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.normalizeScroll(true);
+            ScrollTrigger.config({ limitCallbacks: true, ignoreMobileResize: true });
         }
-    });
+    }
+
+    if (typeof initializeFooterSection === 'function') {
+        initializeFooterSection(gsap, ScrollTrigger);
+    } else { console.warn("initializeFooterSection não definida."); }
+
+
+    if (typeof gsap !== 'undefined') {
+        gsap.delayedCall(0.5, () => {
+            setViewportHeight();
+            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+        });
+    }
+}); // Fim do DOMContentLoaded
+
+// -----------------------------------------------------------------------------
+// 3. Listener Global 'load'
+// -----------------------------------------------------------------------------
+window.addEventListener('load', () => {
+    console.log("Window loaded - Main Script");
+    setViewportHeight();
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.delayedCall(0.1, () => {
+            console.log("Main script: Final refresh on window load.");
+            ScrollTrigger.refresh(true);
+        });
+    }
 });
