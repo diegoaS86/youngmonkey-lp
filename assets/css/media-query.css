@@ -547,6 +547,16 @@
     .contact-button-mobile {
     display: flex;
   }
+
+    .lightbox-column-right{
+    max-height: 60vh !important;
+    padding: 50px;
+  }
+    .contact-button {
+        transform: translateY(150%); 
+        transform-origin: unset; 
+    }
+  
 }
 
 @media (min-width: 768px) {

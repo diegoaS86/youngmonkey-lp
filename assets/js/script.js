@@ -159,12 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- INÍCIO: LÓGICA PARA O BOTÃO DE CONTATO MOBILE ---
     const contactBtnMobile = document.getElementById('contactBtnMobile');
-    const heroSection = document.getElementById('hero');
+    const heroSection = document.getElementById('section-1');
 
     if (contactBtnMobile && heroSection && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
         ScrollTrigger.create({
             trigger: heroSection,
-            start: "bottom top", // Quando o final da seção hero atinge o topo da viewport
+            start: "top 100%", // Quando o final da seção hero atinge o topo da viewport
             end: "max", 
             toggleClass: {
                 targets: contactBtnMobile,
