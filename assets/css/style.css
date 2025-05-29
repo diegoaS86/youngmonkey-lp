@@ -1314,17 +1314,16 @@ body {
    ========================================================================== */
 
 .footer {
-  background: var(--secondary-color);
-  color: var(--light-color);
-  width: 100%;
-  min-height: calc(var(--vh, 1vh) * 100);
-  box-sizing: border-box;
-  position: relative;
-  padding-top: clamp(100px, calc(var(--vh, 1vh) * 20), 170px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background: var(--secondary-color); /* */
+  color: var(--light-color); /* */
+  width: 100%; /* */
+  min-height: calc(var(--vh, 1vh) * 100); /* */
+  box-sizing: border-box; /* */
+  position: relative; /* */
+  padding-top: clamp(100px, calc(var(--vh, 1vh) * 20), 170px); /* */
+  display: flex; /* */
+  flex-direction: column; /* */
+  align-items: center; /* */
 }
 
 .footer-top-bar {
@@ -1339,18 +1338,19 @@ body {
 }
 
 .footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  max-width: 1600px;
-  width: 90%;
-  height: 100%;
-  margin: 0 auto;
-  padding: clamp(40px, calc(var(--vh, 1vh) * 8), 80px) 20px;
-  position: relative;
-  z-index: 2;
-  box-sizing: border-box;
-  gap: 6vw;
+  display: flex; /* */
+  justify-content: space-between; /* */
+  align-items: stretch; /* */
+  max-width: 1600px; /* */
+  width: 90%; /* */
+  /* height: 100%; */ /* REMOVA OU COMENTE ESTA LINHA */
+  flex-grow: 1; /* ADICIONE ESTA LINHA */
+  margin: 0 auto; /* */
+  padding: clamp(40px, calc(var(--vh, 1vh) * 8), 80px) 20px; /* */
+  position: relative; /* */
+  z-index: 2; /* */
+  box-sizing: border-box; /* */
+  gap: 6vw; /* */
 }
 
 .footer-left {
