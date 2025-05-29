@@ -10,9 +10,6 @@ function setViewportHeight() {
 
     if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
         ScrollTrigger.refresh();
-        // console.log("ScrollTrigger refreshed by setViewportHeight. VH:", vh);
-    } else {
-        // console.log("ScrollTrigger not ready yet for refresh. VH:", vh);
     }
 }
 
@@ -32,15 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
     // 2.1. Seletores de Elementos DOM Globais (Menu)
     // -------------------------------------------------------------------------
-    const hamburger = document.getElementById('hamburger');
-    const navBox = document.getElementById('navBox');
-    const menu = document.getElementById('menu');
-    const menuLinks = document.querySelectorAll('.menu-nav a, .menu-social a, .menu-lang a');
+    const hamburger = document.getElementById('hamburger'); //
+    const navBox = document.getElementById('navBox'); //
+    const menu = document.getElementById('menu'); //
+    const menuLinks = document.querySelectorAll('.menu-nav a, .menu-social a, .menu-lang a'); //
+    const menuNavLinks = document.querySelectorAll('.menu .menu-nav a'); // Seleciona apenas os links de navegação do menu principal
 
     // -------------------------------------------------------------------------
     // 2.2. Variável de Escopo para ScrollSmoother
     // -------------------------------------------------------------------------
-    let smoother;
+    let smoother; //
 
     // -------------------------------------------------------------------------
     // 2.3. Registro de Plugins GSAP (apenas uma vez)
@@ -59,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ScrollToPlugin,
                 TextPlugin,
                 InertiaPlugin
-            );
+            ); //
             console.log("GSAP Plugins Registrados.");
         }
     } catch (error) {
@@ -79,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     effects: true,
                     smoothTouch: 0.1,
                     invalidateOnRefresh: true,
-                });
+                }); //
                 console.log("ScrollSmoother created.");
             } else {
                 console.warn("ScrollSmoother: Wrapper ou content não encontrado.");
@@ -93,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // -------------------------------------------------------------------------
     // 2.5. Definições de Funções de Setup Globais (Menu, Performance)
-    //      A lógica da Lightbox foi movida para lightbox.js
     // -------------------------------------------------------------------------
 
     const setupMenu = () => {
@@ -109,7 +106,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 duration: 0.3,
                 ease: "power2.inOut"
             });
-        });
+        }); //
+
+        // ** ADICIONADO: Lógica para rolagem suave dos links de navegação do menu **
+        if (menuNavLinks.length > 0 && typeof gsap !== 'undefined') {
+            menuNavLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    const rawHref = this.getAttribute('href'); // Ex: "#servicos", "#contato"
+                    let targetId = rawHref;
+
+                    if (rawHref && rawHref.startsWith('#')) {
+                        event.preventDefault(); // Previne o comportamento padrão de pular
+
+                        // Mapeia os hrefs do menu para os IDs corretos das seções
+                        // (conforme os IDs no seu index.html)
+                        if (rawHref === "#servicos") { // Link original do menu
+                            targetId = "#section-2"; // ID real da seção de serviços
+                        } else if (rawHref === "#depoimentos") { // Link original do menu
+                            targetId = "#section-3"; // ID real da seção de depoimentos
+                        } else if (rawHref === "#showcase") { // Link original do menu
+                            targetId = "#section-4"; // ID real da seção de showcase
+                        } else if (rawHref === "#contato") { // Link original do menu
+                            targetId = "#footer"; // ID real da seção do rodapé
+                        }
+                        // Se o href já for o ID correto (ex: href="#section-2"), o mapeamento não altera.
+
+                        if (smoother) {
+                            smoother.scrollTo(targetId, true, "top"); // Rola para o topo do alvo
+                        } else {
+                            // Fallback se o smoother não estiver disponível
+                            const targetElement = document.querySelector(targetId);
+                            if (targetElement) {
+                                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            } else {
+                                console.warn(`Elemento alvo ${targetId} (mapeado de ${rawHref}) não encontrado para o link do menu.`);
+                            }
+                        }
+
+                        // Fecha o menu se estiver expandido
+                        if (navBox && menu && navBox.classList.contains('expanded')) {
+                            navBox.classList.remove('expanded');
+                            gsap.to(menu, {
+                                opacity: 0,
+                                visibility: 'hidden',
+                                duration: 0.3,
+                                ease: "power2.inOut"
+                            });
+                        }
+                    }
+                });
+            });
+        }
+        // ** FIM DA ADIÇÃO **
     };
 
     const setupMenuHoverEffects = () => {
@@ -122,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 gsap.to(link, { x: 0, color: 'var(--light-color)', duration: 0.3 });
             });
         });
-    };
+    }; //
 
     const setupPerformanceControls = () => {
         document.addEventListener('visibilitychange', () => {
@@ -130,18 +178,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 gsap.globalTimeline[document.hidden ? 'pause' : 'resume']();
             }
         });
-    };
+    }; //
 
     // -------------------------------------------------------------------------
     // 2.6. Chamadas de Inicialização das Funções de Setup
     // -------------------------------------------------------------------------
-    setupMenu();
-    setupMenuHoverEffects();
-    setupPerformanceControls();
+    setupMenu(); // Agora inclui a lógica para os links de âncora do menu
+    setupMenuHoverEffects(); //
+    setupPerformanceControls(); //
 
     // Inicialização dos módulos (GSAP e ScrollTrigger são passados como dependências)
     if (typeof initializeLightbox === 'function') {
-        initializeLightbox(gsap, smoother); // Passa GSAP e smoother
+        initializeLightbox(gsap, smoother);
     } else { console.warn("initializeLightbox não definida. Verifique se lightbox.js está carregado antes de script.js"); }
 
     if (typeof initializeHeaderAnimation === 'function') {
