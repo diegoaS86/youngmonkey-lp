@@ -9,6 +9,7 @@
   font-style: normal;
   unicode-range: U+0045, U+0047, U+004A, U+004D, U+004E, U+0051, U+0057, U+0059,
     U+006D, U+0071, U+0072, U+0077, U+0079;
+  font-display: swap;
 }
 
 @font-face {
@@ -18,6 +19,7 @@
   font-style: normal;
   unicode-range: U+0045, U+0047, U+004A, U+004D, U+004E, U+0051, U+0057, U+0059,
     U+006D, U+0071, U+0072, U+0077, U+0079;
+  font-display: swap;
 }
 
 @font-face {
@@ -27,6 +29,7 @@
   font-style: normal;
   unicode-range: U+0045, U+0047, U+004A, U+004D, U+004E, U+0051, U+0057, U+0059,
     U+006D, U+0071, U+0072, U+0077, U+0079;
+  font-display: swap;
 }
 
 /* ==========================================================================
@@ -713,7 +716,8 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  font-size: 999px;
+  font-size: 999px; /* Mantido, mas clamp seria mais responsivo */
+  /* font-size: var(--speedometer-font-size); */ /* Sugestão de uso da variável */
   font-weight: 900;
   color: var(--primary-color);
   z-index: 0;
@@ -940,6 +944,15 @@ body {
   position: relative;
 }
 
+.service-card-image-placeholder img { /* Para garantir que a imagem preencha o placeholder */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: calc(var(--border-radius) * 2);
+    border-top-right-radius: calc(var(--border-radius) * 2);
+}
+
+
 .service-card-title-box {
   position: absolute;
   top: 25px;
@@ -1107,7 +1120,7 @@ body {
 .testimonial-person-photo {
   width: 100px;
   height: 100px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-small); /* Considere definir --border-radius-small */
   object-fit: cover;
 }
 
@@ -1314,45 +1327,42 @@ body {
    ========================================================================== */
 
 .footer {
-  background: var(--secondary-color); /* */
-  color: var(--light-color); /* */
-  width: 100%; /* */
+  background: var(--secondary-color);
+  color: var(--light-color);
+  width: 100%;
   max-height: 100vh;
-  overflow: hidden; /* Impede que o .footer ultrapasse 100vh */
-  box-sizing: border-box; /* */
-  position: relative; /* */
-  padding-top: clamp(100px, calc(var(--vh, 1vh) * 20), 170px); /* */
-  display: flex; /* */
-  flex-direction: column; /* */
-  align-items: center; /* */
-  /* justify-content: center; A remoção desta linha da sugestão anterior é mantida */
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  padding-top: clamp(100px, calc(var(--vh, 1vh) * 20), 170px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .footer-top-bar {
-  position: absolute; /* */
-  width: 100%; /* */
-  /* Esta altura deve idealmente corresponder ao padding-top do .footer */
-  height: clamp(100px, calc(var(--vh, 1vh) * 20), 170px); /* */
-  left: 0px; /* */
-  top: 0px; /* */
-  background: var(--primary-color); /* */
-  border-radius: 0px 0px 32px 32px; /* */
-  z-index: 1; /* */
+  position: absolute;
+  width: 100%;
+  height: clamp(100px, calc(var(--vh, 1vh) * 20), 170px);
+  left: 0px;
+  top: 0px;
+  background: var(--primary-color);
+  border-radius: 0px 0px 32px 32px;
+  z-index: 1;
 }
 
 .footer-content {
-  display: flex; /* */
-  justify-content: space-between; /* */
-  align-items: stretch; 
-  max-width: 1600px; /* */
-  width: 90%; /* */
-  flex-grow: 1; /* Mantido da sugestão anterior */ /* */
-  margin: 0 auto; /* */
-  padding: clamp(40px, calc(var(--vh, 1vh) * 8), 80px) 20px; /* */
-  position: relative; /* */
-  z-index: 2; /* */
-  box-sizing: border-box; /* */
-  overflow-y: auto; /* ADICIONADO: Permite rolagem se o conteúdo interno for maior que o espaço */
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  max-width: 1600px;
+  width: 90%;
+  flex-grow: 1;
+  margin: 0 auto;
+  padding: clamp(40px, calc(var(--vh, 1vh) * 8), 80px) 20px;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
 }
 
 .footer-left {
@@ -1396,7 +1406,6 @@ body {
   max-width: 550px;
   justify-content: space-between;
   gap: 2%;
-  padding-bottom: 4%;
 }
 
 .button-group-top {
@@ -1426,13 +1435,12 @@ body {
 }
 
 .button-bg,
-.button-bg {
+.button-bg { /* A regra estava duplicada */
   background-color: var(--accent-color);
   gap: 5%;
 }
 
-.button-bg:hover,
-.button-bg:hover {
+.button-bg:hover { /* A regra estava duplicada */
   background-color: var(--primary-color);
 }
 
@@ -1450,7 +1458,7 @@ body {
 
 .icon-whatsApp svg,
 .icon-fiverr svg,
-.iicon-email svg,
+.icon-email svg, /* Corrigido de iicon-email para icon-email */
 .icon-linkedin svg,
 .icon-instagram svg{
   width: 100%;
@@ -1459,7 +1467,7 @@ body {
 
 .icon-whatsApp path.whatsApp,
 .icon-fiverr path,
-.icon-email path.email,
+.icon-email path.email, /* Adicionado .email para especificidade se necessário */
 .icon-linkedin path,
 .icon-instagram path {
   fill: var(--secondary-color);
@@ -1515,6 +1523,7 @@ body {
 #contactForm{
   width: 100%;
     max-width: 550px;
+    margin-top: 2%;
 }
 
 .line1 input {
@@ -1567,7 +1576,7 @@ textarea {
   width: 2560px;
   transform: translateX(-50%) translateX(-50vw);
   height: auto;
-  right: -2560px;
+  right: -2560px; /* Mantido, mas pode precisar de ajuste dependendo do comportamento desejado */
   z-index: 2;
   pointer-events: none;
   overflow: visible;
@@ -1583,11 +1592,12 @@ textarea {
   transform-origin: center center;
 }
 
-.fotter-action{
+.footer-action{
   width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
 }
 
 .logo-section {
@@ -1598,20 +1608,14 @@ textarea {
 }
 
 .logo-section .icon-logoYM .l-simble,
-.l-text {
+.logo-section .icon-logoYM .l-text { /* Aplicado ao l-text também */
   fill: var(--light-color);
 }
 
 .logo-section .icon-logoYM {
   width: auto;
   transform: translateY(25px);
-  height: auto;
-}
-
-.footer-logo {
-  max-width: 300px;
-  height: auto;
-  margin-bottom: 15px;
+  height: auto; /* Mantido height: auto */
 }
 
 .copyright {
@@ -1688,7 +1692,6 @@ img {
   justify-content: center;
   align-items: flex-start;
   padding-top: 60px;
-  padding-bottom: 20px;
   box-sizing: border-box;
   transition: transform 0.6s cubic-bezier(1.000, 0.000, 0.000, 1.000),
     opacity 0.6s cubic-bezier(1.000, 0.000, 0.000, 1.000),
@@ -1759,7 +1762,6 @@ img {
   margin-top: 3%;
   flex: 0.9;
   overflow-y: auto;
-
 }
 
 .lightbox-column-right {
@@ -1772,11 +1774,10 @@ img {
   padding: 70px;
   background-color: var(--secondary-color);
   border-radius: calc(var(--border-radius) * 2);
-
 }
 
 .faq-title {
-  font-size: clamp(20px, 40px, 80px);
+  font-size: clamp(20px, 40px, 80px); /* Mantido, mas clamp(2rem, 5vw, 3.5rem) seria mais comum */
   font-weight: 400;
   color: var(--dark-text);
   margin-bottom: 30px;
@@ -1801,7 +1802,7 @@ img {
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translateX(-58%);
+  transform: translateX(-58%); /* Mantido, mas -50% é mais comum para centralizar */
   width: 80%;
   height: 3px;
   background-color: var(--primary-color);
@@ -1825,7 +1826,7 @@ img {
 }
 
 .faq-question:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.05); /* Usando rgba para transparência se o fundo for claro */
 }
 
 .faq-icon {
@@ -1858,7 +1859,6 @@ img {
   color: var(--text-color);
   margin-bottom: 15px;
   text-align: center;
-
   z-index: 4;
 }
 
@@ -1867,31 +1867,30 @@ img {
   font-size: var(--subTitle-size);
   color: var(--accent-color);
   text-align: center;
-
   margin-bottom: clamp(20px, 4vh, 40px);
 }
 
-.lightbox-column-left .fotter-action {
+.lightbox-column-left .footer-action { /* Corrigido para lightbox-column-right se for o caso */
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: center;
-  gap: 20px; 
-  width: 100%; 
-}
-
-.lightbox-column-left .fotter-action .contact-buttons,
-.lightbox-column-left .fotter-action #lightboxContactForm {
-  width: 100%; 
-  max-width: 550px; 
-}
-
-
-.footer-left .fotter-action {
-  display: flex;
-  flex-direction: column; 
-  align-items: flex-start; 
+  gap: 20px;
   width: 100%;
-  gap: 10px; 
+}
+
+.lightbox-column-left .footer-action .contact-buttons, /* Corrigido para lightbox-column-right se for o caso */
+.lightbox-column-left .footer-action #lightboxContactForm { /* Corrigido para lightbox-column-right se for o caso */
+  width: 100%;
+  max-width: 550px;
+}
+
+
+.footer-left .footer-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 10px;
 }
 
 body.lightbox-open {
@@ -1901,12 +1900,12 @@ body.lightbox-open {
 .contact-button-mobile {
   position: fixed;
   bottom: 30px;
-  left: calc(50% - 98px); /* Alterado para calc(50% - (largura/2)) */
-  transform: translateY(150%); /* Apenas translateY para o estado inicial */
+  left: calc(50% - 98px);
+  transform: translateY(150%);
   width: 196px;
   height: 69px;
   z-index: 9998;
-  display: none; 
+  display: none;
   opacity: 0;
   visibility: hidden;
   cursor: pointer;
@@ -1987,6 +1986,5 @@ body.lightbox-open {
 .contact-button-mobile.is-visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0); /* Apenas translateY para o estado final */
+  transform: translateY(0);
 }
-
