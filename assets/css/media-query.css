@@ -490,9 +490,9 @@
  }
 
  .footer-content {
-    padding: 60px 15px 30px;
+    padding: 30px 15px 30px;
     gap: 40px;
-    margin-bottom: 80px;
+    margin-bottom: 120px;
   }
 
   /* Ajustes para o conteúdo dentro de .footer-left e .footer-right para melhor apresentação */
@@ -532,6 +532,11 @@
     align-items: center; /* */
     text-align: center; /* */
   }
+
+  .footer-title{
+    margin-bottom: 5px;
+  }
+
   .logo-section { /* Dentro do footer-right */
     align-items: center; /* Centraliza o logo e copyright */ /* */
   }

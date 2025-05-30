@@ -1505,7 +1505,7 @@ body {
   flex: 0 0 78%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
 }
 
 .form-col-right {
@@ -1517,7 +1517,6 @@ body {
 
 .form {
   display: flex;
-  gap: 16px;
 }
 
 #contactForm{
