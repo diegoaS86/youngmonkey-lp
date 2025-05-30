@@ -79,6 +79,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 /* ==========================================================================
    Header & Navigation
    ========================================================================== */
@@ -1761,6 +1762,7 @@ img {
   margin-top: 3%;
   flex: 0.9;
   overflow-y: auto;
+  padding-bottom: 80px;
 }
 
 .lightbox-column-right {
