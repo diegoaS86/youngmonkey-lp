@@ -193,7 +193,7 @@
     height: auto;
     top: -20%;
     left: -60px;
-    transform: translateY(50px);
+    transform: translateY(50px) translateX(-150px);
     overflow: hidden;
 
   }
@@ -491,7 +491,7 @@
 
  .footer-content {
     padding: 30px 15px 30px;
-    gap: 40px;
+    gap: 60px;
     margin-bottom: 120px;
   }
 
