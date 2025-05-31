@@ -77,10 +77,6 @@ function initializeSection1(gsapInstance, ScrollTriggerInstance) {
                     }
                 }
             ),
-            // onEnter: () => console.log("ScrollTrigger Odômetro (section-1): Entrou na área"),
-            // onLeave: () => console.log("ScrollTrigger Odômetro (section-1): Saiu da área (fim)"),
-            // onEnterBack: () => console.log("ScrollTrigger Odômetro (section-1): Entrou de volta (subindo)"),
-            // onLeaveBack: () => console.log("ScrollTrigger Odômetro (section-1): Saiu de volta (topo)")
         });
     };
 
@@ -148,8 +144,8 @@ function initializeSection1(gsapInstance, ScrollTriggerInstance) {
 
         ScrollTriggerInstance.matchMedia({
             "(min-width: 1025px)": () => gsapInstance.set(currentArrowHead, { scale: 0.8 }),
-            "(min-width: 768px) and (max-width: 1024px)": () => gsapInstance.set(currentArrowHead, { scale: 1.0 }),
-            "(max-width: 767px)": () => gsapInstance.set(currentArrowHead, { scale: 1.0 })
+            "(min-width: 768px) and (max-width: 1024px)": () => gsapInstance.set(currentArrowHead, { scale: 0.8 }),
+            "(max-width: 767px)": () => gsapInstance.set(currentArrowHead, { scale: 0.8 })
         });
 
         const adjustRightPosition = () => {
