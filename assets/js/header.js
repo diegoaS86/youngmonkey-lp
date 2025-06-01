@@ -1,50 +1,52 @@
-function initializeHeaderAnimation(gsapInstance, ScrollTriggerInstance, smootherInstance) {
+// assets/js/header.js
+// Não precisa de imports de GSAP aqui, pois recebe as instâncias como parâmetros.
+
+export function initializeHeaderAnimation(gsapInstance, ScrollTriggerInstance, smootherInstance) {
     const header = document.getElementById('mainHeader');
 
     if (!header) {
+        console.warn("Header element #mainHeader not found.");
         return;
     }
-    if (!gsapInstance || !ScrollTriggerInstance) {
-        return;
-    }
+    // gsapInstance e ScrollTriggerInstance são verificados implicitamente pelo seu uso.
 
     let headerVisible = true;
     const headerHeight = header.offsetHeight;
-    const smallScrollThreshold = 0;
+    const smallScrollThreshold = 0; // Definido como 0 para mostrar/esconder logo no início do scroll
 
     gsapInstance.set(header, { y: 0 });
 
     ScrollTriggerInstance.create({
-        trigger: 'body',
+        trigger: 'body', // O trigger pode ser o body para monitorar o scroll da página inteira
         start: "top top",
-        end: "max",
+        end: "max", // Continua monitorando até o final do scroll da página
 
         onUpdate: (self) => {
             const currentScrollY = smootherInstance ? smootherInstance.scrollTop() : self.scroll();
             const scrollDirection = self.direction;
 
-            if (scrollDirection === 1 && currentScrollY > smallScrollThreshold) {
+            if (scrollDirection === 1 && currentScrollY > smallScrollThreshold) { // Descendo e passou do threshold
                 if (headerVisible) {
                     gsapInstance.to(header, {
-                        y: -headerHeight,
+                        y: -headerHeight, // Esconde o header
                         duration: 0.4,
                         ease: "power2.inOut"
                     });
                     headerVisible = false;
                 }
-            } else if (scrollDirection === -1) {
+            } else if (scrollDirection === -1) { // Subindo
                 if (!headerVisible) {
                     gsapInstance.to(header, {
-                        y: 0,
+                        y: 0, // Mostra o header
                         duration: 0.4,
                         ease: "power2.inOut"
                     });
                     headerVisible = true;
                 }
-            } else if (currentScrollY <= smallScrollThreshold) {
-                if (!headerVisible) {
+            } else if (currentScrollY <= smallScrollThreshold) { // No topo da página
+                 if (!headerVisible) {
                     gsapInstance.to(header, {
-                        y: 0,
+                        y: 0, // Garante que o header está visível no topo
                         duration: 0.4,
                         ease: "power2.inOut"
                     });
@@ -53,4 +55,5 @@ function initializeHeaderAnimation(gsapInstance, ScrollTriggerInstance, smoother
             }
         }
     });
+    console.log("Header Animation Initialized");
 }

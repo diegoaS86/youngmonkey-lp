@@ -1,4 +1,29 @@
-// assets/js/script.js (Main Orchestrator)
+// assets/js/script.js (Orquestrador Principal)
+
+// Importar GSAP e Plugins
+import { gsap } from "gsap";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+import { Observer } from "gsap/Observer";
+import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { TextPlugin } from "gsap/TextPlugin";
+import { Draggable } from "gsap/Draggable";
+import { InertiaPlugin } from "gsap/InertiaPlugin";
+
+// Importar funções dos seus módulos
+import { initializeLightbox } from './lightbox.js';
+import { initializeHeaderAnimation } from './header.js';
+import { initializeHeroSection } from './hero.js';
+import { initializeSection1 } from './section-1.js';
+import { initializeServicesSection } from './services.js';
+import { setupLogoMarqueeWithGSAP, setupTestimonialSlider, setupSVGAnimation } from './testimonial.js';
+import { initializeFooterSection } from './footer.js';
+// svgLoader.js é auto-executável no DOMContentLoaded e importa seu JSON, não precisa importar função dele aqui.
+// showcase.js também é auto-executável no 'load' e importa suas dependências, não precisa importar função dele aqui.
+
 
 // -----------------------------------------------------------------------------
 // 1. Funções e Listeners Globais (Core Utilities)
@@ -24,59 +49,48 @@ window.addEventListener('orientationchange', setViewportHeight);
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOMContentLoaded - Main Script");
-    setViewportHeight(); 
+    setViewportHeight();
 
     const hamburger = document.getElementById('hamburger');
     const navBox = document.getElementById('navBox');
     const menu = document.getElementById('menu');
     const menuLinks = document.querySelectorAll('.menu-nav a, .menu-social a, .menu-lang a');
-    const menuNavLinks = document.querySelectorAll('.menu .menu-nav a'); 
+    const menuNavLinks = document.querySelectorAll('.menu .menu-nav a');
 
     let smoother;
 
-    try {
-        if (typeof gsap === 'undefined') {
-            console.error("GSAP não carregado. Algumas animações podem não funcionar.");
-        } else {
-            gsap.registerPlugin(
-                MotionPathPlugin,
-                Observer,
-                ScrambleTextPlugin,
-                ScrollTrigger,
-                DrawSVGPlugin,
-                ScrollSmoother,
-                ScrollToPlugin,
-                TextPlugin,
-                InertiaPlugin
-            ); 
-            console.log("GSAP Plugins Registrados.");
-        }
-    } catch (error) {
-        console.error("Erro ao registrar plugins GSAP:", error);
+    // Registrar Plugins GSAP (já importados)
+    // O try-catch aqui era para o caso de GSAP não estar carregado via CDN,
+    // com imports, o erro de carregamento aconteceria antes.
+    gsap.registerPlugin(
+        MotionPathPlugin,
+        Observer,
+        ScrambleTextPlugin,
+        ScrollTrigger,
+        DrawSVGPlugin,
+        ScrollSmoother,
+        ScrollToPlugin,
+        TextPlugin,
+        Draggable,
+        InertiaPlugin
+    );
+    console.log("GSAP Plugins Registrados.");
+
+
+    if (document.getElementById('smooth-wrapper') && document.getElementById('smooth-content')) {
+        smoother = ScrollSmoother.create({
+            wrapper: "#smooth-wrapper",
+            content: "#smooth-content",
+            smooth: 1.2,
+            effects: true,
+            smoothTouch: 0.1,
+            invalidateOnRefresh: true,
+        });
+        console.log("ScrollSmoother created.");
+    } else {
+        console.warn("ScrollSmoother: Wrapper ou content não encontrado.");
     }
 
-    if (typeof ScrollSmoother !== 'undefined' && typeof gsap !== 'undefined') {
-        try {
-            if (document.getElementById('smooth-wrapper') && document.getElementById('smooth-content')) {
-                smoother = ScrollSmoother.create({
-                    wrapper: "#smooth-wrapper",
-                    content: "#smooth-content",
-                    smooth: 1.2,
-                    effects: true,
-                    smoothTouch: 0.1,
-                    invalidateOnRefresh: true,
-                }); 
-                console.log("ScrollSmoother created.");
-            } else {
-                console.warn("ScrollSmoother: Wrapper ou content não encontrado.");
-            }
-        } catch (e) {
-            console.error("Erro ao criar ScrollSmoother:", e);
-        }
-    } else {
-        console.warn("ScrollSmoother ou GSAP não definido. Scroll suave não será ativado.");
-    }
-    
     const setupMenu = () => {
         if (!hamburger || !navBox || !menu) {
             console.warn("Menu: Elementos não encontrados.");
@@ -90,29 +104,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 duration: 0.3,
                 ease: "power2.inOut"
             });
-        }); 
+        });
 
-        if (menuNavLinks.length > 0 && typeof gsap !== 'undefined') {
+        if (menuNavLinks.length > 0) {
             menuNavLinks.forEach(link => {
                 link.addEventListener('click', function(event) {
-                    const rawHref = this.getAttribute('href'); 
+                    const rawHref = this.getAttribute('href');
                     let targetId = rawHref;
 
                     if (rawHref && rawHref.startsWith('#')) {
-                        event.preventDefault(); 
+                        event.preventDefault();
 
-                        if (rawHref === "#servicos") { 
-                            targetId = "#section-2"; 
-                        } else if (rawHref === "#depoimentos") { 
-                            targetId = "#section-3"; 
-                        } else if (rawHref === "#showcase") { 
-                            targetId = "#section-4"; 
-                        } else if (rawHref === "#contato") { 
-                            targetId = "#footer"; 
+                        // Mapeamento de IDs (se necessário, como no seu código original)
+                        if (rawHref === "#servicos") {
+                            targetId = "#section-2";
+                        } else if (rawHref === "#depoimentos") {
+                            targetId = "#section-3";
+                        } else if (rawHref === "#showcase") {
+                            targetId = "#section-4";
+                        } else if (rawHref === "#contato") {
+                            targetId = "#footer";
                         }
-                        
+
                         if (smoother) {
-                            smoother.scrollTo(targetId, true, "top"); 
+                            smoother.scrollTo(targetId, true, "top");
                         } else {
                             const targetElement = document.querySelector(targetId);
                             if (targetElement) {
@@ -147,98 +162,72 @@ document.addEventListener('DOMContentLoaded', () => {
                 gsap.to(link, { x: 0, color: 'var(--light-color)', duration: 0.3 });
             });
         });
-    }; 
+    };
 
     const setupPerformanceControls = () => {
         document.addEventListener('visibilitychange', () => {
-            if (typeof gsap !== 'undefined' && gsap.globalTimeline) {
+            if (gsap.globalTimeline) { // GSAP já deve estar definido aqui
                 gsap.globalTimeline[document.hidden ? 'pause' : 'resume']();
             }
         });
-    }; 
+    };
 
-    // --- INÍCIO: LÓGICA PARA O BOTÃO DE CONTATO MOBILE ---
     const contactBtnMobile = document.getElementById('contactBtnMobile');
-    const heroSection = document.getElementById('section-1');
+    const heroSectionForMobileBtn = document.getElementById('section-1'); // Assumindo que é a seção 1 que controla isso
 
-    if (contactBtnMobile && heroSection && typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
+    if (contactBtnMobile && heroSectionForMobileBtn) {
         ScrollTrigger.create({
-            trigger: heroSection,
-            start: "top 100%", // Quando o final da seção hero atinge o topo da viewport
-            end: "max", 
+            trigger: heroSectionForMobileBtn, // Corrigido para usar a variável correta
+            start: "top 100%",
+            end: "max",
             toggleClass: {
                 targets: contactBtnMobile,
-                className: "is-visible" // Adiciona/remove a classe definida no CSS
+                className: "is-visible"
             },
-            // markers: true, // Descomente esta linha para depuração visual do ScrollTrigger
-            onEnter: () => { 
+            onEnter: () => {
                 console.log('Hero saiu de vista, mostrando botão mobile (ScrollTrigger onEnter)');
             },
-            onLeaveBack: () => { 
+            onLeaveBack: () => {
                 console.log('Hero voltou à vista, escondendo botão mobile (ScrollTrigger onLeaveBack)');
             }
         });
     } else {
         if (!contactBtnMobile) console.warn("Botão de contato mobile #contactBtnMobile não encontrado para ScrollTrigger.");
-        if (!heroSection) console.warn("Seção Hero #hero não encontrada para ScrollTrigger do botão mobile.");
+        if (!heroSectionForMobileBtn) console.warn("Seção para trigger do botão mobile não encontrada.");
     }
-    // --- FIM: LÓGICA PARA O BOTÃO DE CONTATO MOBILE ---
 
-    setupMenu(); 
-    setupMenuHoverEffects(); 
-    setupPerformanceControls(); 
+    setupMenu();
+    setupMenuHoverEffects();
+    setupPerformanceControls();
 
-    if (typeof initializeLightbox === 'function') {
-        initializeLightbox(gsap, smoother);
-    } else { console.warn("initializeLightbox não definida. Verifique se lightbox.js está carregado antes de script.js"); }
-
-    if (typeof initializeHeaderAnimation === 'function') {
-        initializeHeaderAnimation(gsap, ScrollTrigger, smoother);
-    } else { console.warn("initializeHeaderAnimation não definida."); }
-
-    if (typeof initializeHeroSection === 'function') {
-        initializeHeroSection(gsap, ScrollTrigger, smoother);
-    } else { console.warn("initializeHeroSection não definida."); }
-
-    if (typeof initializeSection1 === 'function') {
-        initializeSection1(gsap, ScrollTrigger);
-    } else { console.warn("initializeSection1 não definida."); }
-
-    if (typeof initializeServicesSection === 'function') {
-        initializeServicesSection(gsap, ScrollTrigger);
-    } else { console.warn("initializeServicesSection não definida."); }
+    initializeLightbox(gsap, smoother);
+    initializeHeaderAnimation(gsap, ScrollTrigger, smoother);
+    initializeHeroSection(gsap, ScrollTrigger, smoother);
+    initializeSection1(gsap, ScrollTrigger);
+    initializeServicesSection(gsap, ScrollTrigger);
 
     if (document.getElementById('section-3')) {
-        if (typeof setupLogoMarqueeWithGSAP === 'function') setupLogoMarqueeWithGSAP(); else console.warn("setupLogoMarqueeWithGSAP não definida.");
-        if (typeof setupTestimonialSlider === 'function') setupTestimonialSlider(); else console.warn("setupTestimonialSlider não definida.");
-        if (typeof setupSVGAnimation === 'function') setupSVGAnimation(); else console.warn("setupSVGAnimation não definida.");
+        setupLogoMarqueeWithGSAP(); // Não precisa mais passar gsap, Draggable, InertiaPlugin se importados em testimonial.js
+        setupTestimonialSlider();   // Não precisa mais passar gsap se importado em testimonial.js
+        setupSVGAnimation();      // Não precisa mais passar gsap, ScrollTrigger se importados em testimonial.js
 
-        if (typeof ScrollTrigger !== 'undefined') {
-            ScrollTrigger.normalizeScroll(true);
-            ScrollTrigger.config({ limitCallbacks: true, ignoreMobileResize: true });
-        }
+        ScrollTrigger.normalizeScroll(true);
+        ScrollTrigger.config({ limitCallbacks: true, ignoreMobileResize: true });
     }
 
-    if (typeof initializeFooterSection === 'function') {
-        initializeFooterSection(gsap, ScrollTrigger);
-    } else { console.warn("initializeFooterSection não definida."); }
+    initializeFooterSection(gsap, ScrollTrigger);
 
-
-    if (typeof gsap !== 'undefined') {
-        gsap.delayedCall(0.5, () => {
-            setViewportHeight();
-            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-        });
-    }
-}); 
+    gsap.delayedCall(0.5, () => {
+        setViewportHeight();
+        ScrollTrigger.refresh();
+    });
+});
 
 window.addEventListener('load', () => {
     console.log("Window loaded - Main Script");
     setViewportHeight();
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        gsap.delayedCall(0.1, () => {
-            console.log("Main script: Final refresh on window load.");
-            ScrollTrigger.refresh(true);
-        });
-    }
+    gsap.delayedCall(0.1, () => {
+        console.log("Main script: Final refresh on window load.");
+        ScrollTrigger.refresh(true);
+    });
 });

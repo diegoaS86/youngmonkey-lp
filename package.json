@@ -1,0 +1,27 @@
+{
+  "name": "youngmonkey-lp",
+  "version": "1.0.0",
+  "description": "",
+  "source": "index.html",
+  "scripts": {
+    "start": "parcel", 
+    "build": "parcel build" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diegoaS86/youngmonkey-lp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diegoaS86/youngmonkey-lp/issues"
+  },
+  "homepage": "https://github.com/diegoaS86/youngmonkey-lp#readme",
+  "devDependencies": {
+    "parcel": "^2.15.2"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0"
+  }
+}

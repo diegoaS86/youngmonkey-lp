@@ -32,15 +32,17 @@
     transform: translateY(-40px) translateX(300px) !important;
   }
 
-.footer-content {
-    flex-direction: column; 
-    align-items: center; 
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
     gap: 80px;
     padding: 80px 15px 15px;
   }
-  .footer-left, .footer-right {
-      width: 100%; 
-      max-width: 700px; 
+
+  .footer-left,
+  .footer-right {
+    width: 100%;
+    max-width: 700px;
   }
 
   .footer-left {
@@ -206,7 +208,7 @@
     transform: translateY(-50%) translateX(20%) rotate(7deg)
   }
 
-    .lightbox-content-wrapper {
+  .lightbox-content-wrapper {
     flex-direction: column;
     gap: 20px;
     overflow-y: auto;
@@ -220,7 +222,7 @@
     max-height: 45%;
   }
 
-  .lightbox-column-right{
+  .lightbox-column-right {
     max-height: 50vh !important;
   }
 
@@ -271,7 +273,7 @@
     height: 2px;
   }
 
-  .nav-left__box.expanded{
+  .nav-left__box.expanded {
     height: 435px;
   }
 
@@ -286,7 +288,8 @@
   .nav-right {
     display: none;
   }
-  .menu-social{
+
+  .menu-social {
     flex-direction: column;
     gap: 1.2rem
   }
@@ -337,7 +340,7 @@
 
   .new-arrow-path-container {
     transform: translateY(-70%) translateX(55%) rotate(35deg);
-        scale: 0.7;
+    scale: 0.7;
   }
 
   .services-right-panel {
@@ -378,8 +381,7 @@
   }
 
   .testimonial-svg {
-    scale: 0.5;
-    transform: translateY(100%) translateX(-50%);
+    transform: scale(0.8) translateY(62.6%) translateX(-18px);
   }
 
   .testimonial-quote-area {
@@ -392,10 +394,10 @@
   }
 
   .testimonial-navigation {
-    padding-left: 64px;
-    width: 250px;
-    height: 45px;
-    margin-top: -120px;
+    width: 320px;
+    height: 60px;
+    margin-top: -110px;
+    padding-left: 100px;
   }
 
   .testimonial-identity {
@@ -475,21 +477,21 @@
     font-size: 0.7rem;
   }
 
-.service-arrow-mobile{
-      scale: 0.7;
+  .service-arrow-mobile {
+    scale: 0.7;
     transform: translateY(-20%) translateX(-35%);
-}
+  }
 
-.footer-arrow{
-  scale: 0.7;
+  .footer-arrow {
+    scale: 0.7;
     transform: translateX(-71.4%) translateX(-71.4vw) translateY(-25%);
-}
+  }
 
-.footer-top-bar{
+  .footer-top-bar {
     height: 92px;
- }
+  }
 
- .footer-content {
+  .footer-content {
     padding: 30px 15px 30px;
     gap: 60px;
     margin-bottom: 120px;
@@ -499,68 +501,96 @@
   .footer-left {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza o conteúdo do footer-left */
+    align-items: center;
+    /* Centraliza o conteúdo do footer-left */
     text-align: center;
   }
-   .footer-left .footer-title, 
-   .footer-left .subtitle {
-    text-align: center; /* Garante que título e subtítulo sejam centralizados */
+
+  .footer-left .footer-title,
+  .footer-left .subtitle {
+    text-align: center;
+    /* Garante que título e subtítulo sejam centralizados */
   }
-  .footer-action { /* Dentro de .footer-left */
-    align-items: center; /* Centraliza os grupos de botões e o formulário */ /* */
-    width: 100%; /* Ocupa a largura do pai .footer-left */
+
+  .footer-action {
+    /* Dentro de .footer-left */
+    align-items: center;
+    /* Centraliza os grupos de botões e o formulário */
+    /* */
+    width: 100%;
+    /* Ocupa a largura do pai .footer-left */
   }
 
   .email-form-container {
-      flex-direction: column; /* Empilha os inputs de nome/email e o botão de enviar */
-      align-items: stretch; /* Faz os inputs e o botão ocuparem a largura */
-      gap: 10px; /* Adiciona um gap entre a linha dos inputs e o botão */
+    flex-direction: column;
+    /* Empilha os inputs de nome/email e o botão de enviar */
+    align-items: stretch;
+    /* Faz os inputs e o botão ocuparem a largura */
+    gap: 10px;
+    /* Adiciona um gap entre a linha dos inputs e o botão */
   }
+
   .form-col-left {
-      margin-bottom: 0; /* Remove margem se o gap do flex container for suficiente */
-      width: 100%;
+    margin-bottom: 0;
+    /* Remove margem se o gap do flex container for suficiente */
+    width: 100%;
   }
+
   .form-col-right {
-      width: 100%;
+    width: 100%;
   }
+
   .send-btn {
-      height: 48px; /* Altura consistente para o botão */
-      font-size: 16px; /* */
+    height: 48px;
+    /* Altura consistente para o botão */
+    font-size: 16px;
+    /* */
   }
 
   .footer-right {
-    align-items: center; /* */
-    text-align: center; /* */
+    align-items: center;
+    /* */
+    text-align: center;
+    /* */
   }
 
-  .footer-title{
+  .footer-title {
     margin-bottom: 5px;
   }
 
-  .logo-section { /* Dentro do footer-right */
-    align-items: center; /* Centraliza o logo e copyright */ /* */
-  }
-  .copyright {
-    text-align: center; /* */
-    width: 100%; /* */
-    font-size: 12px; /* Ajustar para melhor legibilidade em telas pequenas */
-    padding-right: 0; /* */
+  .logo-section {
+    /* Dentro do footer-right */
+    align-items: center;
+    /* Centraliza o logo e copyright */
+    /* */
   }
 
-    .contact-button-mobile {
+  .copyright {
+    text-align: center;
+    /* */
+    width: 100%;
+    /* */
+    font-size: 12px;
+    /* Ajustar para melhor legibilidade em telas pequenas */
+    padding-right: 0;
+    /* */
+  }
+
+  .contact-button-mobile {
     display: flex;
   }
 
-    .lightbox-column-right{
+  .lightbox-column-right {
     max-height: 70vh !important;
     padding: 20px;
     margin-bottom: 10px;
   }
-    .contact-button {
-        transform: translateY(150%); 
-        transform-origin: unset; 
-    }
-  
+
+  .contact-button {
+    transform: translateY(150%);
+    transform-origin: unset;
+  }
+
 }
 
 @media (min-width: 768px) {

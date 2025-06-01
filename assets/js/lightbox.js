@@ -1,12 +1,17 @@
 // assets/js/lightbox.js
+import { gsap } from "gsap"; // GSAP é usado para a animação do FAQ
 
 /**
  * Initializes the contact lightbox functionality, including opening, closing,
  * the FAQ accordion, and the backdrop.
- * @param {object} gsapInstance - The GSAP instance.
+ * @param {object} gsapInstanceFromScript - A instância GSAP passada de script.js (pode ser redundante se importado aqui)
  * @param {object} smootherInstance - The ScrollSmoother instance (optional).
  */
-function initializeLightbox(gsapInstance, smootherInstance) {
+export function initializeLightbox(gsapInstanceFromScript, smootherInstance) {
+    // Usa o gsap importado neste módulo, ou o passado como parâmetro se preferir consistência.
+    // Para este exemplo, usaremos o 'gsap' importado no topo deste arquivo.
+    // const gsapInstance = gsapInstanceFromScript || gsap; // Opção
+
     console.log("Lightbox: Initializing...");
 
     const contactBtnDesktop = document.getElementById('contactBtn');
@@ -14,7 +19,7 @@ function initializeLightbox(gsapInstance, smootherInstance) {
     const lightbox = document.getElementById('contactLightbox');
     const closeBtn = document.getElementById('closeLightboxBtn');
     const body = document.body;
-    const smoother = smootherInstance;
+    const smoother = smootherInstance; // smootherInstance é específico e precisa ser passado
     const backdrop = document.getElementById('lightboxBackdrop');
 
     if (!lightbox || !closeBtn || !backdrop || !body) {
@@ -32,10 +37,10 @@ function initializeLightbox(gsapInstance, smootherInstance) {
     const openLightbox = (event) => {
         if (event && typeof event.preventDefault === 'function') {
             const sourceId = event.currentTarget ? event.currentTarget.id : "unknown source";
-            console.log(`Lightbox: openLightbox chamada por evento de: ${sourceId}`);
+            // console.log(`Lightbox: openLightbox chamada por evento de: ${sourceId}`);
             event.preventDefault();
         } else {
-            console.log("Lightbox: openLightbox chamada diretamente.");
+            // console.log("Lightbox: openLightbox chamada diretamente.");
         }
 
         if (smoother && typeof smoother.paused === 'function') {
@@ -46,11 +51,11 @@ function initializeLightbox(gsapInstance, smootherInstance) {
         backdrop.classList.add('visible');
         lightbox.classList.add('open');
         closeBtn.classList.add('visible');
-        console.log("Lightbox: Aberto.");
+        // console.log("Lightbox: Aberto.");
     };
 
     const closeLightbox = () => {
-        console.log("Lightbox: closeLightbox chamada.");
+        // console.log("Lightbox: closeLightbox chamada.");
         lightbox.classList.remove('open');
         closeBtn.classList.remove('visible');
         backdrop.classList.remove('visible');
@@ -60,8 +65,8 @@ function initializeLightbox(gsapInstance, smootherInstance) {
                 smoother.paused(false);
             }
             body.classList.remove('lightbox-open');
-            console.log("Lightbox: Fechado.");
-        }, 600);
+            // console.log("Lightbox: Fechado.");
+        }, 600); // Duração da transição CSS
     };
 
     if (contactBtnDesktop) {
@@ -70,7 +75,7 @@ function initializeLightbox(gsapInstance, smootherInstance) {
 
     if (contactBtnMobile) {
         contactBtnMobile.addEventListener('click', (event) => {
-            console.log("Lightbox: Botão de contato mobile CLICADO!");
+            // console.log("Lightbox: Botão de contato mobile CLICADO!");
             openLightbox(event);
         });
     }
@@ -86,9 +91,9 @@ function initializeLightbox(gsapInstance, smootherInstance) {
 
     const faqItems = document.querySelectorAll('.faq-item');
     if (faqItems.length > 0) {
-        // Verifica se gsapInstance é o objeto GSAP e se os métodos necessários existem
-        if (gsapInstance && typeof gsapInstance.set === 'function' && typeof gsapInstance.to === 'function') {
-            console.log("Lightbox: Configurando FAQ com GSAP.");
+        // Usa o 'gsap' importado no topo deste arquivo.
+        if (typeof gsap !== 'undefined' && typeof gsap.set === 'function' && typeof gsap.to === 'function') {
+            // console.log("Lightbox: Configurando FAQ com GSAP.");
             faqItems.forEach(item => {
                 const question = item.querySelector('.faq-question');
                 const answer = item.querySelector('.faq-answer');
@@ -98,7 +103,7 @@ function initializeLightbox(gsapInstance, smootherInstance) {
                     return;
                 }
 
-                gsapInstance.set(answer, { height: 0, autoAlpha: 0 });
+                gsap.set(answer, { height: 0, autoAlpha: 0 }); // Usa o gsap importado
 
                 question.addEventListener('click', () => {
                     const wasActive = item.classList.contains('active');
@@ -106,7 +111,7 @@ function initializeLightbox(gsapInstance, smootherInstance) {
                     faqItems.forEach(otherItem => {
                         if (otherItem !== item && otherItem.classList.contains('active')) {
                             otherItem.classList.remove('active');
-                            gsapInstance.to(otherItem.querySelector('.faq-answer'), {
+                            gsap.to(otherItem.querySelector('.faq-answer'), { // Usa o gsap importado
                                 height: 0,
                                 autoAlpha: 0,
                                 duration: 0.4,
@@ -118,7 +123,7 @@ function initializeLightbox(gsapInstance, smootherInstance) {
 
                     if (wasActive) {
                         item.classList.remove('active');
-                        gsapInstance.to(answer, {
+                        gsap.to(answer, { // Usa o gsap importado
                             height: 0,
                             autoAlpha: 0,
                             duration: 0.4,
@@ -127,10 +132,10 @@ function initializeLightbox(gsapInstance, smootherInstance) {
                         });
                     } else {
                         item.classList.add('active');
-                        gsapInstance.set(answer, { autoAlpha: 1, height: 'auto', display: 'block' });
+                        gsap.set(answer, { autoAlpha: 1, height: 'auto', display: 'block' }); // Usa o gsap importado
                         const height = answer.scrollHeight;
-                        gsapInstance.set(answer, { height: 0, autoAlpha: 0 });
-                        gsapInstance.to(answer, {
+                        gsap.set(answer, { height: 0, autoAlpha: 0 }); // Usa o gsap importado
+                        gsap.to(answer, { // Usa o gsap importado
                             height: height,
                             autoAlpha: 1,
                             duration: 0.5,
@@ -138,7 +143,7 @@ function initializeLightbox(gsapInstance, smootherInstance) {
                             overwrite: true,
                             onComplete: () => {
                                 if (item.classList.contains('active')) {
-                                    gsapInstance.set(answer, { height: 'auto' });
+                                    gsap.set(answer, { height: 'auto' }); // Usa o gsap importado
                                 }
                             }
                         });
@@ -146,7 +151,8 @@ function initializeLightbox(gsapInstance, smootherInstance) {
                 });
             });
         } else {
-            console.warn("Lightbox: GSAP não está configurado corretamente para o FAQ. Usando fallback CSS.");
+            console.warn("Lightbox: GSAP não está configurado corretamente para o FAQ (importação falhou?). Usando fallback CSS.");
+            // Fallback CSS (como estava antes)
             faqItems.forEach(item => {
                 const question = item.querySelector('.faq-question');
                 const answer = item.querySelector('.faq-answer');
