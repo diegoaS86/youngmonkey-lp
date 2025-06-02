@@ -46,11 +46,11 @@ export function initializeServicesSection(gsapInstance, ScrollTriggerInstance) {
         serviceCards.forEach((card, index) => {
             if (index === 0) { // Card inicial já no centro
                 gsapInstance.set(card, {
-                    xPercent: -50, yPercent: -50, opacity: 1, scale: 1, padding: "0px", zIndex: serviceCards.length // zIndex mais alto para o primeiro
+                    xPercent: -50, yPercent: -50, opacity: 1, scale: 1, zIndex: serviceCards.length // zIndex mais alto para o primeiro
                 });
             } else { // Outros cards posicionados fora da tela à direita e um pouco maiores
                 gsapInstance.set(card, {
-                    x: "110%", yPercent: -50, opacity: 1, scale: 1.1, padding: "200px", zIndex: serviceCards.length - index // zIndex decrescente
+                    x: "110%", yPercent: -50, opacity: 1, scale: 1.1, zIndex: serviceCards.length - index // zIndex decrescente
                 });
             }
         });
@@ -64,7 +64,6 @@ export function initializeServicesSection(gsapInstance, ScrollTriggerInstance) {
                 end: () => "+=" + (window.innerHeight * (serviceCards.length -1) * 0.5), // Ajuste a duração do pin conforme necessário
                 scrub: 1, // Animação suave com o scroll
                 invalidateOnRefresh: true,
-                // markers: true, // Para debug
             }
         });
 
@@ -75,8 +74,8 @@ export function initializeServicesSection(gsapInstance, ScrollTriggerInstance) {
                     x: "0%", // Move para o centro horizontalmente
                     xPercent: -50, // Centraliza o card
                     scale: 1,      // Retorna ao tamanho normal
-                    padding: "0px",// Remove padding extra
                     opacity: 1,
+                    boxShadow: "0px 0px 0px 0px rgba(0,21,27,0.5)",
                     duration: 0.8, // Duração da transição de cada card
                     ease: "expo.inOut",
                     onStart: () => {
@@ -158,5 +157,5 @@ export function initializeServicesSection(gsapInstance, ScrollTriggerInstance) {
             setupServicesCounter(true); // true para isMobile
         }
     });
-    console.log("Services Section (Section 2) Initialized");
+    console.log("Services Section (Section 2) Initialized with boxShadow animation.");
 }
