@@ -22,6 +22,11 @@
     padding-left: 0;
   }
 
+  .testimonial-navigation{
+    padding-left: 190px;
+    max-width: 500px;
+  }
+
   .section-title-testimonial,
   .section-subtitle-testimonial {
     text-align: right;
@@ -177,10 +182,6 @@
     left: 50%;
   }
 
-  .service-card-image-placeholder {
-    height: 60%;
-  }
-
   .service-arrow {
     display: none;
   }
@@ -205,7 +206,7 @@
   }
 
   .new-arrow-path-container {
-    transform: translateY(-50%) translateX(20%) rotate(7deg)
+    transform: translateY(-45%)translateX(20%)rotate(25deg)
   }
 
   .lightbox-content-wrapper {
@@ -339,8 +340,7 @@
   }
 
   .new-arrow-path-container {
-    transform: translateY(-70%) translateX(55%) rotate(35deg);
-    scale: 0.7;
+    transform: translateY(-30%)translateX(54%)rotate(-5deg);
   }
 
   .services-right-panel {
@@ -353,10 +353,6 @@
 
   .service-card {
     min-height: calc(var(--vh, 1vh) * 39.5);
-  }
-
-  .service-card-image-placeholder {
-    height: 60%;
   }
 
   .service-card-title-box {
@@ -398,6 +394,7 @@
     height: 60px;
     margin-top: -110px;
     padding-left: 100px;
+    max-width: 300px;
   }
 
   .testimonial-identity {
@@ -431,7 +428,6 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    bottom: 12%;
     padding: 10px;
   }
 
@@ -479,60 +475,48 @@
 
   .service-arrow-mobile {
     scale: 0.7;
-    transform: translateY(-20%) translateX(-35%);
+    transform: translateY(-20%) translateX(-20%);
   }
 
   .footer-arrow {
     scale: 0.7;
-    transform: translateX(-71.4%) translateX(-71.4vw) translateY(-25%);
+    transform: translateX(-50%) translateX(-50vw) translateY(-10px);
   }
 
   .footer-top-bar {
-    height: 92px;
+    height: 160px;
   }
 
   .footer-content {
     padding: 30px 15px 30px;
-    gap: 60px;
-    margin-bottom: 120px;
+    margin: 90px 0 10px;
   }
 
-  /* Ajustes para o conteúdo dentro de .footer-left e .footer-right para melhor apresentação */
   .footer-left {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Centraliza o conteúdo do footer-left */
     text-align: center;
   }
 
   .footer-left .footer-title,
   .footer-left .subtitle {
     text-align: center;
-    /* Garante que título e subtítulo sejam centralizados */
   }
 
   .footer-action {
-    /* Dentro de .footer-left */
     align-items: center;
-    /* Centraliza os grupos de botões e o formulário */
-    /* */
     width: 100%;
-    /* Ocupa a largura do pai .footer-left */
   }
 
   .email-form-container {
     flex-direction: column;
-    /* Empilha os inputs de nome/email e o botão de enviar */
     align-items: stretch;
-    /* Faz os inputs e o botão ocuparem a largura */
     gap: 10px;
-    /* Adiciona um gap entre a linha dos inputs e o botão */
   }
 
   .form-col-left {
     margin-bottom: 0;
-    /* Remove margem se o gap do flex container for suficiente */
     width: 100%;
   }
 
@@ -542,16 +526,12 @@
 
   .send-btn {
     height: 48px;
-    /* Altura consistente para o botão */
     font-size: 16px;
-    /* */
   }
 
   .footer-right {
     align-items: center;
-    /* */
     text-align: center;
-    /* */
   }
 
   .footer-title {
@@ -559,21 +539,14 @@
   }
 
   .logo-section {
-    /* Dentro do footer-right */
     align-items: center;
-    /* Centraliza o logo e copyright */
-    /* */
   }
 
   .copyright {
     text-align: center;
-    /* */
     width: 100%;
-    /* */
     font-size: 12px;
-    /* Ajustar para melhor legibilidade em telas pequenas */
     padding-right: 0;
-    /* */
   }
 
   .contact-button-mobile {
@@ -589,6 +562,10 @@
   .contact-button {
     transform: translateY(150%);
     transform-origin: unset;
+  }
+
+  .lightbox-column-left{
+    display: none;
   }
 
 }

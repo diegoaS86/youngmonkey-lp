@@ -72,6 +72,16 @@
   box-sizing: border-box;
 }
 
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Helvetica Now Text', 'MuseoModerno', -apple-system,
     BlinkMacSystemFont, sans-serif;
@@ -140,23 +150,17 @@ body {
 .logo-nav {
   display: flex;
   align-items: center;
-  /* Centraliza o SVG verticalmente se ele for menor que a altura do .logo-nav */
   justify-content: flex-start;
   width: 130px;
   height: 45px;
   overflow: hidden;
-  /* Garante que o SVG não vaze se os cálculos derem errado */
 }
 
 .icon-logoYM {
   display: block;
-  /* Remove espaço extra abaixo do SVG inline */
   width: 100%;
-  /* Faz o SVG tentar ocupar toda a largura do .logo-nav (130px) */
   height: auto;
-  /* A altura será calculada automaticamente para manter a proporção do viewBox */
   max-height: 100%;
-  /* Garante que a altura calculada não exceda a altura do .logo-nav (45px) */
 }
 
 .nav-left__box-wrap .logo-nav .icon-logoYM .l-simble {
@@ -271,7 +275,7 @@ body {
 
 .menu-lang li a:hover,
 .menu-lang li a.active {
-  color: var(--accent-color);
+  color: var(--accent-color) !important;
 }
 
 .menu-social {
@@ -462,9 +466,9 @@ body {
   margin: 0.05em 0;
   color: var(--light-color);
   text-transform: uppercase;
-  transition: all 0.5s ease;
   min-height: 1em;
   opacity: 0;
+  visibility: hidden;
 }
 
 .group-0 #line1 {
@@ -582,8 +586,8 @@ body {
   color: var(--sub-text);
   font-size: clamp(0.8rem, 1.3vw, 1rem);
   font-weight: 500;
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 .cta-fixed-container::before{
@@ -1001,12 +1005,12 @@ body {
   left: 25px;
   margin-bottom: 20px;
   border-radius: 16px;
-  padding: 10px 30px;
+  padding: 5px 40px;
   border: 1.5px solid var(--light-color);
   border-radius: 50px;
   background-color: rgba(10, 46, 58, 0.3);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   box-shadow: 0 4px 30px var(--sombra-glassmorphism);
   overflow: hidden;
   z-index: 2;
@@ -1019,9 +1023,9 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.3' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   z-index: -1;
-  opacity: 0.5;
+  opacity: 0.3;
   border-radius: inherit;
 }
 
@@ -1325,6 +1329,63 @@ body {
   color: #333;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
+  overflow: hidden;
+}
+
+.carousel-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  border-radius: 16px;
+  transform: scale(1.03);
+}
+
+.video-audio-toggle {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  background: rgba(0, 21, 27, 0.35);;
+  border: 1.5px solid var(--light-color);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.carousel-item.is-active .video-audio-toggle {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.video-audio-toggle svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--light-color);
+  transition: fill 0.3s ease;
+}
+
+.video-audio-toggle .icon-audioOn {
+  display: none;
+}
+
+.video-audio-toggle.is-unmuted .icon-audioOff {
+  display: none;
+}
+
+.video-audio-toggle.is-unmuted .icon-audioOn {
+  display: block;
 }
 
 .nav-video {
@@ -1334,7 +1395,7 @@ body {
   justify-content: space-between;
   align-items: center;
   left: calc(50% - (var(--dynamic-slide-width) / 2));
-  bottom: 9%;
+  bottom: 2.2%;
   padding: 0 10px;
   box-sizing: border-box;
 }
@@ -1662,10 +1723,15 @@ textarea {
 
 .footer-action {
   width: 100%;
+  max-width: 550px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+}
+
+#lightboxContactForm{
+  width: inherit;
 }
 
 .logo-section {
@@ -1737,8 +1803,8 @@ img {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.5s ease, visibility 0.5s ease;
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 .lightbox-backdrop.visible {

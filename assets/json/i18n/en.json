@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "title": "Young Monkey: Creative Videos, Design, and Digital Content Marketing",
+    "description": "Young Monkey: Digital agency specializing in graphic design, social media content creation (Instagram, TikTok, WhatsApp), video production, promotional campaigns (Google Ads), sales LPs, and content management for the retail market. We elevate your brand and drive digital results for your retail business.",
+    "keywords": "young monkey, creative design, visual communication, content marketing, digital agency, video production, social media management, instagram posts, tiktok content, google ads campaigns, landing pages, seo, performance marketing, promotional flyers, web animation, retail marketing, digital retail, retailer solutions, local commerce advertising, gsap",
+    "author": "Young Monkey"
+  },
+  "nav": {
+    "services": "Services",
+    "testimonial": "Testimonials",
+    "showcase": "Showcase",
+    "contact": "Contact",
+    "langPt": "PT",
+    "langEn": "EN",
+    "instagram": "Instagram",
+    "whatsapp": "WhatsApp",
+    "fiverr": "Fiverr",
+    "knowMore": "LEARN MORE"
+  },
+  "hero": {
+    "ctaHighlight": "Highlight your store online",
+     "scrambleText": {
+        "line1": ["Design", "Videos", "LPs", "Posts", "Reels", "Brand"],
+        "line2": ["solves", "sells", "speaks", "adds", "gets", "is"],
+        "line3": ["problem", "more", "loud", "value", "attention", "sexy"]
+    }
+  },
+  "section1": {
+    "transform": "transform",
+    "attention": "attention",
+    "into": "into",
+    "results": "results"
+  },
+  "services": {
+    "title": "What we<br>create",
+    "subtitle": "Creation of videos, texts, voice-overs, and visual content for my business to grow.",
+    "card1Title": "Visual Communication",
+    "card2Title": "Video Production",
+    "card3Title": "Social Media",
+    "card4Title": "Promotional Campaigns",
+    "card5Title": "Sales & Promo LPs",
+    "card6Title": "Content Management"
+  },
+  "testimonialSection": {
+    "title": "Testimonials<br>from experts",
+    "subtitle": "We help brands gain voice, presence, and impact from positioning to the first post.",
+    "person1Name": "Brian Arnott",
+    "person1Title": "Director, Dolby Australia",
+    "person1QuoteTitle": "Incredible Results!",
+    "person1QuoteText": "Working with Diego was great. He created a very professional video in a short amount of time with very little instruction from my end. Updates and improvements were integrated very quickly. I would definitely work with him again.",
+    "person2Name": "Gregor Amon",
+    "person2Title": "Communication Director and Head of Production",
+    "person2QuoteTitle": "Successful Partnership!",
+    "person2QuoteText": "They went above and beyond to make this project work! My client had many revisions, but Diego was an excellent communicator, results-focused, and literally saved this project. One of the best suppliers I've ever worked with. Plus, super patient and delivered ahead of schedule every time.",
+    "prevButton": "Previous Testimonial",
+    "nextButton": "Next Testimonial"
+  },
+  "showcaseSection": {
+    "title": "Showcase",
+    "defaultVideoTitle": "Video Title / Client",
+    "prevButton": "Previous",
+    "nextButton": "Next",
+    "video1Title": "DemoReel Young Monkey",
+    "video2Title": "Video Services",
+    "video3Title": "What's the Offer Stories - Client Extra Markets",
+    "video4Title": "Spot Sol Store 02 - Client Bertine",
+    "video5Title": "Spot Sol Promo - Client Bertine",
+    "video6Title": "Layout Sol - Client Bertine",
+    "video7Title": "Mubadala Champions - Client Gregor",
+    "video8Title": "Retrospective - Client Dolby",
+    "video9Title": "SM Aline Home Sale - Client Bertine"
+  },
+  "footer": {
+    "title": "Ready to<br>sell more?",
+    "subtitle": "Then call us and let's get started.",
+    "whatsappBtn": "Whatsapp",
+    "fiverrBtn": "Fiverr",
+    "formNamePlaceholder": "Name",
+    "formEmailPlaceholder": "Email",
+    "formSubmitButton": "Send",
+    "copyright": "© Young Monkey. All rights reserved."
+  },
+  "lightbox": {
+    "faqTitle": "Frequently<br>Asked Questions",
+    "faq1Question": "Why should I invest in a digital presence for my business?",
+    "faq1Answer": "The truth is, nowadays customers have already decided what they're going to buy before they even leave the house. They research prices on Google, compare promotions on Instagram, and ask for recommendations in WhatsApp groups. If your store doesn't appear in this journey, you're missing out on purchasing decisions.<br>At Young Monkey, we turn this challenge into an opportunity. We create the right digital presence for your business to be found, remembered, and chosen - both online and when the customer reaches your checkout.",
+    "faq2Question": "Instagram, TikTok, or WhatsApp? Which is best?",
+    "faq2Answer": "There's no universal social network - the secret is knowing where your customer spends their time. For most local markets, Instagram is like the store's digital storefront, perfect for showcasing promotions and products. Facebook still reigns among housewives and more traditional buyers.<br>TikTok is the new craze for reaching a young audience with quick, casual videos. And WhatsApp Business? That's the digital checkout that never closes, where 80% of small business online sales happen.<br>The good news? You don't have to choose alone. We analyze your audience and set up the right strategy for each network.",
+    "faq3Question": "What services does Young Monkey offer for my retail business?",
+    "faq3Answer": "At Young Monkey, we create everything your business needs to sell more online: from professional posts and flyers to videos, landing pages, and complete management of your social networks.<br>Everything is tailor-made for markets and retailers like you, with language your customer understands and designs that sell. Want to see examples? Get in touch!",
+    "faq4Question": "Landing pages - just for big businesses?",
+    "faq4Answer": "Imagine announcing your promotion and, instead of sending the customer to search through your cluttered feed, they land directly on a page dedicated to that offer: professional photo, highlighted price, updated stock, and a giant \"Get Yours\" button.<br>That's a landing page, and it can increase your sales by up to 3x. It works for flash sales, product launches, and even for signing up customers to your loyalty program.<br>At Young Monkey, we create fast and efficient landing pages - often in less than 48 hours. Because when the promotion is good, the customer can't wait.",
+    "faq5Question": "Do you offer service packages?",
+    "faq5Answer": "Yes! We have packages for different needs and budgets, from one-off creations to monthly content management. Contact us for a personalized quote.",
+    "faq6Question": "Does design really make a difference in my sales?",
+    "faq6Answer": "Two stores advertise the same soda promotion. One posts a dark photo with the price hidden in the comments. The other shows a professional image, with vibrant colors and an impossible-to-ignore \"BUY 2 GET 1 FREE\".<br>Guess which one sells more?<br>Your customer decides in seconds if they trust your business. Professional design isn't a luxury - it's the difference between a quick scroll and an immediate purchase. And the best part? With Young Monkey, you get this impact without having to invest a fortune.",
+    "faq7Question": "Does digital marketing work on a small budget?",
+    "faq7Answer": "Here's the secret: it's not about how much you spend, but how you spend it. While some throw money at ads without criteria, we teach you to fish where the fish are.<br>A real example: a neighborhood grocery store started with $3/day on well-targeted ads just for their neighborhood. In one month, online sales increased by 40%. Another client focused on local SEO and now appears on Google Maps for anyone searching \"market open now\".<br>What does this mean? With strategy, even tight budgets yield results. And we are specialists in making every dollar work for you.",
+    "footerTitle": "Ready to<br>sell more?",
+    "footerSubtitle": "Then call us and let's get started.",
+    "whatsappBtn": "Whatsapp",
+    "fiverrBtn": "Fiverr",
+    "emailBtn": "Email",
+    "linkedinBtn": "Linkedin",
+    "instaBtn": "Insta",
+    "formNamePlaceholder": "Name",
+    "formEmailPlaceholder": "Email",
+    "formSubmitButton": "Send"
+  },
+  "videoPlayer": {
+    "toggleAudio": "Toggle audio"
+  }
+}

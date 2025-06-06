@@ -147,13 +147,6 @@ export function initializeSection1(gsapInstance, ScrollTriggerInstance) {
         gsapInstance.set(currentVisiblePath, { drawSVG: "0%" });
         gsapInstance.set(currentArrowHead, { opacity: 1, transformOrigin: "center center" }); // Garante que a opacidade inicial seja 1
 
-        // Ajusta a escala da seta com base no tamanho da tela
-        ScrollTriggerInstance.matchMedia({
-            "(min-width: 1025px)": () => gsapInstance.set(currentArrowHead, { scale: 0.8 }),
-            "(min-width: 768px) and (max-width: 1024px)": () => gsapInstance.set(currentArrowHead, { scale: 0.8 }), // Tablets
-            "(max-width: 767px)": () => gsapInstance.set(currentArrowHead, { scale: 0.8 }) // Celulares
-        });
-
 
         // Função para ajustar a posição 'right' do container da seta
         const adjustRightPosition = () => {

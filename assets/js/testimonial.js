@@ -4,8 +4,8 @@ import { Draggable } from "gsap/Draggable";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import imageBrianURL from 'url:../images/brian.png';
-import imageGregorURL from 'url:../images/Gregor.png';
+import imageBrianURL from 'url:../images/img/brian.png';
+import imageGregorURL from 'url:../images/img/Gregor.png';
 
 console.log("--- DEBUG testimonial.js (com 'url:') ---");
 console.log("Conteúdo DETALHADO de imageBrianURL (após import 'url:'):");
@@ -132,7 +132,6 @@ export function setupLogoMarqueeWithGSAP() {
 export function setupTestimonialSlider() {
     const testimonials = [
         {
-            // Com 'url:', imageBrianURL deve ser a string da URL diretamente.
             image: imageBrianURL,
             name: "Brian Arnott",
             title: "Director, Dolby Australia",
