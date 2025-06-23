@@ -1,5 +1,26 @@
 // assets/js/footer.js
-// Não precisa de imports de GSAP aqui, pois recebe as instâncias como parâmetros.
+
+/**
+ * Returns the default configuration for motionPath animations.
+ * @param {HTMLElement} pathElement - The element representing the SVG path.
+ * @returns {object} Configurações do motionPath.
+ */
+const getMotionPathConfig = (pathElement) => ({
+    path: pathElement,
+    align: pathElement,
+    alignOrigin: [0.5, 0.5],
+    autoRotate: -90, // Ajuste conforme necessário para a orientação da seta
+    start: 0,
+    end: 1
+});
+
+/**
+ * Returns the default tween options.
+ * @returns {object} Opções padrão para animações.
+ */
+const getDefaultTweenOptions = () => ({
+    ease: "none"
+});
 
 /**
  * Initializes all animations and setups for the Footer section.
@@ -7,50 +28,57 @@
  * @param {object} ScrollTriggerInstance - The ScrollTrigger instance.
  */
 export function initializeFooterSection(gsapInstance, ScrollTriggerInstance) {
-    // Element selectors specific to this section
-    const footerArrow = document.querySelector('.footer-arrow');
-    const footerPath = document.getElementById('footer-path');
-    const footerDraw = document.querySelector('.footer-draw'); // Classe correta para o elemento a ser desenhado
-    const footerArrowPoint = document.getElementById('footer-arrow-point');
-    const footerElement = document.getElementById('footer'); // Trigger element
+    // Helper para seleção dos elementos
+    const getFooterElements = () => ({
+        arrow: document.querySelector('.footer-arrow'),
+        path: document.getElementById('footer-path'),
+        draw: document.querySelector('.footer-draw'),
+        arrowPoint: document.getElementById('footer-arrow-point'),
+        footer: document.getElementById('footer') // Elemento trigger
+    });
+    
+    const { arrow, path, draw, arrowPoint, footer } = getFooterElements();
 
-    // --- Footer Animations ---
-    const setupFooterArrow = () => {
-        if (!footerArrow || !footerPath || !footerDraw || !footerArrowPoint || !footerElement) {
-            console.warn("Footer Arrow: Elements or trigger not found.");
-            return;
-        }
-        gsapInstance.set(footerArrowPoint, { opacity: 0, transformOrigin: "50% 50%" });
-        gsapInstance.set(footerDraw, { drawSVG: "0%" }); // Inicializa o desenho do SVG
+    // Verifica se todos os elementos necessários existem
+    if (!arrow || !path || !draw || !arrowPoint || !footer) {
+        console.warn("Footer Arrow: Elements or trigger not found.");
+        return;
+    }
 
-        const arrowTimeline = gsapInstance.timeline();
-        arrowTimeline.to(footerArrowPoint, { opacity: 1, duration: 0.01, scale: 0.8, ease: "none" }, 0)
-            .to(footerArrowPoint, {
-                motionPath: {
-                    path: footerPath,
-                    align: footerPath,
-                    alignOrigin: [0.5, 0.5], // Centraliza a ponta da seta no caminho
-                    autoRotate: -90, // Ajuste este valor para a orientação correta da sua seta
-                    start: 0, // Início do caminho
-                    end: 1    // Fim do caminho
-                },
-                ease: "none"
+    // Configura estados iniciais usando helper
+    const setInitialStates = () => {
+        gsapInstance.set(arrowPoint, { opacity: 0, transformOrigin: "50% 50%" });
+        gsapInstance.set(draw, { drawSVG: "0%" });
+    };
+
+    // Configura o timeline de animação da seta do footer
+    const createArrowTimeline = () => {
+        const timeline = gsapInstance.timeline();
+        timeline
+            .to(arrowPoint, { opacity: 1, duration: 0.01, scale: 0.8, ...getDefaultTweenOptions() }, 0)
+            .to(arrowPoint, {
+                motionPath: getMotionPathConfig(path),
+                ...getDefaultTweenOptions()
             }, 0)
-            .to(footerDraw, { drawSVG: "100%", ease: "none" }, 0); // Anima o desenho do caminho
+            .to(draw, { drawSVG: "100%", ...getDefaultTweenOptions() }, 0);
+        return timeline;
+    };
 
+    const setScrollAnimation = (timeline) => {
         ScrollTriggerInstance.create({
-            trigger: footerElement, // Usa o elemento footer como gatilho
-            start: "top 80%", // Começa quando o topo do footer está a 80% da altura da viewport
-            end: "bottom bottom", // Termina quando o final do footer atinge o final da viewport
-            scrub: 1.5, // Animação suave vinculada ao scroll
-            animation: arrowTimeline,
-            // markers: true, // Para debug
+            trigger: footer,
+            start: "top 80%",
+            end: "bottom bottom",
+            scrub: 1.5,
+            animation: timeline,
+            // markers: true // Descomente para debug
         });
     };
 
-    // Initialize Footer section specific animations
-    if (footerArrow) {
-        setupFooterArrow();
-    }
+    // Inicializa a animação do footer
+    setInitialStates();
+    const arrowTimeline = createArrowTimeline();
+    setScrollAnimation(arrowTimeline);
+
     console.log("Footer Section Initialized");
 }

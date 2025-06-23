@@ -1,296 +1,339 @@
-// assets/js/showcase.js
 import { gsap } from "gsap";
 import { Observer } from "gsap/Observer";
-// Não há importação do i18n.js neste arquivo, conforme o código fornecido anteriormente.
+import Player from '@vimeo/player';
 
+// Variáveis e configurações locais ao módulo
 let items = [];
-let carouselWrapper;
-let videoTitleClientElement;
-let prevButton;
-let nextButton;
-let section4Element; // Trigger principal para a seção do showcase
-let section3Element; // Trigger para iniciar o carregamento antecipado da seção 4
-let navVideoElement;
-let sectionTitleShowcaseElement;
-
+let vimeoPlayers = {};
+let localPlayers = {};
+let carouselWrapper, videoTitleClientElement, prevButton, nextButton;
+let section4Element, section3Element, navVideoElement, sectionTitleShowcaseElement;
 let currentIndex = 0;
 let isAnimating = false;
-let slideWidth; // Será calculado dinamicamente
-let positions = {}; // Armazenará as posições calculadas
-let showcaseInitialized = false; // Flag para controlar a inicialização
+let slideWidth;
+let positions = {};
 
-// Função para calcular a largura real do slide com base no viewport
-function calculateActualSlideWidth() {
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const baseMinVwFactor = 0.60;
-    const basePreferredPx = 1150;
-    const baseMaxVwFactor = 0.70;
-    const baseMaxHeightFactor = 0.70;
-    const smallScreenBreakpoint = 768;
-    const intermediateBreakpoint = 1024;
-    const smallScreenVwFactor = 0.95;
-    const intermediateVwFactor = 0.80;
-    const smallScreenMaxHeightFactor = 0.75;
-    let currentMinVw, currentPreferredPx, currentMaxVw, currentMaxHeightFactorUsed;
+const ASPECT_RATIO = 1150 / 647;
+const BASE_CONFIG = {
+    baseMinVwFactor: 0.60,
+    basePreferredPx: 1150,
+    baseMaxVwFactor: 0.70,
+    baseMaxHeightFactor: 0.70,
+    smallScreenBreakpoint: 768,
+    intermediateBreakpoint: 1024,
+    smallScreenVwFactor: 0.95,
+    intermediateVwFactor: 0.80,
+    smallScreenMaxHeightFactor: 0.75
+};
 
-    if (viewportWidth <= 0 || viewportHeight <= 0) {
-        return 300;
-    }
+// Funções helper para cálculos
+const calculateGapBetweenSlides = (viewportWidth) => {
+    const calculatedGap = viewportWidth > BASE_CONFIG.intermediateBreakpoint
+        ? viewportWidth * 0.03
+        : viewportWidth > BASE_CONFIG.smallScreenBreakpoint
+            ? viewportWidth * 0.04
+            : viewportWidth * 0.01;
+    return Math.max(10, Math.min(calculatedGap, 50));
+};
 
-    if (viewportWidth < smallScreenBreakpoint) {
-        currentMinVw = baseMinVwFactor * viewportWidth;
-        currentPreferredPx = basePreferredPx;
-        currentMaxVw = smallScreenVwFactor * viewportWidth;
-        currentMaxHeightFactorUsed = smallScreenMaxHeightFactor;
-    } else if (viewportWidth <= intermediateBreakpoint) {
-        currentMinVw = baseMinVwFactor * viewportWidth;
-        currentPreferredPx = basePreferredPx;
-        currentMaxVw = intermediateVwFactor * viewportWidth;
-        currentMaxHeightFactorUsed = baseMaxHeightFactor;
+const calculatePreviewPositions = (containerWidth, slideWidth, gapBetweenSlides) => {
+    const centerLeftPos = (containerWidth / 2) - (slideWidth / 2);
+    const leftPreviewPos = window.innerWidth < BASE_CONFIG.smallScreenBreakpoint
+        ? -slideWidth - gapBetweenSlides
+        : centerLeftPos - (slideWidth + gapBetweenSlides);
+    const rightPreviewPos = window.innerWidth < BASE_CONFIG.smallScreenBreakpoint
+        ? containerWidth + gapBetweenSlides
+        : centerLeftPos + (slideWidth + gapBetweenSlides);
+    const hiddenExtraOffset = slideWidth * 0.5;
+    return {
+        centerLeftPos,
+        leftPreviewPos,
+        rightPreviewPos,
+        hiddenLeft: leftPreviewPos - hiddenExtraOffset,
+        hiddenRight: rightPreviewPos + hiddenExtraOffset
+    };
+};
+
+const calculateTranslateYString = (viewportWidth) => {
+    const [minWidth, maxWidth] = [360, 1200];
+    const [minY, maxY] = [20, -20];
+    const currentY = viewportWidth <= minWidth
+        ? minY
+        : viewportWidth >= maxWidth
+            ? maxY
+            : minY + (maxY - minY) * ((viewportWidth - minWidth) / (maxWidth - minWidth));
+    return `${currentY.toFixed(2)}px`;
+};
+
+const calculateActualSlideWidth = () => {
+    const { innerWidth: viewportWidth, innerHeight: viewportHeight } = window;
+    if (viewportWidth <= 0 || viewportHeight <= 0) return 300;
+    
+    let currentMinVw, currentPreferredPx = BASE_CONFIG.basePreferredPx, currentMaxVw, currentMaxHeightFactorUsed;
+    
+    if (viewportWidth < BASE_CONFIG.smallScreenBreakpoint) {
+        currentMinVw = BASE_CONFIG.baseMinVwFactor * viewportWidth;
+        currentMaxVw = BASE_CONFIG.smallScreenVwFactor * viewportWidth;
+        currentMaxHeightFactorUsed = BASE_CONFIG.smallScreenMaxHeightFactor;
+    } else if (viewportWidth <= BASE_CONFIG.intermediateBreakpoint) {
+        currentMinVw = BASE_CONFIG.baseMinVwFactor * viewportWidth;
+        currentMaxVw = BASE_CONFIG.intermediateVwFactor * viewportWidth;
+        currentMaxHeightFactorUsed = BASE_CONFIG.baseMaxHeightFactor;
     } else {
-        currentMinVw = baseMinVwFactor * viewportWidth;
-        currentPreferredPx = basePreferredPx;
-        currentMaxVw = baseMaxVwFactor * viewportWidth;
-        currentMaxHeightFactorUsed = baseMaxHeightFactor;
+        currentMinVw = BASE_CONFIG.baseMinVwFactor * viewportWidth;
+        currentMaxVw = BASE_CONFIG.baseMaxVwFactor * viewportWidth;
+        currentMaxHeightFactorUsed = BASE_CONFIG.baseMaxHeightFactor;
     }
-
-    let widthFromWidthClamp = Math.max(currentMinVw, Math.min(currentPreferredPx, currentMaxVw));
-    const aspectRatio = 1150 / 647;
-    let correspondingHeight = widthFromWidthClamp / aspectRatio;
+    
+    const widthFromClamp = Math.max(currentMinVw, Math.min(currentPreferredPx, currentMaxVw));
+    const correspondingHeight = widthFromClamp / ASPECT_RATIO;
     const maxHeightPixels = currentMaxHeightFactorUsed * viewportHeight;
+    const finalWidth = correspondingHeight > maxHeightPixels ? (maxHeightPixels * ASPECT_RATIO) : widthFromClamp;
+    
+    return (finalWidth <= 0 || isNaN(finalWidth))
+        ? Math.max(100, viewportWidth * 0.6)
+        : finalWidth;
+};
 
-    let finalCalculatedWidth;
-    if (correspondingHeight > maxHeightPixels) {
-        finalCalculatedWidth = maxHeightPixels * aspectRatio;
-    } else {
-        finalCalculatedWidth = widthFromWidthClamp;
-    }
+const calculateRenderedItemHeight = () => slideWidth && !isNaN(slideWidth) ? slideWidth / ASPECT_RATIO : 0;
 
-    if (finalCalculatedWidth <= 0 || isNaN(finalCalculatedWidth)) {
-        finalCalculatedWidth = Math.max(100, viewportWidth * 0.6);
-    }
-    return finalCalculatedWidth;
-}
-
-// Calcula a altura renderizada do item com base na largura do slide
-function calculateRenderedItemHeight() {
-    if (typeof slideWidth === 'undefined' || slideWidth === 0 || isNaN(slideWidth)) return 0;
-    const aspectRatio = 1150 / 647;
-    return slideWidth / aspectRatio;
-}
-
-// Atualiza as posições dos slides do carrossel (centro, prévias, ocultos)
-function updateCarouselPositions() {
+const updateCarouselPositions = () => {
     if (!carouselWrapper) return;
     slideWidth = calculateActualSlideWidth();
     const renderedItemHeight = calculateRenderedItemHeight();
-    if (document.documentElement) {
-        document.documentElement.style.setProperty('--dynamic-slide-height', renderedItemHeight + 'px');
-        document.documentElement.style.setProperty('--dynamic-slide-width', slideWidth + 'px');
-    }
+    document.documentElement.style.setProperty('--dynamic-slide-height', renderedItemHeight + 'px');
+    document.documentElement.style.setProperty('--dynamic-slide-width', slideWidth + 'px');
 
-    const actualContainerWidth = carouselWrapper.offsetWidth;
+    const containerWidth = carouselWrapper.offsetWidth;
     const viewportWidth = window.innerWidth;
-    const smallScreenBreakpoint = 768;
-    const intermediateBreakpoint = 1024;
-    let calculatedGap;
+    const gapBetweenSlides = calculateGapBetweenSlides(viewportWidth);
+    positions = calculatePreviewPositions(containerWidth, slideWidth, gapBetweenSlides);
+    positions.center = { left: positions.centerLeftPos, top: 162, scale: 1, opacity: 1, zIndex: 1, translateY: calculateTranslateYString(viewportWidth) };
+    positions.leftPreview = { left: positions.leftPreviewPos, top: 222, scale: 1, opacity: 0.9, zIndex: 1 };
+    positions.rightPreview = { left: positions.rightPreviewPos, top: 222, scale: 1, opacity: 0.9, zIndex: 1 };
+    positions.hiddenSlideOutLeft = { left: positions.hiddenLeft, top: 222, scale: 1, opacity: 0, zIndex: 0 };
+    positions.hiddenSlideOutRight = { left: positions.hiddenRight, top: 222, scale: 1, opacity: 0, zIndex: 0 };
+    positions.initialHidden = { left: positions.centerLeftPos, top: 222, scale: 1, opacity: 0, zIndex: 0 };
+};
 
-    if (viewportWidth > intermediateBreakpoint) {
-        calculatedGap = viewportWidth * 0.03;
-    } else if (viewportWidth > smallScreenBreakpoint) {
-        calculatedGap = viewportWidth * 0.04;
-    } else {
-        calculatedGap = viewportWidth * 0.01;
-    }
-    const minGap = 10;
-    const maxGap = 50;
-    const gapBetweenSlides = Math.max(minGap, Math.min(calculatedGap, maxGap));
-    const dynamicPreviewOffset = slideWidth + gapBetweenSlides;
-    const hiddenExtraOffsetFactor = 0.5;
-    const centerLeftPos = (actualContainerWidth / 2) - (slideWidth / 2);
-    let leftPreviewPos, rightPreviewPos;
-
-    if (viewportWidth < smallScreenBreakpoint) {
-        leftPreviewPos = -slideWidth - gapBetweenSlides;
-        rightPreviewPos = actualContainerWidth + gapBetweenSlides;
-    } else {
-        leftPreviewPos = centerLeftPos - dynamicPreviewOffset;
-        rightPreviewPos = centerLeftPos + dynamicPreviewOffset;
-    }
-    const hiddenLeft = leftPreviewPos - (slideWidth * hiddenExtraOffsetFactor);
-    const hiddenRight = rightPreviewPos + (slideWidth * hiddenExtraOffsetFactor);
-
-    const minTranslateYWidth = 360;
-    const maxTranslateYWidth = 1200;
-    const minTranslateY = 20;
-    const maxTranslateY = -20;
-    let currentTranslateY;
-    if (viewportWidth <= minTranslateYWidth) {
-        currentTranslateY = minTranslateY;
-    } else if (viewportWidth >= maxTranslateYWidth) {
-        currentTranslateY = maxTranslateY;
-    } else {
-        const widthRatio = (viewportWidth - minTranslateYWidth) / (maxTranslateYWidth - minTranslateYWidth);
-        currentTranslateY = minTranslateY + (maxTranslateY - minTranslateY) * widthRatio;
-    }
-    const dynamicTranslateYString = `${currentTranslateY.toFixed(2)}px`;
-
-    positions = {
-        center: { left: centerLeftPos, top: 162, scale: 1, opacity: 1, zIndex: 1, translateY: dynamicTranslateYString },
-        leftPreview: { left: leftPreviewPos, top: 222, scale: 1, opacity: 0.9, zIndex: 1 },
-        rightPreview: { left: rightPreviewPos, top: 222, scale: 1, opacity: 0.9, zIndex: 1 },
-        hiddenSlideOutLeft: { left: hiddenLeft, top: 222, scale: 1, opacity: 0, zIndex: 0 },
-        hiddenSlideOutRight: { left: hiddenRight, top: 222, scale: 1, opacity: 0, zIndex: 0 },
-        initialHidden: { left: centerLeftPos, top: 222, scale: 1, opacity: 0, zIndex: 0 }
-    };
-}
-
-// Aplica os estados (posições, opacidade, etc.) aos itens do carrossel
-function applyCurrentItemStates(useAnimation = false) {
-    if (items.length === 0 || Object.keys(positions).length === 0) return;
+const applyCurrentItemStates = (useAnimation = false) => {
+    if (!items.length || !Object.keys(positions).length) return;
     items.forEach((item, index) => {
-        let targetPosKey = "initialHidden";
-        if (items.length === 1) {
-            targetPosKey = "center";
-        } else {
-            if (index === currentIndex) targetPosKey = "center";
-            else if (index === (currentIndex - 1 + items.length) % items.length) targetPosKey = "leftPreview";
-            else if (index === (currentIndex + 1) % items.length) targetPosKey = "rightPreview";
-        }
-
-        if (positions[targetPosKey]) {
-            const finalWidth = (typeof slideWidth === 'number' && slideWidth > 0) ? slideWidth + 'px' : '80%';
-            const finalPosition = { ...positions[targetPosKey], width: finalWidth };
-
-            if (useAnimation) {
-                // A lógica de animação está na função goToSlide
-            } else {
-                gsap.set(item, finalPosition);
-            }
+        let targetKey;
+        if (items.length === 1) targetKey = "center";
+        else if (index === currentIndex) targetKey = "center";
+        else if (index === (currentIndex - 1 + items.length) % items.length) targetKey = "leftPreview";
+        else if (index === (currentIndex + 1) % items.length) targetKey = "rightPreview";
+        if (targetKey && positions[targetKey]) {
+            const finalWidth = slideWidth > 0 ? `${slideWidth}px` : '80%';
+            useAnimation
+                ? gsap.to(item, { ...positions[targetKey], width: finalWidth, duration: 0.4 })
+                : gsap.set(item, { ...positions[targetKey], width: finalWidth });
         } else {
             gsap.set(item, { opacity: 0, scale: 0.8, width: '80%' });
         }
     });
-    if (videoTitleClientElement && items.length > 0 && items[currentIndex] && items[currentIndex].dataset) {
-        videoTitleClientElement.textContent = items[currentIndex].dataset.title || 'Título Indisponível';
-        if (!useAnimation) {
-            gsap.set(videoTitleClientElement, { opacity: 1 });
-        }
+    if (videoTitleClientElement && items[currentIndex]?.dataset) {
+        const title = items[currentIndex].dataset.title || 'Título Indisponível';
+        useAnimation
+            ? gsap.to(videoTitleClientElement, { opacity: 1, duration: 0.35, text: title })
+            : gsap.set(videoTitleClientElement, { opacity: 1, textContent: title });
     }
-}
+};
 
-// Ajusta a altura da seção do carrossel com base no conteúdo
-function adjustSectionHeight() {
-    if (!section4Element || !carouselWrapper || !navVideoElement || !sectionTitleShowcaseElement ||
-        Object.keys(positions).length === 0 || typeof slideWidth === 'undefined' || slideWidth <= 0 || isNaN(slideWidth)) {
-        return;
-    }
+const adjustSectionHeight = () => {
+    if (!section4Element || !carouselWrapper || !navVideoElement || !sectionTitleShowcaseElement || !Object.keys(positions).length || !slideWidth) return;
     const renderedItemHeight = calculateRenderedItemHeight();
-    if (renderedItemHeight <= 0 || isNaN(renderedItemHeight)) {
-        return;
-    }
-
+    if (!renderedItemHeight) return;
     const titleHeight = sectionTitleShowcaseElement.offsetHeight;
-    const titleComputedStyle = window.getComputedStyle(sectionTitleShowcaseElement);
-    const titleMarginTop = parseFloat(titleComputedStyle.marginTop) || 0;
-    const titleMarginBottom = parseFloat(titleComputedStyle.marginBottom) || 0;
-    const totalTitleSpace = titleHeight + titleMarginTop + titleMarginBottom;
-
-    let centerTranslateY = 0;
-    if (positions.center && typeof positions.center.translateY === 'string') {
-        centerTranslateY = parseFloat(positions.center.translateY);
-    }
-    const centerItemEffectiveTop = (positions.center && positions.center.top !== undefined ? positions.center.top : 0) + centerTranslateY;
-    const centerItemBottomEdge = centerItemEffectiveTop + renderedItemHeight;
-
-    const previewItemTop = (positions.leftPreview && positions.leftPreview.top !== undefined) ? positions.leftPreview.top : 0;
-    const previewItemScale = (positions.leftPreview && positions.leftPreview.scale !== undefined) ? positions.leftPreview.scale : 1;
-    const previewItemBottomEdge = previewItemTop + renderedItemHeight * previewItemScale;
-
-    const carouselItemsLowestPoint = Math.max(centerItemBottomEdge, previewItemBottomEdge);
+    const computedStyle = window.getComputedStyle(sectionTitleShowcaseElement);
+    const totalTitleSpace = titleHeight +
+        parseFloat(computedStyle.marginTop || 0) +
+        parseFloat(computedStyle.marginBottom || 0);
+    const centerTranslateY = parseFloat(positions.center?.translateY) || 0;
+    const centerEffectiveTop = (positions.center?.top || 0) + centerTranslateY;
+    const centerItemBottom = centerEffectiveTop + renderedItemHeight;
+    const previewItemBottom = (positions.leftPreview?.top || 0) + renderedItemHeight;
+    const carouselLowest = Math.max(centerItemBottom, previewItemBottom);
+    
     const navVideoHeight = navVideoElement.offsetHeight;
     const viewportHeight = window.innerHeight;
-    const gapBetweenItemsAndNav = Math.max(20, viewportHeight * 0.02);
-
-    const requiredCarouselWrapperHeight = carouselItemsLowestPoint + gapBetweenItemsAndNav + navVideoHeight;
-    if (carouselWrapper) {
-        carouselWrapper.style.height = `${requiredCarouselWrapperHeight}px`;
-    }
-
+    const gapItemsNav = Math.max(20, viewportHeight * 0.02);
+    const requiredCarouselHeight = carouselLowest + gapItemsNav + navVideoHeight;
+    
+    carouselWrapper.style.height = `${requiredCarouselHeight}px`;
+    
     const gapAfterTitle = Math.max(30, viewportHeight * 0.03);
-    const totalRequiredContentHeight = totalTitleSpace + gapAfterTitle + requiredCarouselWrapperHeight;
-    const minOverallHeightVh = 50;
-    const minOverallHeightPx = viewportHeight * (minOverallHeightVh / 100);
+    const totalRequiredHeight = totalTitleSpace + gapAfterTitle + requiredCarouselHeight;
+    const minOverallHeight = viewportHeight * 0.5;
+    
+    section4Element.style.height = `${Math.max(minOverallHeight, totalRequiredHeight)}px`;
+};
 
-    const finalSectionContentHeight = Math.max(minOverallHeightPx, totalRequiredContentHeight);
-    if (section4Element) section4Element.style.height = `${finalSectionContentHeight}px`;
-}
-
-// Lida com o redimensionamento da janela
-function handleResize() {
-    if (!showcaseInitialized) return;
+const handleResize = () => {
     updateCarouselPositions();
     applyCurrentItemStates(false);
     adjustSectionHeight();
     if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
         ScrollTrigger.refresh();
     }
-}
+};
 
-// --- OTIMIZAÇÃO: Lógica de Reprodução do Vídeo ---
-// Função para garantir que um vídeo seja carregado e reproduzido
-function playVideo(item) {
-    const video = item.querySelector('video.carousel-video');
-    if (video) {
-        // O `preload="none"` no HTML impede o carregamento inicial.
-        // `.load()` inicia o carregamento se ainda não tiver começado.
-        video.load();
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                // Erro comum: o utilizador não interagiu com a página. O navegador bloqueia o autoplay.
-                // O vídeo ficará pausado, o que é um comportamento aceitável.
-                console.warn("Falha ao reproduzir o vídeo automaticamente:", error);
-            });
-        }
-    }
-}
-
-
-// Configura os botões de áudio para os vídeos
-function setupAudioToggles() {
-    const audioButtons = document.querySelectorAll('.video-audio-toggle');
-    audioButtons.forEach(button => {
-        button.addEventListener('click', function (e) {
-            e.stopPropagation();
-            const parentItem = this.closest('.carousel-item');
-            if (!parentItem) return;
-            const video = parentItem.querySelector('video.carousel-video');
-            if (!video) return;
-
-            const isCurrentlyMuted = video.muted;
-
-            items.forEach(itemEl => {
-                if (itemEl !== parentItem) {
-                    const otherVideo = itemEl.querySelector('video.carousel-video');
-                    const otherButton = itemEl.querySelector('.video-audio-toggle');
-                    if (otherVideo) otherVideo.muted = true;
-                    if (otherButton) otherButton.classList.remove('is-unmuted');
-                }
-            });
-
-            video.muted = !isCurrentlyMuted;
-            this.classList.toggle('is-unmuted', !video.muted);
-        });
+const isVimeoAlive = (videoId) => {
+    if (!videoId) return Promise.resolve(false);
+    return new Promise((resolve) => {
+        const timer = setTimeout(() => {
+            console.warn("Vimeo API timed out.");
+            resolve(false);
+        }, 3000);
+        fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`)
+            .then(response => { clearTimeout(timer); resolve(response.ok); })
+            .catch(() => { clearTimeout(timer); resolve(false); });
     });
-}
+};
 
-function initializeShowcase() {
-    if (showcaseInitialized) return;
-    showcaseInitialized = true;
+const setupAudioToggle = (item, player, isMuted, playerType) => {
+    const audioButton = item.querySelector('.video-audio-toggle');
+    if (!audioButton) return;
+    const newBtn = audioButton.cloneNode(true);
+    audioButton.parentNode.replaceChild(newBtn, audioButton);
+    newBtn.classList.toggle('is-unmuted', !isMuted);
+    newBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (playerType === 'vimeo') {
+            try {
+                const volume = await player.getVolume();
+                volume > 0
+                    ? await player.setVolume(0)
+                    : await player.setVolume(1);
+                newBtn.classList.toggle('is-unmuted', volume === 0);
+            } catch (error) {
+                console.error("Erro ao alternar áudio Vimeo:", error);
+            }
+        } else {
+            player.muted = !player.muted;
+            newBtn.classList.toggle('is-unmuted', !player.muted);
+        }
+    });
+};
 
-    // Pega as referências dos elementos primeiro
+const loadAndPlayVideo = async (item, index, startMuted = false) => {
+    const { videoId, videoFallbackSrc } = item.dataset;
+    const container = item.querySelector('.vimeo-player-container');
+    if ((!videoId && !videoFallbackSrc) || !container) return;
+    const thumb = container.querySelector('img');
+    const playIcon = container.querySelector('.play-icon-overlay');
+    if (await isVimeoAlive(videoId) && typeof Player !== 'undefined') {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0&controls=0&title=0&byline=0&portrait=0&dnt=1${startMuted ? '&muted=1' : ''}`;
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        gsap.set(iframe, { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0 });
+        container.appendChild(iframe);
+        const player = new Player(iframe);
+        vimeoPlayers[index] = player;
+        player.on('playing', () => {
+            gsap.to(iframe, { opacity: 1, duration: 0.4 });
+            if (thumb) gsap.to(thumb, { opacity: 0, duration: 0.4, onComplete: () => thumb.style.display = 'none' });
+            if (playIcon) gsap.to(playIcon, { autoAlpha: 0, duration: 0.4 });
+        });
+        player.ready().then(() => setupAudioToggle(item, player, startMuted, 'vimeo'));
+    } else {
+        if (!videoFallbackSrc) {
+            console.error(`Vimeo offline e sem fallback para o slide ${index}`);
+            return;
+        }
+        console.warn(`Vimeo não respondeu. Carregando vídeo local para o slide ${index}.`);
+        if (thumb && thumb.dataset.thumbFallbackSrc) thumb.src = thumb.dataset.thumbFallbackSrc;
+        const videoEl = document.createElement('video');
+        Object.assign(videoEl, {
+            src: videoFallbackSrc,
+            loop: true,
+            autoplay: true,
+            muted: startMuted,
+            playsInline: true
+        });
+        gsap.set(videoEl, { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0 });
+        container.appendChild(videoEl);
+        localPlayers[index] = videoEl;
+        videoEl.addEventListener('playing', () => {
+            gsap.to(videoEl, { opacity: 1, duration: 0.4 });
+            if (thumb) gsap.to(thumb, { opacity: 0, duration: 0.4, onComplete: () => thumb.style.display = 'none' });
+            if (playIcon) gsap.to(playIcon, { autoAlpha: 0, duration: 0.4 });
+        });
+        setupAudioToggle(item, videoEl, startMuted, 'local');
+    }
+};
+
+const goToSlide = (newCenterIndex, swipeDirection) => {
+    if (isAnimating || (newCenterIndex === currentIndex && items.length > 1)) return;
+    isAnimating = true;
+    const oldIndex = currentIndex;
+    currentIndex = newCenterIndex;
+    if (vimeoPlayers[oldIndex]) {
+        vimeoPlayers[oldIndex].pause();
+        vimeoPlayers[oldIndex].setCurrentTime(0);
+        vimeoPlayers[oldIndex].setVolume(0);
+    }
+    if (localPlayers[oldIndex]) {
+        localPlayers[oldIndex].pause();
+        localPlayers[oldIndex].currentTime = 0;
+        localPlayers[oldIndex].muted = true;
+    }
+    const oldAudioBtn = items[oldIndex]?.querySelector('.video-audio-toggle');
+    if (oldAudioBtn) oldAudioBtn.classList.remove('is-unmuted');
+    loadAndPlayVideo(items[currentIndex], currentIndex, false);
+    const tl = gsap.timeline({ onComplete: () => isAnimating = false });
+    items.forEach((item, idx) => {
+        item.classList.toggle('is-active', idx === currentIndex);
+        let targetPosKey;
+        if (items.length === 1) targetPosKey = "center";
+        else if (idx === currentIndex) targetPosKey = "center";
+        else if (idx === (currentIndex - 1 + items.length) % items.length) targetPosKey = "leftPreview";
+        else if (idx === (currentIndex + 1) % items.length) targetPosKey = "rightPreview";
+        else targetPosKey = swipeDirection === "left" ? "hiddenSlideOutLeft" : "hiddenSlideOutRight";
+        if (positions[targetPosKey]) {
+            tl.to(item, { ...positions[targetPosKey], duration: 0.6, ease: "elastic.out(0.8,0.6)", width: `${slideWidth || 300}px` }, 0);
+        }
+    });
+    if (videoTitleClientElement && items[currentIndex]?.dataset) {
+        gsap.to(videoTitleClientElement, {
+            opacity: 0, duration: 0.35, onComplete: () => {
+                videoTitleClientElement.textContent = items[currentIndex].dataset.title || 'Título Indisponível';
+                gsap.to(videoTitleClientElement, { opacity: 1, duration: 0.35 });
+            }
+        });
+    }
+};
+
+const attachEventListeners = () => {
+    if (items.length > 1) {
+        Observer.create({
+            target: carouselWrapper,
+            type: "drag,touch,pointer",
+            dragMinimum: 1,
+            onPress: () => carouselWrapper.classList.add('grabbing'),
+            onRelease: () => carouselWrapper.classList.remove('grabbing'),
+            onDragEnd: self => {
+                if (isAnimating) return;
+                self.deltaX < -self.vars.dragMinimum
+                    ? goToSlide((currentIndex + 1) % items.length, "left")
+                    : self.deltaX > self.vars.dragMinimum && goToSlide((currentIndex - 1 + items.length) % items.length, "right");
+            }
+        });
+    } else {
+        carouselWrapper.style.cursor = 'default';
+    }
+    prevButton?.addEventListener('click', () =>
+        !isAnimating && items.length > 1 && goToSlide((currentIndex - 1 + items.length) % items.length, "right")
+    );
+    nextButton?.addEventListener('click', () =>
+        !isAnimating && items.length > 1 && goToSlide((currentIndex + 1) % items.length, "left")
+    );
+};
+
+const initializeShowcaseModule = () => {
     items = Array.from(document.querySelectorAll('.carousel-item'));
     carouselWrapper = document.querySelector('.carousel-wrapper');
     videoTitleClientElement = document.querySelector('.video-title-client');
@@ -298,220 +341,38 @@ function initializeShowcase() {
     nextButton = document.querySelector('#carousel-next');
     navVideoElement = document.querySelector('.nav-video');
     sectionTitleShowcaseElement = document.querySelector('.section-title-showcase');
-
-    if (typeof gsap === 'undefined' || typeof Observer === 'undefined') {
-        console.error("Showcase ERROR: GSAP or Observer is NOT defined.");
-        return;
-    }
-
-    if (!carouselWrapper || !navVideoElement || !sectionTitleShowcaseElement) {
-        console.error("Showcase ERROR: Elementos essenciais internos do carrossel não encontrados na inicialização.");
-        return;
-    }
-
-    gsap.delayedCall(0.01, () => {
-        if (items.length === 0) {
-            if (videoTitleClientElement) videoTitleClientElement.textContent = "Nenhum vídeo para exibir.";
-            if (prevButton) prevButton.style.display = 'none';
-            if (nextButton) nextButton.style.display = 'none';
-            if (carouselWrapper) carouselWrapper.style.cursor = 'default';
-            if (section4Element) section4Element.style.height = 'auto';
-            return;
-        }
-
-        updateCarouselPositions();
-        applyCurrentItemStates(false);
-        adjustSectionHeight();
-        setupAudioToggles();
-
-        function goToSlide(newCenterIndex, swipeDirection) {
-            if (isAnimating || (items.length > 1 && newCenterIndex === currentIndex) || (items.length <= 1 && newCenterIndex === currentIndex && items.length > 0)) {
-                return;
-            }
-            isAnimating = true;
-            const oldCenterIndex = currentIndex;
-            currentIndex = newCenterIndex;
-
-            const tl = gsap.timeline({
-                onComplete: () => {
-                    isAnimating = false;
-                    items.forEach((item, i) => {
-                        let finalZIndex = (positions.initialHidden && positions.initialHidden.zIndex !== undefined) ? positions.initialHidden.zIndex : 0;
-                        if (i === currentIndex && positions.center && positions.center.zIndex !== undefined) finalZIndex = positions.center.zIndex;
-                        else if (items.length > 1 && i === (currentIndex - 1 + items.length) % items.length && positions.leftPreview && positions.leftPreview.zIndex !== undefined) finalZIndex = positions.leftPreview.zIndex;
-                        else if (items.length > 1 && i === (currentIndex + 1) % items.length && positions.rightPreview && positions.rightPreview.zIndex !== undefined) finalZIndex = positions.rightPreview.zIndex;
-                        gsap.set(item, { zIndex: finalZIndex });
-                    });
-                }
-            });
-
-            items.forEach((item, index) => {
-                const audioButton = item.querySelector('.video-audio-toggle');
-                item.classList.toggle('is-active', index === currentIndex);
-
-                if (index === currentIndex) {
-                    // Simplesmente chama a função para tocar o vídeo
-                    playVideo(item);
-                } else {
-                    const video = item.querySelector('video.carousel-video');
-                    if (video) { // Pausa qualquer vídeo que não seja o ativo
-                        video.pause();
-                        if (video.currentTime > 0) video.currentTime = 0;
-                        video.muted = true;
-                        if (audioButton) audioButton.classList.remove('is-unmuted');
-                    }
-                }
-
-                let targetPosKey;
-                const itemWasOldCenter = (index === oldCenterIndex);
-                const itemWasOldLeftPreview = items.length > 1 && (index === (oldCenterIndex - 1 + items.length) % items.length);
-                const itemWasOldRightPreview = items.length > 1 && (index === (oldCenterIndex + 1) % items.length);
-                const isNewCenter = (index === currentIndex);
-                const isNewLeftPreview = items.length > 1 && (index === (currentIndex - 1 + items.length) % items.length);
-                const isNewRightPreview = items.length > 1 && (index === (currentIndex + 1) % items.length);
-                const itemIsBecomingVisibleStage = isNewCenter || isNewLeftPreview || isNewRightPreview;
-
-                if (itemIsBecomingVisibleStage && !(itemWasOldCenter || itemWasOldLeftPreview || itemWasOldRightPreview)) {
-                    let startX;
-                    const actualContainerWidth = carouselWrapper.offsetWidth;
-                    const centerPosLeft = (positions.center && positions.center.left !== undefined) ? positions.center.left : 0;
-                    const itemSlideWidth = (typeof slideWidth === 'number' && slideWidth > 0) ? slideWidth : 300;
-
-                    if (swipeDirection === "left") {
-                        startX = (positions.rightPreview && positions.rightPreview.left !== undefined) ? positions.rightPreview.left : (centerPosLeft + itemSlideWidth + 20);
-                        startX += itemSlideWidth * 0.2;
-
-                        if (isNewLeftPreview) startX = centerPosLeft;
-                        else if (isNewCenter) startX = (positions.rightPreview && positions.rightPreview.left !== undefined) ? positions.rightPreview.left : (centerPosLeft + itemSlideWidth + 20);
-                        else if (isNewRightPreview) startX = actualContainerWidth + itemSlideWidth * 0.2;
-
-                    } else {
-                        startX = (positions.leftPreview && positions.leftPreview.left !== undefined) ? positions.leftPreview.left : (centerPosLeft - itemSlideWidth - 20);
-                        startX -= itemSlideWidth * 0.2;
-
-                        if (isNewRightPreview) startX = centerPosLeft;
-                        else if (isNewCenter) startX = (positions.leftPreview && positions.leftPreview.left !== undefined) ? positions.leftPreview.left : (centerPosLeft - itemSlideWidth - 20);
-                        else if (isNewLeftPreview) startX = -itemSlideWidth * 1.2;
-                    }
-                    const initialScale = (positions.initialHidden && positions.initialHidden.scale !== undefined) ? positions.initialHidden.scale : 0.8;
-                    const initialPos = {
-                        ...(positions.initialHidden || {}),
-                        left: startX,
-                        opacity: 0,
-                        scale: initialScale,
-                        zIndex: 0,
-                        width: itemSlideWidth + 'px'
-                    };
-                    gsap.set(item, initialPos);
-                }
-
-                if (isNewCenter) targetPosKey = "center";
-                else if (isNewLeftPreview) targetPosKey = "leftPreview";
-                else if (isNewRightPreview) targetPosKey = "rightPreview";
-                else {
-                    if (swipeDirection === "left") targetPosKey = "hiddenSlideOutLeft";
-                    else targetPosKey = "hiddenSlideOutRight";
-                }
-
-                if (positions[targetPosKey]) {
-                    const itemSlideWidth = (typeof slideWidth === 'number' && slideWidth > 0) ? slideWidth : 300;
-                    tl.to(item, { ...positions[targetPosKey], duration: 0.6, ease: "elastic.out(0.8,0.6)", width: itemSlideWidth + 'px' }, 0);
-                }
-            });
-
-            if (videoTitleClientElement && items.length > 0 && items[currentIndex] && items[currentIndex].dataset) {
-                const activeItem = items[currentIndex];
-                gsap.to(videoTitleClientElement, {
-                    opacity: 0,
-                    duration: 0.35,
-                    onComplete: () => {
-                        if (activeItem && activeItem.dataset) {
-                            videoTitleClientElement.textContent = activeItem.dataset.title || 'Título Indisponível';
-                        }
-                        gsap.to(videoTitleClientElement, { opacity: 1, duration: 0.35 });
-                    }
-                });
-            }
-        }
-
-        if (items.length > 1) {
-            Observer.create({
-                target: carouselWrapper,
-                type: "drag,touch,pointer",
-                dragMinimum: 0,
-                onPress: function () { if (carouselWrapper) carouselWrapper.classList.add('grabbing'); },
-                onRelease: function () { if (carouselWrapper) carouselWrapper.classList.remove('grabbing'); },
-                onDragEnd: function (self) {
-                    if (isAnimating) return;
-                    const dragThreshold = self.vars.dragMinimum;
-                    if (self.deltaX <= -dragThreshold) goToSlide((currentIndex + 1) % items.length, "left");
-                    else if (self.deltaX >= dragThreshold) goToSlide((currentIndex - 1 + items.length) % items.length, "right");
-                }
-            });
-        } else if (carouselWrapper) {
-            carouselWrapper.style.cursor = 'default';
-        }
-
-        if (prevButton) prevButton.addEventListener('click', () => { if (!isAnimating && items.length > 1) goToSlide((currentIndex - 1 + items.length) % items.length, "right"); });
-        if (nextButton) nextButton.addEventListener('click', () => { if (!isAnimating && items.length > 1) goToSlide((currentIndex + 1) % items.length, "left"); });
-
-        if (items.length > 0 && items[currentIndex]) {
-            const initialSlide = items[currentIndex];
-            if (initialSlide) initialSlide.classList.add('is-active');
-
-            if (section4Element && typeof ScrollTrigger !== 'undefined') {
-                ScrollTrigger.create({
-                    trigger: section4Element,
-                    start: "top 65%",
-                    once: true,
-                    onEnter: () => playVideo(initialSlide) // Toca o vídeo inicial quando a seção entra na tela
-                });
-            } else {
-                playVideo(initialSlide); // Fallback caso o ScrollTrigger não esteja disponível
-            }
-        }
-        if (!window.showcaseResizeListenerAttached) {
-            window.addEventListener('resize', handleResize);
-            window.showcaseResizeListenerAttached = true;
-        }
-
-        if (typeof ScrollTrigger !== 'undefined' && typeof ScrollTrigger.refresh === 'function') {
-            ScrollTrigger.refresh();
-        }
-    });
-}
-
-// Evento principal executado quando a página é carregada
-window.addEventListener('load', function () {
     section4Element = document.querySelector('.section-4');
     section3Element = document.getElementById('section-3');
-
-    let targetToObserve;
-    let observerOptions;
-
-    if (section3Element) {
-        targetToObserve = section3Element;
-        observerOptions = {
-            rootMargin: '0px 0px 250px 0px'
-        };
-    } else if (section4Element) {
-        targetToObserve = section4Element;
-        observerOptions = {
-            rootMargin: '0px 0px 150px 0px'
-        };
-    } else {
-        console.error("Showcase ERROR: Nem section-3 nem section-4 foram encontradas. O carrossel não será inicializado.");
+    
+    if (!gsap || !carouselWrapper) {
+        console.error("Showcase ERROR: Dependências não encontradas.");
         return;
     }
-
+    
+    // Inicializa as posições, estados e eventos
+    updateCarouselPositions();
+    applyCurrentItemStates(false);
+    adjustSectionHeight();
+    attachEventListeners();
+    window.addEventListener('resize', handleResize);
+    
+    // Inicializa a reprodução do slide central ao entrar na viewport
+    const triggerElement = section3Element || section4Element;
+    if (!triggerElement) {
+        console.error("Showcase ERROR: Nenhuma seção de gatilho encontrada.");
+        return;
+    }
+    const observerOptions = { rootMargin: section3Element ? '0px 0px 250px 0px' : '0px 0px 150px 0px' };
     const showcaseObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                initializeShowcase();
+                items[currentIndex].classList.add('is-active');
+                loadAndPlayVideo(items[currentIndex], currentIndex, true);
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
+    showcaseObserver.observe(triggerElement);
+};
 
-    showcaseObserver.observe(targetToObserve);
-});
+export { initializeShowcaseModule as initializeShowcase };

@@ -7,6 +7,9 @@
     "start": "parcel",
     "build": "parcel build --public-url /youngmonkey/"
   },
+  ".htmlnanorc": {
+    "removeEmptyElements": false
+  },
   "parcel": {
     "minify": false
   },
@@ -24,12 +27,14 @@
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.15.2",
     "@parcel/transformer-image": "^2.15.2",
+    "@parcel/transformer-jsonld": "^2.15.2",
     "@parcel/transformer-webmanifest": "^2.15.2",
     "autoprefixer": "^10.4.21",
     "parcel": "^2.15.2",
     "postcss": "^8.5.4"
   },
   "dependencies": {
+    "@vimeo/player": "^2.29.0",
     "gsap": "^3.13.0"
   },
   "staticFiles": {

@@ -5,63 +5,195 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- CSP definitiva para Vimeo -->
+    <meta http-equiv="Content-Security-Policy" content="
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://player.vimeo.com https://f.vimeocdn.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        img-src 'self' data: https:;
+        font-src 'self' https://fonts.gstatic.com;
+        connect-src 'self' https://www.google-analytics.com https://player.vimeo.com https://f.vimeocdn.com https://vimeo.com;
+        frame-src 'self' https://player.vimeo.com https://vimeo.com;
+        media-src 'self' https://player.vimeo.com https://f.vimeocdn.com blob:;
+        worker-src 'self' blob:;
+        child-src 'self' https://player.vimeo.com;
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self'">
+
+    <!-- Meta tags primárias -->
     <title data-i18n="meta.title">Young Monkey: Vídeos Criativos, Design e Marketing de Conteúdo Digital</title>
+    <meta name="description"
+        content="Agência Young Monkey: Criação de vídeos profissionais, design gráfico e estratégias de marketing digital para varejo. Transforme sua presença online e aumente suas vendas.">
+    <meta name="keywords"
+        content="agência de vídeos, marketing digital para varejo, criação de conteúdo, produção de vídeos, design gráfico, Google Ads, redes sociais">
 
-    <meta name="description" data-i18n-content="meta.description"
-        content="Young Monkey: Agência digital especializada em design gráfico, criação de conteúdo para redes sociais (Instagram, TikTok, WhatsApp), produção de vídeos, campanhas promocionais (Google Ads), LPs de vendas e gestão de conteúdo para o mercado varejista. Elevamos sua marca e impulsionamos resultados no digital para o seu varejo.">
-
-    <meta name="keywords" data-i18n-content="meta.keywords"
-        content="young monkey, design criativo, comunicação visual, marketing de conteúdo, agência digital, produção de vídeo, gestão de redes sociais, posts para instagram, conteúdo para tiktok, campanhas google ads, landing pages, seo, marketing de performance, encartes promocionais, animação web, marketing para varejo, varejo digital, soluções para varejistas, publicidade para comércio local, gsap">
-
+    <!-- Controle de indexação -->
     <meta name="robots" content="index, follow">
-    <meta name="author" data-i18n-content="meta.author" content="Young Monkey">
+    <meta name="author" content="Young Monkey">
+    <link rel="canonical" href="https://youngmonkey.com.br/">
+    <link rel="alternate" hreflang="en" href="https://youngmonkey.com.br/en/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://youngmonkey.com.br/" />
+    <link rel="alternate" hreflang="x-default" href="https://youngmonkey.com.br/" />
 
-    <link rel="canonical" href="https://www.SUA_URL_CANONICAL_AQUI.com/">
+    <!-- Favicon e assets -->
     <link rel="icon" href="assets/images/media/favicon.ico" sizes="any">
     <link rel="icon" href="assets/images/media/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="assets/images/media/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="assets/images/media/apple-touch-icon.webp">
     <link rel="manifest" href="assets/json/manifest.json">
     <meta name="theme-color" content="#FFA500">
 
-    <meta property="og:title" data-i18n-content="meta.title"
-        content="Young Monkey: Soluções Digitais Criativas para o Mercado Varejista">
-    <meta property="og:description" data-i18n-content="meta.description"
-        content="Young Monkey: Design, conteúdo para redes sociais, vídeos, campanhas e LPs de vendas para impulsionar seu negócio no varejo. Transforme sua presença online!">
+    <!-- Pré-carregamento de recursos críticos -->
+    <link rel="preload" href="assets/images/thumbs/hero-Thumb.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="assets/css/style.css" as="style" fetchpriority="high">
+    <link rel="preload" href="assets/js/script.js" as="script" fetchpriority="high">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="assets/fonts/HelveticaNowText-Regular.woff2" as="font" type="font/woff2"
+        fetchpriority="high" crossorigin>
+    <link rel="preload" href="assets/fonts/HelveticaNowText-Bold.woff2" as="font" type="font/woff2" fetchpriority="high"
+        crossorigin>
+    <link rel="preload" href="assets/fonts/HelveticaNowText-ExtraBold.woff2" as="font" type="font/woff2"
+        fetchpriority="high" crossorigin>
+
+    <!-- CSS com carregamento otimizado -->
+    <style>
+        body {
+            font-family: "Helvetica Now Text", MuseoModerno, -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .skip-link:focus {
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            width: auto;
+            height: auto;
+            padding: 8px;
+            background: #00151b;
+            color: #23fc94;
+            z-index: 1000;
+        }
+    </style>
+
+    <!-- Carregamento do CSS principal -->
+    <link rel="stylesheet" href="assets/css/style.css" media="all">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Young Monkey: Soluções Digitais Criativas para o Mercado Varejista">
+    <meta property="og:description" content="Criação de conteúdos profissionais e estratégias de marketing digital para impulsionar seu negócio no varejo.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.SUA_URL_CANONICAL_AQUI.com/">
-    <meta property="og:image" content="assets/images/media/og-image.png">
+    <meta property="og:url" content="https://youngmonkey.com.br/">
+    <meta property="og:image" content="https://youngmonkey.com.br/assets/images/media/og-image.webp">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Young Monkey">
     <meta property="og:locale" content="pt_BR">
 
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" data-i18n-content="meta.title"
-        content="Young Monkey: Soluções Digitais Criativas para o Mercado Varejista">
-    <meta name="twitter:description" data-i18n-content="meta.description"
-        content="Young Monkey: Design, conteúdo para redes sociais, vídeos, campanhas e LPs de vendas para impulsionar seu negócio no varejo. Destaque-se no digital!">
-    <meta name="twitter:image" content="assets/images/media/og-image.png">
+    <meta name="twitter:title" content="Young Monkey: Soluções Digitais Criativas para o Mercado Varejista">
+    <meta name="twitter:description"
+        content="Criação de conteúdos profissionais e estratégias de marketing digital para impulsionar seu negócio no varejo.">
+    <meta name="twitter:image" content="https://youngmonkey.com.br/assets/images/media/og-image.webp">
+    <meta name="twitter:site" content="@youngmonkeybrasil">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fontes com display swap -->
     <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/media-query.css">
+    <!-- Schema Markup para SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Young Monkey",
+      "image": "https://youngmonkey.com.br/assets/images/media/og-image.webp",
+      "priceRange": "$$",
+      "telephone": "+5521969172045",
+      "email": "diego@diegosilva.video",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Rio de Janeiro",
+        "addressRegion": "RJ",
+        "addressCountry": "BR"
+      },
+      "sameAs": [
+        "https://www.instagram.com/youngmonkeybrasil/",
+        "https://br.fiverr.com/youngmonkey/"
+      ],
+      "description": "Agência especializada em produção de vídeos e marketing digital para o segmento varejista",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: "Helvetica Now Text";
+            src: url(assets/fonts/HelveticaNowText-Regular.woff2) format("woff2");
+            font-weight: 400;
+            font-style: normal;
+            unicode-range: U+0045, U+0047, U+004A, U+004D, U+004E, U+0051, U+0057, U+0059, U+006D, U+0071, U+0072, U+0077, U+0079;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "Helvetica Now Text";
+            src: url(assets/fonts/HelveticaNowText-Bold.woff2) format("woff2");
+            font-weight: 700;
+            font-style: normal;
+            unicode-range: U+0045, U+0047, U+004A, U+004D, U+004E, U+0051, U+0057, U+0059, U+006D, U+0071, U+0072, U+0077, U+0079;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "Helvetica Now Text";
+            src: url(assets/fonts/HelveticaNowText-ExtraBold.woff2) format("woff2");
+            font-weight: 800;
+            font-style: normal;
+            unicode-range: U+0045, U+0047, U+004A, U+004D, U+004E, U+0051, U+0057, U+0059, U+006D, U+0071, U+0072, U+0077, U+0079;
+            font-display: swap;
+        }
+    </style>
 </head>
 
 <body>
+    <a href="#main-content" class="skip-link" data-i18n="skipLink">Pular para conteúdo principal</a>
+
     <header class="header" id="mainHeader">
         <div class="header-box">
             <div class="nav-left">
                 <div class="nav-left__box" id="navBox">
                     <div class="nav-left__box-wrap">
-                        <a href="/" class="logo-nav">
+                        <a href="/" class="logo-nav" data-i18n-aria-label="logoLink">
                             <svg class="icon-logoYM"></svg>
                         </a>
                         <div class="nav-left__box__right">
-                            <div class="hamburger" id="hamburger">
+                            <div class="hamburger" id="hamburger" data-i18n-aria-label="open">
                                 <span></span>
                                 <span></span>
                                 <span></span>
@@ -87,14 +219,13 @@
                             <a href="https://www.instagram.com/youngmonkeybrasil/" target="_blank"
                                 data-i18n="nav.instagram"></a>
                             <a href="https://wa.me/5521969172045" target="_blank" data-i18n="nav.whatsapp"></a>
-                            <a href="https://br.fiverr.com/sellers/youngmonkey/" target="_blank"
-                                data-i18n="nav.fiverr"></a>
+                            <a href="https://br.fiverr.com/youngmonkey/" target="_blank" data-i18n="nav.fiverr"></a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="nav-right">
-                <div class="contact-button" id="contactBtn">
+                <div class="contact-button" id="contactBtn" data-i18n-aria-label="nav.knowMore">
                     <div class="button-shape"></div>
                     <div class="button-text-container">
                         <div class="button-text-wrapper">
@@ -108,531 +239,598 @@
         </div>
     </header>
 
-    <div class="smooth-wrapper" id="smooth-wrapper">
-        <div class="smooth-content" id="smooth-content">
-            <section id="hero" class="hero">
-                <div class="hero__video-container">
-                    <video class="hero__video" autoplay loop muted playsinline loading="lazy" width="1920"
-                        height="1080">
-                        <source src="assets/videos/presentation (1080p).mp4" type="video/mp4">
-                        <!-- Texto de fallback para vídeo -->
-                        O seu navegador não suporta o elemento de vídeo.
-                    </video>
-                    <div class="hero__video-overlay"></div>
-                </div>
+    <main id="main-content">
+        <div class="smooth-wrapper" id="smooth-wrapper">
+            <div class="smooth-content" id="smooth-content">
+                <section id="hero" class="hero">
+                    <div class="hero__video-container" data-video-id="1093196680"
+                        data-video-fallback-src="assets/videos/hero.mp4">
+                        <div class="hero-thumb">
+                            <img src="assets/images/thumbs/hero-Thumb.webp" alt="Thumbnail do vídeo" loading="eager">
+                        </div>
+                        <div class="hero__video-overlay"></div>
+                    </div>
 
-                <div class="hero__content container">
-                    <div class="scramble-title">
-                        <div id="scrambleGroup">
-                            <div class="scramble-line" id="line1" data-i18n-scramble-key="hero.scrambleText.line1">VIDEO
+                    <div class="hero__content container">
+                        <h1 class="scramble-title">
+                            <div id="scrambleGroup">
+                                <div class="scramble-line" id="line1" data-i18n-scramble-key="hero.scrambleText.line1">
+                                    VIDEO
+                                </div>
+                                <div class="scramble-line" id="line2" data-i18n-scramble-key="hero.scrambleText.line2">
+                                    GETS
+                                </div>
+                                <div class="scramble-line" id="line3" data-i18n-scramble-key="hero.scrambleText.line3">
+                                    ATTENTION</div>
                             </div>
-                            <div class="scramble-line" id="line2" data-i18n-scramble-key="hero.scrambleText.line2">GETS
-                            </div>
-                            <div class="scramble-line" id="line3" data-i18n-scramble-key="hero.scrambleText.line3">
-                                ATTENTION</div>
+                        </h1>
+                    </div>
+                    <div class="dots-container" id="dotsContainer" data-speed="1"></div>
+                    <div class="cta-fixed-container" id="ctaFixedContainer" data-speed="1">
+                        <div class="cta-text">
+                            <a href="#section-2" data-i18n="hero.ctaHighlight"></a>
+                        </div>
+                        <div class="cta-dots-animation">
+                            <div class="cta-dots-pattern"></div>
                         </div>
                     </div>
-                </div>
-                <div class="dots-container" id="dotsContainer" data-speed="1"></div>
-                <div class="cta-fixed-container" id="ctaFixedContainer" data-speed="1">
-                    <div class="cta-text">
-                        <a href="#section-2" data-i18n="hero.ctaHighlight"></a>
-                    </div>
-                    <div class="cta-dots-animation">
-                        <div class="cta-dots-pattern"></div>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <section id="section-1" class="section-1">
-                <div class="gradient-background">
-                    <div class="noise-overlay"></div>
-                </div>
-                <div class="dynamic-odometer" id="dynamicOdometer">
-                    <div class="digit-slot">
-                        <div class="digit-reel" id="odometer-hundreds">
-                            <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+                <section id="section-1" class="section-1">
+                    <div class="gradient-background">
+                        <div class="noise-overlay"></div>
+                    </div>
+                    <div class="dynamic-odometer" id="dynamicOdometer" aria-hidden="true">
+                        <div class="digit-slot">
+                            <div class="digit-reel" id="odometer-hundreds">
+                                <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+                            </div>
+                        </div>
+                        <div class="digit-slot">
+                            <div class="digit-reel" id="odometer-tens">
+                                <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+                            </div>
+                        </div>
+                        <div class="digit-slot">
+                            <div class="digit-reel" id="odometer-units">
+                                <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="digit-slot">
-                        <div class="digit-reel" id="odometer-tens">
-                            <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+                    <div class="section-content-wrapper-s1">
+                        <div class="section-1-content container">
+                            <h2 class="long-shadow-text" id="transformeText">
+                                <span data-i18n="section1.transform"></span> <span
+                                    data-i18n="section1.attention"></span>
+                                <span data-i18n="section1.into"></span> <span data-i18n="section1.results"></span>
+                            </h2>
                         </div>
                     </div>
-                    <div class="digit-slot">
-                        <div class="digit-reel" id="odometer-units">
-                            <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
-                        </div>
+                    <div class="new-arrow-path-container pin-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1080" aria-hidden="true">
+                            <path id="main-path"
+                                d="M2696.49 483.61C2696.49 670.04 2507.76 1151.5 2015.26 995.5C1725.9 903.85 1616.92 615.21 1639.26 436C1654.95 310.182 1758.46 235.005 1810.26 334C1978.76 656 1356.26 1033.38 926.261 667C621.474 407.3 654.808 -81.606 1081.46 -639"
+                                fill="none" stroke="transparent" />
+                            <path class="draw"
+                                d="M2696.49 483.61C2696.49 670.04 2507.76 1151.5 2015.26 995.5C1725.9 903.85 1616.92 615.21 1639.26 436C1654.95 310.182 1758.46 235.005 1810.26 334C1978.76 656 1356.26 1033.38 926.261 667C621.474 407.3 654.808 -81.606 1081.46 -639"
+                                fill="none" stroke="var(--accent-secondary-color)" stroke-linecap="butt"
+                                stroke-miterlimit="10" stroke-width="80" />
+                            <path id="arrow" d="M108 122.5L215 0H0L108 122.5Z" fill="var(--accent-secondary-color)"
+                                transform="scale(0.8)" />
+                        </svg>
                     </div>
-                </div>
-                <div class="section-content-wrapper-s1">
-                    <div class="section-1-content container">
-                        <h2 class="long-shadow-text" id="transformeText">
-                            <span data-i18n="section1.transform"></span> <span data-i18n="section1.attention"></span>
-                            <span data-i18n="section1.into"></span> <span data-i18n="section1.results"></span>
-                        </h2>
-                    </div>
-                </div>
-                <div class="new-arrow-path-container pin-element">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1080">
-                        <path id="main-path"
-                            d="M2696.49 483.61C2696.49 670.04 2507.76 1151.5 2015.26 995.5C1725.9 903.85 1616.92 615.21 1639.26 436C1654.95 310.182 1758.46 235.005 1810.26 334C1978.76 656 1356.26 1033.38 926.261 667C621.474 407.3 654.808 -81.606 1081.46 -639"
-                            fill="none" stroke="transparent" />
-                        <path class="draw"
-                            d="M2696.49 483.61C2696.49 670.04 2507.76 1151.5 2015.26 995.5C1725.9 903.85 1616.92 615.21 1639.26 436C1654.95 310.182 1758.46 235.005 1810.26 334C1978.76 656 1356.26 1033.38 926.261 667C621.474 407.3 654.808 -81.606 1081.46 -639"
-                            fill="none" stroke="var(--accent-secondary-color)" stroke-linecap="butt"
-                            stroke-miterlimit="10" stroke-width="80" />
-                        <path id="arrow" d="M108 122.5L215 0H0L108 122.5Z" fill="var(--accent-secondary-color)"
-                            transform="scale(0.8)" />
-                    </svg>
-                </div>
-            </section>
+                </section>
 
-            <section id="section-2" class="section-2 services-section">
-                <div class="services-container">
-                    <div class="services-content-wrapper">
-                        <div class="service-arrow">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1080">
-                                <path id="service-path"
-                                    d="M-36 768.5H1063.5C1151.87 768.5 1223.5 696.866 1223.5 608.5V472C1223.5 383.634 1295.13 312 1383.5 312H2630"
-                                    fill="none" stroke="transparent" />
-                                <path class="service-draw"
-                                    d="M-36 768.5H1063.5C1151.87 768.5 1223.5 696.866 1223.5 608.5V472C1223.5 383.634 1295.13 312 1383.5 312H2630"
-                                    fill="none" stroke="var(--accent-color)" stroke-linecap="butt"
-                                    stroke-miterlimit="10" stroke-width="80" />
-                                <path id="service-arrow-point" d="M108 122.5L215 0H0L108 122.5Z"
-                                    fill="var(--accent-color)" transform="scale(0.8)" />
-                            </svg>
-                        </div>
-                        <div class="service-arrow-mobile">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1200">
-                                <path id="service-path-mobile"
-                                    d="M0 1112.5H729.5C817.866 1112.5 889.5 1040.87 889.5 952.5V-68" fill="none"
-                                    stroke="transparent" />
-                                <path class="service-draw-mobile"
-                                    d="M0 1112.5H729.5C817.866 1112.5 889.5 1040.87 889.5 952.5V-68" fill="none"
-                                    stroke="var(--accent-color)" stroke-linecap="butt" stroke-miterlimit="10"
-                                    stroke-width="80" />
-                                <path id="service-arrow-point-mobile" d="M108 122.5L215 0H0L108 122.5Z"
-                                    fill="var(--accent-color)" transform="scale(0.8)" />
-                            </svg>
-                        </div>
-                        <div class="services-left-panel">
-                            <div class="service-text">
-                                <h2 class="services-title" data-i18n-html="services.title"></h2>
-                                <p class="services-subtitle" data-i18n="services.subtitle"></p>
-                            </div>
-                            <div id="servicesCounter" class="services__counter">00/00</div>
-                        </div>
-                        <div class="services-right-panel">
-                            <div class="service-card card-1">
-                                <div class="service-card-image-placeholder">
-                                    <img src="assets/images/img/design-encarte.webp" data-i18n-alt="services.card1Title"
-                                        loading="lazy" width="787" height="455">
-                                </div>
-                                <div class="service-card-title-box">
-                                    <h3 data-i18n="services.card1Title"></h3>
-                                </div>
-                            </div>
-                            <div class="service-card card-2">
-                                <div class="service-card-image-placeholder">
-                                    <img src="assets/images/img/video.webp" data-i18n-alt="services.card2Title">
-                                </div>
-                                <div class="service-card-title-box">
-                                    <h3 data-i18n="services.card2Title"></h3>
-                                </div>
-                            </div>
-                            <div class="service-card card-5">
-                                <div class="service-card-image-placeholder">
-                                    <img src="assets/images/img/social-media.webp" data-i18n-alt="services.card3Title"
-                                        loading="lazy" width="787" height="455">
-                                </div>
-                                <div class="service-card-title-box">
-                                    <h3 data-i18n="services.card3Title"></h3>
-                                </div>
-                            </div>
-                            <div class="service-card card-3">
-                                <div class="service-card-image-placeholder">
-                                    <img src="assets/images/img/google-ads.webp" data-i18n-alt="services.card4Title"
-                                        loading="lazy" width="787" height="455">
-                                </div>
-                                <div class="service-card-title-box">
-                                    <h3 data-i18n="services.card4Title"></h3>
-                                </div>
-                            </div>
-                            <div class="service-card card-4">
-                                <div class="service-card-image-placeholder">
-                                    <img src="assets/images/img/LPs.webp" data-i18n-alt="services.card5Title" loading="lazy"
-                                        width="787" height="455">
-                                </div>
-                                <div class="service-card-title-box">
-                                    <h3 data-i18n="services.card5Title"></h3>
-                                </div>
-                            </div>
-                            <div class="service-card card-6">
-                                <div class="service-card-image-placeholder">
-                                    <img src="assets/images/img/content-manager.webp" data-i18n-alt="services.card6Title"
-                                        loading="lazy" width="787" height="455">
-                                </div>
-                                <div class="service-card-title-box">
-                                    <h3 data-i18n="services.card6Title"></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="section-3" class="section-3 testimonials-section">
-                <div class="logo-marquee-container">
-                    <div class="logo-marquee-track">
-                        <svg class="icon-globo" id="boxer" width="266" height="50" viewBox="0 0 266 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                        <svg class="icon-dolby" id="boxer" width="165" height="50" viewBox="0 0 165 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                        <svg class="icon-uol" id="boxer" width="222" height="50" viewBox="0 0 222 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                        <svg class="icon-gpa" id="boxer" width="99" height="50" viewBox="0 0 99 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                        <svg class="icon-zello" id="boxer" width="116" height="50" viewBox="0 0 116 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                        <svg class="icon-iasys" id="boxer" width="170" height="50" viewBox="0 0 170 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                        <svg class="icon-globo" id="boxer" width="266" height="50" viewBox="0 0 266 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                        <svg class="icon-dolby" id="boxer" width="165" height="50" viewBox="0 0 165 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                        <svg class="icon-uol" id="boxer" width="222" height="50" viewBox="0 0 222 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                        <svg class="icon-gpa" id="boxer" width="99" height="50" viewBox="0 0 99 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                        <svg class="icon-zello" id="boxer" width="116" height="50" viewBox="0 0 116 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                        <svg class="icon-iasys" id="boxer" width="170" height="50" viewBox="0 0 170 50"
-                            preserveAspectRatio="xMidYMid meet">...</svg>
-                    </div>
-                </div>
-                <div class="testimonials-wrapper container">
-                    <div class="testimonial-main-content">
-                        <div class="testimonial-left-column">
-                            <div class="testimonial-bubble">
-                                <div class="testimonial-bubble-content">
-                                    <div class="testimonial-identity">
-                                        <img src="https://placehold.co/80x80/cccccc/333333?text=Foto"
-                                            alt="Foto da Pessoa" id="testimonialImage" class="testimonial-person-photo"
-                                            loading="lazy" width="80" height="80">
-                                        <div class="testimonial-person-details">
-                                            <p class="testimonial-name" id="testimonialName"
-                                                data-i18n="testimonialSection.person1Name"></p>
-                                            <p class="testimonial-title" id="testimonialTitle"
-                                                data-i18n="testimonialSection.person1Title"></p>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-quote-area">
-                                        <h3 class="testimonial-quote-title" id="testimonialQuoteTitle"
-                                            data-i18n="testimonialSection.person1QuoteTitle"></h3>
-                                        <p class="testimonial-text" id="testimonialText"
-                                            data-i18n="testimonialSection.person1QuoteText"></p>
-                                    </div>
-                                </div>
-                                <svg class="testimonial-svg" width="143" height="206" viewBox="0 0 143 206"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M15.4969 98.1503L99.7334 206V121.248C99.7334 111.14 107.935 102.95 118.043 102.965L142.5 103V0H0V53.1334C0 69.4475 5.45482 85.2932 15.4969 98.1503Z"
-                                        fill="#E6FFF3" />
+                <section id="section-2" class="section-2 services-section">
+                    <div class="services-container">
+                        <div class="services-content-wrapper">
+                            <div class="service-arrow" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1080">
+                                    <path id="service-path"
+                                        d="M-36 768.5H1063.5C1151.87 768.5 1223.5 696.866 1223.5 608.5V472C1223.5 383.634 1295.13 312 1383.5 312H2630"
+                                        fill="none" stroke="transparent" />
+                                    <path class="service-draw"
+                                        d="M-36 768.5H1063.5C1151.87 768.5 1223.5 696.866 1223.5 608.5V472C1223.5 383.634 1295.13 312 1383.5 312H2630"
+                                        fill="none" stroke="var(--accent-color)" stroke-linecap="butt"
+                                        stroke-miterlimit="10" stroke-width="80" />
+                                    <path id="service-arrow-point" d="M108 122.5L215 0H0L108 122.5Z"
+                                        fill="var(--accent-color)" transform="scale(0.8)" />
                                 </svg>
                             </div>
-                            <div class="testimonial-navigation">
-                                <button id="prevTestimonial" class="testimonial-nav-button"
-                                    data-i18n-aria-label="testimonialSection.prevButton">
-                                    <svg class="icon-seta-1"></svg>
+                            <div class="service-arrow-mobile" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1200">
+                                    <path id="service-path-mobile"
+                                        d="M550 1112.5H729.5C817.866 1112.5 889.5 1040.87 889.5 952.5V300" fill="none"
+                                        stroke="transparent" />
+                                    <path class="service-draw-mobile"
+                                        d="M550 1112.5H729.5C817.866 1112.5 889.5 1040.87 889.5 952.5V300" fill="none"
+                                        stroke="var(--accent-color)" stroke-linecap="butt" stroke-miterlimit="10"
+                                        stroke-width="80" />
+                                    <path id="service-arrow-point-mobile" d="M108 122.5L215 0H0L108 122.5Z"
+                                        fill="var(--accent-color)" transform="scale(0.8)" />
+                                </svg>
+                            </div>
+                            <div class="services-left-panel">
+                                <div class="service-text">
+                                    <h2 class="services-title" data-i18n-html="services.title"></h2>
+                                    <p class="services-subtitle" data-i18n="services.subtitle"></p>
+                                </div>
+                                <div id="servicesCounter" class="services__counter" aria-live="polite">00/00</div>
+                            </div>
+                            <div class="services-right-panel">
+                                <div class="service-card card-1" tabindex="0" role="button" aria-label="Design Gráfico">
+                                    <div class="service-card-image-placeholder">
+                                        <img src="assets/images/img/design-encarte.webp"
+                                            data-i18n-alt="services.card1Title" loading="lazy" width="787" height="455">
+                                    </div>
+                                    <div class="service-card-title-box">
+                                        <h3 data-i18n="services.card1Title"></h3>
+                                    </div>
+                                </div>
+                                <div class="service-card card-2" tabindex="0" role="button"
+                                    aria-label="Produção de Vídeos">
+                                    <div class="service-card-image-placeholder">
+                                        <img src="assets/images/img/video.webp" data-i18n-alt="services.card2Title"
+                                            loading="lazy" width="787" height="455">
+                                    </div>
+                                    <div class="service-card-title-box">
+                                        <h3 data-i18n="services.card2Title"></h3>
+                                    </div>
+                                </div>
+                                <div class="service-card card-5" tabindex="0" role="button" aria-label="Social Media">
+                                    <div class="service-card-image-placeholder">
+                                        <img src="assets/images/img/social-media.webp"
+                                            data-i18n-alt="services.card3Title" loading="lazy" width="787" height="455">
+                                    </div>
+                                    <div class="service-card-title-box">
+                                        <h3 data-i18n="services.card3Title"></h3>
+                                    </div>
+                                </div>
+                                <div class="service-card card-3" tabindex="0" role="button" aria-label="Google Ads">
+                                    <div class="service-card-image-placeholder">
+                                        <img src="assets/images/img/google-ads.webp" data-i18n-alt="services.card4Title"
+                                            loading="lazy" width="787" height="455">
+                                    </div>
+                                    <div class="service-card-title-box">
+                                        <h3 data-i18n="services.card4Title"></h3>
+                                    </div>
+                                </div>
+                                <div class="service-card card-4" tabindex="0" role="button" aria-label="Landing Pages">
+                                    <div class="service-card-image-placeholder">
+                                        <img src="assets/images/img/LPs.webp" data-i18n-alt="services.card5Title"
+                                            loading="lazy" width="787" height="455">
+                                    </div>
+                                    <div class="service-card-title-box">
+                                        <h3 data-i18n="services.card5Title"></h3>
+                                    </div>
+                                </div>
+                                <div class="service-card card-6" tabindex="0" role="button"
+                                    aria-label="Gestão de Conteúdo">
+                                    <div class="service-card-image-placeholder">
+                                        <img src="assets/images/img/content-manager.webp"
+                                            data-i18n-alt="services.card6Title" loading="lazy" width="787" height="455">
+                                    </div>
+                                    <div class="service-card-title-box">
+                                        <h3 data-i18n="services.card6Title"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="section-3" class="section-3 testimonials-section">
+                    <div class="logo-marquee-container" aria-hidden="true">
+                        <div class="logo-marquee-track">
+                            <svg class="icon-globo" id="boxer" width="266" height="50" viewBox="0 0 266 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                            <svg class="icon-dolby" id="boxer" width="165" height="50" viewBox="0 0 165 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                            <svg class="icon-uol" id="boxer" width="222" height="50" viewBox="0 0 222 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                            <svg class="icon-gpa" id="boxer" width="99" height="50" viewBox="0 0 99 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                            <svg class="icon-zello" id="boxer" width="116" height="50" viewBox="0 0 116 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                            <svg class="icon-iasys" id="boxer" width="170" height="50" viewBox="0 0 170 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                            <svg class="icon-globo" id="boxer" width="266" height="50" viewBox="0 0 266 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                            <svg class="icon-dolby" id="boxer" width="165" height="50" viewBox="0 0 165 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                            <svg class="icon-uol" id="boxer" width="222" height="50" viewBox="0 0 222 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                            <svg class="icon-gpa" id="boxer" width="99" height="50" viewBox="0 0 99 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                            <svg class="icon-zello" id="boxer" width="116" height="50" viewBox="0 0 116 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                            <svg class="icon-iasys" id="boxer" width="170" height="50" viewBox="0 0 170 50"
+                                preserveAspectRatio="xMidYMid meet">...</svg>
+                        </div>
+                    </div>
+                    <div class="testimonials-wrapper container">
+                        <div class="testimonial-main-content">
+                            <div class="testimonial-left-column">
+                                <div class="testimonial-bubble">
+                                    <div class="testimonial-bubble-content">
+                                        <div class="testimonial-identity">
+                                            <img src="#" alt="Foto da Pessoa" id="testimonialImage"
+                                                class="testimonial-person-photo" loading="lazy" width="80" height="80">
+                                            <div class="testimonial-person-details">
+                                                <p class="testimonial-name" id="testimonialName"
+                                                    data-i18n="testimonialSection.person1Name"></p>
+                                                <p class="testimonial-title" id="testimonialTitle"
+                                                    data-i18n="testimonialSection.person1Title"></p>
+                                            </div>
+                                        </div>
+                                        <div class="testimonial-quote-area">
+                                            <h3 class="testimonial-quote-title" id="testimonialQuoteTitle"
+                                                data-i18n="testimonialSection.person1QuoteTitle"></h3>
+                                            <p class="testimonial-text" id="testimonialText"
+                                                data-i18n="testimonialSection.person1QuoteText"></p>
+                                        </div>
+                                    </div>
+                                    <svg class="testimonial-svg" width="143" height="206" viewBox="0 0 143 206"
+                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path
+                                            d="M15.4969 98.1503L99.7334 206V121.248C99.7334 111.14 107.935 102.95 118.043 102.965L142.5 103V0H0V53.1334C0 69.4475 5.45482 85.2932 15.4969 98.1503Z"
+                                            fill="#E6FFF3" />
+                                    </svg>
+                                </div>
+                                <div class="testimonial-navigation">
+                                    <button id="prevTestimonial" class="testimonial-nav-button"
+                                        data-i18n-aria-label="testimonialSection.prevButton"
+                                        aria-label="Depoimento anterior">
+                                        <svg class="icon-seta-1" aria-hidden="true"></svg>
+                                    </button>
+                                    <button id="nextTestimonial" class="testimonial-nav-button"
+                                        data-i18n-aria-label="testimonialSection.nextButton"
+                                        aria-label="Próximo depoimento">
+                                        <svg class="icon-seta-2" aria-hidden="true"></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="testimonial-right-column">
+                                <h2 class="section-title-testimonial" data-i18n-html="testimonialSection.title"></h2>
+                                <p class="section-subtitle-testimonial" data-i18n="testimonialSection.subtitle"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="svg-container" id="svgGroup" aria-hidden="true">
+                        <svg class="icon-halo svg1" width="342" height="72" viewBox="0 0 342 72"></svg>
+                        <svg class="icon-halo svg2" width="342" height="72" viewBox="0 0 342 72"></svg>
+                        <svg class="icon-halo svg3" width="342" height="72" viewBox="0 0 342 72"></svg>
+                        <svg class="icon-halo svg4" width="342" height="72" viewBox="0 0 342 72"></svg>
+                        <svg class="icon-halo svg5" width="342" height="72" viewBox="0 0 342 72"></svg>
+                        <svg class="icon-halo svg6" width="342" height="72" viewBox="0 0 342 72"></svg>
+                    </div>
+                </section>
+
+                <section id="section-4" class="section-4">
+                    <div class="container">
+                        <h2 class="section-title-showcase" data-i18n="showcaseSection.title"></h2>
+                    </div>
+                    <div class="carousel-wrapper">
+                        <div class="carousel-item" data-video-id="1092785997"
+                            data-video-fallback-src="assets/videos/Demo-Reel-YoungMonkey.mp4"
+                            data-i18n-data-title="showcaseSection.video1Title">
+                            <div class="vimeo-player-container">
+                                <img src="assets/images/thumbs/Demorell-Thumb.webp" alt="Thumbnail do vídeo"
+                                    loading="lazy" width="1280" height="720">
+                            </div>
+                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio"
+                                aria-label="Alternar áudio">
+                                <svg class="icon-audioOff" aria-hidden="true"></svg>
+                                <svg class="icon-audioOn" aria-hidden="true"></svg>
+                            </button>
+                        </div>
+                        <div class="carousel-item" data-video-id="1092786134"
+                            data-video-fallback-src="assets/videos/Presentation.mp4"
+                            data-i18n-data-title="showcaseSection.video2Title">
+                            <div class="vimeo-player-container">
+                                <img src="assets/images/thumbs/Presentation-Video-Thumb.webp" alt="Thumbnail do vídeo"
+                                    loading="lazy" width="1280" height="720">
+                            </div>
+                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio"
+                                aria-label="Alternar áudio">
+                                <svg class="icon-audioOff" aria-hidden="true"></svg>
+                                <svg class="icon-audioOn" aria-hidden="true"></svg>
+                            </button>
+                        </div>
+                        <div class="carousel-item" data-video-id="1092786232"
+                            data-video-fallback-src="assets/videos/Stories-Qual-Oferta.mp4"
+                            data-i18n-data-title="showcaseSection.video3Title">
+                            <div class="vimeo-player-container">
+                                <img src="assets/images/thumbs/Qual-Oferta-Extra-Thumb.webp" alt="Thumbnail do vídeo"
+                                    loading="lazy" width="1280" height="720">
+                            </div>
+                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio"
+                                aria-label="Alternar áudio">
+                                <svg class="icon-audioOff" aria-hidden="true"></svg>
+                                <svg class="icon-audioOn" aria-hidden="true"></svg>
+                            </button>
+                        </div>
+                        <div class="carousel-item" data-video-id="1092908892"
+                            data-video-fallback-src="assets/videos/Sol-Comercial.mp4"
+                            data-i18n-data-title="showcaseSection.video4Title">
+                            <div class="vimeo-player-container">
+                                <img src="assets/images/thumbs/Sol-Loja-Thumb.webp" alt="Thumbnail do vídeo"
+                                    loading="lazy" width="1280" height="720">
+                            </div>
+                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio"
+                                aria-label="Alternar áudio">
+                                <svg class="icon-audioOff" aria-hidden="true"></svg>
+                                <svg class="icon-audioOn" aria-hidden="true"></svg>
+                            </button>
+                        </div>
+                        <div class="carousel-item" data-video-id="1092786258"
+                            data-video-fallback-src="assets/videos/VT-Promo_Verao.mp4"
+                            data-i18n-data-title="showcaseSection.video5Title">
+                            <div class="vimeo-player-container">
+                                <img src="assets/images/thumbs/VT-Promo-Thumb.webp" alt="Thumbnail do vídeo"
+                                    loading="lazy" width="1280" height="720">
+                            </div>
+                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio"
+                                aria-label="Alternar áudio">
+                                <svg class="icon-audioOff" aria-hidden="true"></svg>
+                                <svg class="icon-audioOn" aria-hidden="true"></svg>
+                            </button>
+                        </div>
+                        <div class="carousel-item" data-video-id="1092786198"
+                            data-video-fallback-src="assets/videos/Sol-Natal.mp4"
+                            data-i18n-data-title="showcaseSection.video6Title">
+                            <div class="vimeo-player-container">
+                                <img src="assets/images/thumbs/Sol-Natal_Thumb.webp" alt="Thumbnail do vídeo"
+                                    loading="lazy" width="1280" height="720">
+                            </div>
+                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio"
+                                aria-label="Alternar áudio">
+                                <svg class="icon-audioOff" aria-hidden="true"></svg>
+                                <svg class="icon-audioOn" aria-hidden="true"></svg>
+                            </button>
+                        </div>
+                        <div class="carousel-item" data-video-id="1092786112"
+                            data-video-fallback-src="assets/videos/Mubadala.mp4"
+                            data-i18n-data-title="showcaseSection.video7Title">
+                            <div class="vimeo-player-container">
+                                <img src="assets/images/thumbs/Mubadala-Thumb.webp" alt="Thumbnail do vídeo"
+                                    loading="lazy" width="1280" height="720">
+                            </div>
+                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio"
+                                aria-label="Alternar áudio">
+                                <svg class="icon-audioOff" aria-hidden="true"></svg>
+                                <svg class="icon-audioOn" aria-hidden="true"></svg>
+                            </button>
+                        </div>
+                        <div class="carousel-item" data-video-id="1092786025"
+                            data-video-fallback-src="assets/videos/Dolby.mp4"
+                            data-i18n-data-title="showcaseSection.video8Title">
+                            <div class="vimeo-player-container">
+                                <img src="assets/images/thumbs/Dolby-Thumb.webp" alt="Thumbnail do vídeo" loading="lazy"
+                                    width="1280" height="720">
+                            </div>
+                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio"
+                                aria-label="Alternar áudio">
+                                <svg class="icon-audioOff" aria-hidden="true"></svg>
+                                <svg class="icon-audioOn" aria-hidden="true"></svg>
+                            </button>
+                        </div>
+                        <div class="carousel-item" data-video-id="1092785969"
+                            data-video-fallback-src="assets/videos/Aline-Home.mp4"
+                            data-i18n-data-title="showcaseSection.video9Title">
+                            <div class="vimeo-player-container">
+                                <img src="assets/images/thumbs/Aline-Thumb.webp" alt="Thumbnail do vídeo" loading="lazy"
+                                    width="1280" height="720">
+                            </div>
+                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio"
+                                aria-label="Alternar áudio">
+                                <svg class="icon-audioOff" aria-hidden="true"></svg>
+                                <svg class="icon-audioOn" aria-hidden="true"></svg>
+                            </button>
+                        </div>
+                        <div class="carousel-item" data-video-id="1092786075"
+                            data-video-fallback-src="assets/videos/DONA-DELIA.mp4"
+                            data-i18n-data-title="showcaseSection.video10Title">
+                            <div class="vimeo-player-container">
+                                <img src="assets/images/thumbs/Dona-Delia-Thumb.webp" alt="Thumbnail do vídeo"
+                                    loading="lazy" width="1280" height="720">
+                            </div>
+                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio"
+                                aria-label="Alternar áudio">
+                                <svg class="icon-audioOff" aria-hidden="true"></svg>
+                                <svg class="icon-audioOn" aria-hidden="true"></svg>
+                            </button>
+                        </div>
+
+                        <div class="nav-video">
+                            <div class="video-title-client" data-i18n="showcaseSection.defaultVideoTitle"
+                                aria-live="polite"></div>
+                            <div class="buttons-nav">
+                                <button id="carousel-prev" class="carousel-nav"
+                                    data-i18n-aria-label="showcaseSection.prevButton" aria-label="Vídeo anterior">
+                                    <svg class="icon-seta-1" aria-hidden="true"></svg>
                                 </button>
-                                <button id="nextTestimonial" class="testimonial-nav-button"
-                                    data-i18n-aria-label="testimonialSection.nextButton">
-                                    <svg class="icon-seta-2"></svg>
+                                <button id="carousel-next" class="carousel-nav"
+                                    data-i18n-aria-label="showcaseSection.nextButton" aria-label="Próximo vídeo">
+                                    <svg class="icon-seta-2" aria-hidden="true"></svg>
                                 </button>
                             </div>
                         </div>
-                        <div class="testimonial-right-column">
-                            <h2 class="section-title-testimonial" data-i18n-html="testimonialSection.title"></h2>
-                            <p class="section-subtitle-testimonial" data-i18n="testimonialSection.subtitle"></p>
-                        </div>
                     </div>
-                </div>
-                <div class="svg-container" id="svgGroup">
-                    <svg class="icon-halo svg1" width="342" height="72" viewBox="0 0 342 72"></svg>
-                    <svg class="icon-halo svg2" width="342" height="72" viewBox="0 0 342 72"></svg>
-                    <svg class="icon-halo svg3" width="342" height="72" viewBox="0 0 342 72"></svg>
-                    <svg class="icon-halo svg4" width="342" height="72" viewBox="0 0 342 72"></svg>
-                    <svg class="icon-halo svg5" width="342" height="72" viewBox="0 0 342 72"></svg>
-                    <svg class="icon-halo svg6" width="342" height="72" viewBox="0 0 342 72"></svg>
-                </div>
-            </section>
+                </section>
 
-            <section id="section-4" class="section-4">
-                <div class="container">
-                    <h2 class="section-title-showcase" data-i18n="showcaseSection.title"></h2>
-                </div>
-                <div class="carousel-wrapper">
-                    <div class="carousel-item" data-i18n-data-title="showcaseSection.video1Title">
-                        <video class="carousel-video" src="assets/videos/Demo Reel Young Monkey - Young Monkey (1080P, H264).mp4" poster="assets/images/thumbs/Demorell-Thumb.png" preload="none" muted loop
-                            playsinline loading="lazy"></video>
-                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio">
-                            <svg class="icon-audioOff"></svg>
-                            <svg class="icon-audioOn"></svg>
-                        </button>
+                <footer id="footer" class="footer">
+                    <div class="footer-top-bar"></div>
+                    <div class="footer-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 2560 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path id="footer-path" d="M2588 97.0002L1376 97C1322.98 97 1280 139.981 1280 193V220"
+                                fill="none" stroke="transparent" stroke-width="10" />
+                            <path class="footer-draw" d="M2588 97.0002L1376 97C1322.98 97 1280 139.981 1280 193V220"
+                                fill="none" stroke="var(--accent-color)" stroke-linecap="butt" stroke-miterlimit="10"
+                                stroke-width="80" />
+                            <path id="footer-arrow-point" d="M108 122.5L215 0H0L108 122.5Z" fill="var(--accent-color)"
+                                transform="scale(0.8)" />
+                        </svg>
                     </div>
-                    <div class="carousel-item" data-i18n-data-title="showcaseSection.video2Title">
-                        <video class="carousel-video" src="assets/videos/presentation (1080p).mp4" poster="assets/images/thumbs/Presentation-Video-Thumb.png" preload="none" muted loop
-                            playsinline loading="lazy"></video>
-                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio">
-                            <svg class="icon-audioOff"></svg>
-                            <svg class="icon-audioOn"></svg>
-                        </button>
-                    </div>
-                    <div class="carousel-item"data-i18n-data-title="showcaseSection.video3Title">
-                        <video class="carousel-video"
-                            src="assets/videos/Stories Qual Oferta - Young Monkey (1080p, h264).mp4" poster="assets/images/thumbs/Qual-Oferta-Extra-Thumb.png" preload="none" muted loop
-                            playsinline loading="lazy"></video>
-                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio">
-                            <svg class="icon-audioOff"></svg>
-                            <svg class="icon-audioOn"></svg>
-                        </button>
-                    </div>
-                    <div class="carousel-item"data-i18n-data-title="showcaseSection.video4Title">
-                        <video class="carousel-video" src="assets/videos/Sol Comercial - Young Monkey (1080p, h264).mp4" poster="assets/images/thumbs/Sol-Loja-Thumb.png"
-                            preload="none" muted loop playsinline loading="lazy"></video>
-                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio">
-                            <svg class="icon-audioOff"></svg>
-                            <svg class="icon-audioOn"></svg>
-                        </button>
-                    </div>
-                    <div class="carousel-item"data-i18n-data-title="showcaseSection.video5Title">
-                        <video class="carousel-video"
-                            src="assets/videos/VT Promo Verão - Young Monkey (1080p, h264).mp4" poster="assets/images/thumbs/VT-Promo-Thumb.png" preload="none" muted loop playsinline
-                            loading="lazy"></video>
-                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio">
-                            <svg class="icon-audioOff"></svg>
-                            <svg class="icon-audioOn"></svg>
-                        </button>
-                    </div>
-                    <div class="carousel-item"data-i18n-data-title="showcaseSection.video6Title">
-                        <video class="carousel-video"
-                            src="assets/videos/SUPERMERCADO SOL - Comercial - Young Monkey (1080p, h264).mp4" poster="assets/images/thumbs/Sol-Natal_Thumb.png" preload="none" muted loop
-                            playsinline loading="lazy"></video>
-                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio">
-                            <svg class="icon-audioOff"></svg>
-                            <svg class="icon-audioOn"></svg>
-                        </button>
-                    </div>
-                    <div class="carousel-item"data-i18n-data-title="showcaseSection.video7Title">
-                        <video class="carousel-video"
-                            src="assets/videos/Mubadala.mp4" poster="assets/images/thumbs/Mubadala-Thumb.png" preload="none" muted loop
-                            playsinline loading="lazy"></video>
-                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio">
-                            <svg class="icon-audioOff"></svg>
-                            <svg class="icon-audioOn"></svg>
-                        </button>
-                    </div>
-                    <div class="carousel-item"data-i18n-data-title="showcaseSection.video8Title">
-                        <video class="carousel-video"
-                            src="assets/videos/Dolby.mp4" poster="assets/images/thumbs/Dolby-Thumb.png" preload="none" muted loop
-                            playsinline loading="lazy"></video>
-                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio">
-                            <svg class="icon-audioOff"></svg>
-                            <svg class="icon-audioOn"></svg>
-                        </button>
-                    </div>
-                    <div class="carousel-item"data-i18n-data-title="showcaseSection.video9Title">
-                        <video class="carousel-video"
-                            src="assets/videos/ALLINE HOME - Comercial - Young Monkey (1080p, h264).mp4" poster="assets/images/thumbs/Aline-Thumb.png" preload="none" muted loop
-                            playsinline loading="lazy"></video>
-                            <button class="video-audio-toggle" data-i18n-aria-label="videoPlayer.toggleAudio">
-                            <svg class="icon-audioOff"></svg>
-                            <svg class="icon-audioOn"></svg>
-                        </button>
-                    </div>
-
-                <div class="nav-video">
-                    <div class="video-title-client" data-i18n="showcaseSection.defaultVideoTitle"></div>
-                    <div class="buttons-nav">
-                        <button id="carousel-prev" class="carousel-nav"
-                            data-i18n-aria-label="showcaseSection.prevButton">
-                            <svg class="icon-seta-1"></svg>
-                        </button>
-                        <button id="carousel-next" class="carousel-nav"
-                            data-i18n-aria-label="showcaseSection.nextButton">
-                            <svg class="icon-seta-2"></svg>
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <footer id="footer" class="footer">
-                <div class="footer-top-bar"></div>
-                <div class="footer-arrow">
-                    <svg viewBox="0 0 2560 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path id="footer-path" d="M2588 97.0002L1376 97C1322.98 97 1280 139.981 1280 193V220"
-                            fill="none" stroke="transparent" stroke-width="10" />
-                        <path class="footer-draw" d="M2588 97.0002L1376 97C1322.98 97 1280 139.981 1280 193V220"
-                            fill="none" stroke="var(--accent-color)" stroke-linecap="butt" stroke-miterlimit="10"
-                            stroke-width="80" />
-                        <path id="footer-arrow-point" d="M108 122.5L215 0H0L108 122.5Z" fill="var(--accent-color)"
-                            transform="scale(0.8)" />
-                    </svg>
-                </div>
-                <div class="footer-content">
-                    <div class="footer-left">
-                        <div class="footer-text">
-                            <h2 class="footer-title" data-i18n-html="footer.title"></h2>
-                            <p class="subtitle" data-i18n="footer.subtitle"></p>
-                        </div>
-                        <div class="footer-action">
-                            <div class="contact-buttons">
-                                <div class="button-group-top">
-                                    <a href="https://wa.me/5521969172045" target="_blank" class="btn button-bg">
-                                        <svg class="icon-whatsApp"></svg>
-                                        <span class="btn-label-bg" data-i18n="footer.whatsappBtn"></span>
-                                    </a>
-                                </div>
-                                <div class="button-group-top">
-                                    <a href="https://br.fiverr.com/sellers/youngmonkey/" target="_blank"
-                                        class="btn button-bg">
-                                        <svg class="icon-fiverr" heigth="32"></svg>
-                                        <span class="btn-label-bg" data-i18n="footer.fiverrBtn"></span>
-                                    </a>
-                                </div>
+                    <div class="footer-content">
+                        <div class="footer-left">
+                            <div class="footer-text">
+                                <h2 class="footer-title" data-i18n-html="footer.title"></h2>
+                                <p class="subtitle" data-i18n="footer.subtitle"></p>
                             </div>
-                            <form id="contactForm" method="POST" action="php/processForm.php">
-                                <input type="text" name="website" style="display:none" autocomplete="off" tabindex="-1">
-                                <input type="hidden" name="startTime" value="<?php echo time(); ?>">
-                                <input type="hidden" name="csrf_token"
-                                    value="<?php if(isset($_SESSION['csrf_token'])) echo $_SESSION['csrf_token']; ?>">
-                                <div class="email-form-container">
-                                    <div class="form-col form-col-left">
-                                        <div class="form line1">
-                                            <input type="text" name="nome"
-                                                data-i18n-placeholder="footer.formNamePlaceholder" required />
-                                        </div>
-                                        <div class="form line2">
-                                            <input type="email" name="email"
-                                                data-i18n-placeholder="footer.formEmailPlaceholder" required />
-                                        </div>
+                            <div class="footer-action">
+                                <div class="contact-buttons">
+                                    <div class="button-group-top">
+                                        <a href="https://wa.me/5521969172045" target="_blank" rel="noopener noreferrer"
+                                            class="btn button-bg">
+                                            <svg class="icon-whatsApp" aria-hidden="true"></svg>
+                                            <span class="btn-label-bg" data-i18n="footer.whatsappBtn"></span>
+                                        </a>
                                     </div>
-                                    <div class="form-col form-col-right">
-                                        <button type="submit" class="send-btn"
-                                            data-i18n="footer.formSubmitButton"></button>
+                                    <div class="button-group-top">
+                                        <a href="https://br.fiverr.com/youngmonkey/" target="_blank"
+                                            rel="noopener noreferrer" class="btn button-bg">
+                                            <svg class="icon-fiverr" heigth="32" aria-hidden="true"></svg>
+                                            <span class="btn-label-bg" data-i18n="footer.fiverrBtn"></span>
+                                        </a>
                                     </div>
                                 </div>
-                                <div id="feedbackMessage"></div>
-                            </form>
+                                <form id="contactForm" method="POST" action="php/processForm.php">
+                                    <input type="text" name="website" style="display:none" autocomplete="off">
+                                    <input type="hidden" name="startTime" value="<?php echo time(); ?>">
+                                    <input type="hidden" name="csrf_token"
+                                        value="<?php if(isset($_SESSION['csrf_token'])) echo $_SESSION['csrf_token']; ?>">
+
+                                    <div class="email-form-container">
+                                        <div class="form-col form-col-left">
+                                            <div class="form line1">
+                                                <input type="text" name="nome"
+                                                    data-i18n-placeholder="footer.formNamePlaceholder" required
+                                                    aria-required="true" autocomplete="name">
+                                            </div>
+                                            <div class="form line2">
+                                                <input type="email" name="email"
+                                                    data-i18n-placeholder="footer.formEmailPlaceholder" required
+                                                    aria-required="true" pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                                                    autocomplete="email">
+                                            </div>
+                                        </div>
+                                        <div class="form-col form-col-right">
+                                            <button type="submit" class="send-btn"
+                                                data-i18n="footer.formSubmitButton"></button>
+                                        </div>
+                                    </div>
+                                    <div id="footerFeedbackMessage" role="alert"></div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="footer-right">
+                            <div class="logo-section">
+                                <svg class="icon-logoYM" viewBox="0 0 400 110" preserveAspectRatio="xMidYMid meet"
+                                    aria-hidden="true"></svg>
+                                <p class="copyright" data-i18n="footer.copyright"></p>
+                            </div>
                         </div>
                     </div>
-                    <div class="footer-right">
-                        <div class="logo-section">
-                            <svg class="icon-logoYM" viewBox="0 0 400 110" preserveAspectRatio="xMidYMid meet"></svg>
-                            <p class="copyright" data-i18n="footer.copyright"></p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+                </footer>
+            </div>
         </div>
-    </div>
+    </main>
 
-    <div id="lightboxBackdrop" class="lightbox-backdrop"></div>
-    <div id="contactLightbox" class="lightbox">
+    <div id="lightboxBackdrop" class="lightbox-backdrop" aria-hidden="true"></div>
+    <div id="contactLightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
         <div class="lightbox-content-wrapper">
             <div class="lightbox-column lightbox-column-left">
-                <h3 class="faq-title" data-i18n-html="lightbox.faqTitle"></h3>
+                <h3 class="faq-title" id="lightboxTitle" data-i18n-html="lightbox.faqTitle"></h3>
                 <div class="faq-accordion">
                     <div class="faq-item">
-                        <button class="faq-question">
+                        <button class="faq-question" aria-expanded="false" aria-controls="faq1">
                             <span data-i18n="lightbox.faq1Question"></span>
                             <svg class="faq-icon" width="16" height="10" viewBox="0 0 16 10" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M1 1.5L8 8.5L15 1.5" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div class="faq-answer">
+                        <div id="faq1" class="faq-answer" hidden>
                             <p data-i18n-html="lightbox.faq1Answer"></p>
                         </div>
                     </div>
                     <div class="faq-item">
-                        <button class="faq-question">
+                        <button class="faq-question" aria-expanded="false" aria-controls="faq2">
                             <span data-i18n="lightbox.faq2Question"></span>
                             <svg class="faq-icon" width="16" height="10" viewBox="0 0 16 10" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M1 1.5L8 8.5L15 1.5" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div class="faq-answer">
+                        <div id="faq2" class="faq-answer" hidden>
                             <p data-i18n-html="lightbox.faq2Answer"></p>
                         </div>
                     </div>
                     <div class="faq-item">
-                        <button class="faq-question">
+                        <button class="faq-question" aria-expanded="false" aria-controls="faq3">
                             <span data-i18n="lightbox.faq3Question"></span>
                             <svg class="faq-icon" width="16" height="10" viewBox="0 0 16 10" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M1 1.5L8 8.5L15 1.5" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div class="faq-answer">
+                        <div id="faq3" class="faq-answer" hidden>
                             <p data-i18n-html="lightbox.faq3Answer"></p>
                         </div>
                     </div>
                     <div class="faq-item">
-                        <button class="faq-question">
+                        <button class="faq-question" aria-expanded="false" aria-controls="faq4">
                             <span data-i18n="lightbox.faq4Question"></span>
                             <svg class="faq-icon" width="16" height="10" viewBox="0 0 16 10" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M1 1.5L8 8.5L15 1.5" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div class="faq-answer">
+                        <div id="faq4" class="faq-answer" hidden>
                             <p data-i18n-html="lightbox.faq4Answer"></p>
                         </div>
                     </div>
                     <div class="faq-item">
-                        <button class="faq-question">
+                        <button class="faq-question" aria-expanded="false" aria-controls="faq5">
                             <span data-i18n="lightbox.faq5Question"></span>
                             <svg class="faq-icon" width="16" height="10" viewBox="0 0 16 10" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M1 1.5L8 8.5L15 1.5" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div class="faq-answer">
+                        <div id="faq5" class="faq-answer" hidden>
                             <p data-i18n="lightbox.faq5Answer"></p>
                         </div>
                     </div>
                     <div class="faq-item">
-                        <button class="faq-question">
+                        <button class="faq-question" aria-expanded="false" aria-controls="faq6">
                             <span data-i18n="lightbox.faq6Question"></span>
                             <svg class="faq-icon" width="16" height="10" viewBox="0 0 16 10" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M1 1.5L8 8.5L15 1.5" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div class="faq-answer">
+                        <div id="faq6" class="faq-answer" hidden>
                             <p data-i18n-html="lightbox.faq6Answer"></p>
                         </div>
                     </div>
                     <div class="faq-item">
-                        <button class="faq-question">
+                        <button class="faq-question" aria-expanded="false" aria-controls="faq7">
                             <span data-i18n="lightbox.faq7Question"></span>
                             <svg class="faq-icon" width="16" height="10" viewBox="0 0 16 10" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M1 1.5L8 8.5L15 1.5" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div class="faq-answer">
+                        <div id="faq7" class="faq-answer" hidden>
                             <p data-i18n-html="lightbox.faq7Answer"></p>
                         </div>
                     </div>
@@ -646,75 +844,83 @@
                 <div class="footer-action">
                     <div class="contact-buttons">
                         <div class="button-group-top">
-                            <a href="https://wa.me/5521969172045" target="_blank" class="btn button-bg">
-                                <svg class="icon-whatsApp"></svg>
+                            <a href="https://wa.me/5521969172045" target="_blank" rel="noopener noreferrer"
+                                class="btn button-bg">
+                                <svg class="icon-whatsApp" aria-hidden="true"></svg>
                                 <span class="btn-label-bg" data-i18n="lightbox.whatsappBtn"></span>
                             </a>
                         </div>
                         <div class="button-group-top">
-                            <a href="https://br.fiverr.com/sellers/youngmonkey/" target="_blank" class="btn button-bg">
-                                <svg class="icon-fiverr" heigth="32"></svg>
+                            <a href="https://br.fiverr.com/youngmonkey/" target="_blank" rel="noopener noreferrer"
+                                class="btn button-bg">
+                                <svg class="icon-fiverr" heigth="32" aria-hidden="true"></svg>
                                 <span class="btn-label-bg" data-i18n="lightbox.fiverrBtn"></span>
                             </a>
                         </div>
                     </div>
                     <div class="contact-buttons">
                         <div class="button-group-bottom">
-                            <a href="mailto:diego@diegosilva.video" target="_blank" class="btn button-bg">
-                                <svg class="icon-email"></svg>
+                            <a href="mailto:diego@diegosilva.video" target="_blank" rel="noopener noreferrer"
+                                class="btn button-bg">
+                                <svg class="icon-email" aria-hidden="true"></svg>
                                 <span class="btn-label-bg" data-i18n="lightbox.emailBtn"></span>
                             </a>
                         </div>
                         <div class="button-group-bottom">
                             <a href="https://www.linkedin.com/company/youngmonkeybrasil/" target="_blank"
-                                class="btn button-bg">
-                                <svg class="icon-linkedin"></svg>
+                                rel="noopener noreferrer" class="btn button-bg">
+                                <svg class="icon-linkedin" aria-hidden="true"></svg>
                                 <span class="btn-label-bg" data-i18n="lightbox.linkedinBtn"></span>
                             </a>
                         </div>
                         <div class="button-group-bottom">
                             <a href="https://www.instagram.com/youngmonkeybrasil/" target="_blank"
-                                class="btn button-bg">
-                                <svg class="icon-instagram"></svg>
+                                rel="noopener noreferrer" class="btn button-bg">
+                                <svg class="icon-instagram" aria-hidden="true"></svg>
                                 <span class="btn-label-bg" data-i18n="lightbox.instaBtn"></span>
                             </a>
                         </div>
                     </div>
                     <form id="lightboxContactForm" method="POST" action="php/processForm.php">
-                        <input type="text" name="website" style="display:none" autocomplete="off" tabindex="-1">
+                        <input type="text" name="website" style="display:none" autocomplete="off">
                         <input type="hidden" name="startTime" value="<?php echo time(); ?>">
                         <input type="hidden" name="csrf_token"
                             value="<?php if(isset($_SESSION['csrf_token'])) echo $_SESSION['csrf_token']; ?>">
+
                         <div class="email-form-container">
                             <div class="form-col form-col-left">
                                 <div class="form line1">
                                     <input type="text" name="nome" data-i18n-placeholder="lightbox.formNamePlaceholder"
-                                        required />
+                                        required aria-required="true" autocomplete="name">
                                 </div>
                                 <div class="form line2">
                                     <input type="email" name="email"
-                                        data-i18n-placeholder="lightbox.formEmailPlaceholder" required />
+                                        data-i18n-placeholder="lightbox.formEmailPlaceholder" required
+                                        aria-required="true" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" autocomplete="email">
                                 </div>
                             </div>
                             <div class="form-col form-col-right">
                                 <button type="submit" class="send-btn" data-i18n="lightbox.formSubmitButton"></button>
                             </div>
                         </div>
-                        <div id="lightboxFeedbackMessage"></div>
+                        <div id="lightboxFeedbackMessage" role="alert"></div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <button id="closeLightboxBtn" class="lightbox-close-external">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <button id="closeLightboxBtn" class="lightbox-close-external" data-i18n-aria-label="lightbox.closeButton"
+        aria-label="Fechar lightbox">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
             <path d="M13 1L1 13" stroke="#00151B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M1 1L13 13" stroke="#00151B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     </button>
 
-    <div class="contact-button contact-button-mobile" id="contactBtnMobile">
+    <div class="contact-button contact-button-mobile" id="contactBtnMobile" data-i18n-aria-label="nav.knowMore"
+        aria-label="Saiba mais">
         <div class="button-shape"></div>
         <div class="button-text-container">
             <div class="button-text-wrapper">
@@ -725,17 +931,24 @@
         </div>
     </div>
 
-    <script src="assets/js/i18n.js" type="module" defer></script>
-    <script src="assets/js/svgLoader.js" type="module" defer></script>
-    <script src="assets/js/header.js" type="module" defer></script>
-    <script src="assets/js/hero.js" type="module" defer></script>
-    <script src="assets/js/section-1.js" type="module" defer></script>
-    <script src="assets/js/services.js" type="module" defer></script>
-    <script src="assets/js/testimonial.js" type="module" defer></script>
-    <script src="assets/js/showcase.js" type="module" defer></script>
-    <script src="assets/js/lightbox.js" type="module" defer></script>
-    <script src="assets/js/footer.js" type="module" defer></script>
+    <noscript>
+        <div class="noscript-warning" data-i18n="noscriptWarning">
+            Por favor, habilite JavaScript para ter a melhor experiência em nosso site.
+        </div>
+    </noscript>
+
     <script src="assets/js/script.js" type="module" defer></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S8N9N15MT1"></script>
+    <script>
+        (function (w, d, s, l, i) {
+            w[ l ] = w[ l ] || []; w[ l ].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[ 0 ],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-XXXXXX');
+    </script>
 </body>
 
 </html>

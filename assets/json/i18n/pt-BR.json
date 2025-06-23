@@ -6,6 +6,8 @@
     "author": "Young Monkey"
   },
   "nav": {
+    "logoLink": "Logo Young Monkey",
+    "open": "Abrir Menu",
     "services": "Serviços",
     "testimonial": "Depoimento",
     "showcase": "Showcase",
@@ -68,7 +70,9 @@
     "video6Title": "Cartelado Sol - Cliente Bertine",
     "video7Title": "Mubadala Champions - Cliente Gregor",
     "video8Title": "Retrospectiva - Cliente Dolby",
-    "video9Title": "SM Aline Home Liquidação - Cliente Bertine"
+    "video9Title": "SM Aline Home Liquidação - Cliente Bertine",
+    "video10Title": "Dona Délia - Cliente Bertine"
+
   },
   "footer": {
     "title": "Pronto pra<br>vender mais?",
@@ -105,7 +109,8 @@
     "instaBtn": "Insta",
     "formNamePlaceholder": "Nome",
     "formEmailPlaceholder": "Email",
-    "formSubmitButton": "Enviar"
+    "formSubmitButton": "Enviar",
+    "closeButton": "Fechar"
   },
   "videoPlayer": {
     "toggleAudio": "Ativar/desativar som"

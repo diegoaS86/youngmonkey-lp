@@ -6,6 +6,8 @@
     "author": "Young Monkey"
   },
   "nav": {
+    "logoLink": "Young Monkey Logo",
+    "open": "Open Menu",
     "services": "Services",
     "testimonial": "Testimonials",
     "showcase": "Showcase",
@@ -68,7 +70,9 @@
     "video6Title": "Layout Sol - Client Bertine",
     "video7Title": "Mubadala Champions - Client Gregor",
     "video8Title": "Retrospective - Client Dolby",
-    "video9Title": "SM Aline Home Sale - Client Bertine"
+    "video9Title": "SM Aline Home Sale - Client Bertine",
+    "video10Title": "Dona Délia - Client Bertine"
+
   },
   "footer": {
     "title": "Ready to<br>sell more?",
@@ -105,7 +109,8 @@
     "instaBtn": "Insta",
     "formNamePlaceholder": "Name",
     "formEmailPlaceholder": "Email",
-    "formSubmitButton": "Send"
+    "formSubmitButton": "Send",
+    "closeButton": "Close"
   },
   "videoPlayer": {
     "toggleAudio": "Toggle audio"

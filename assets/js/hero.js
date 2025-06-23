@@ -1,9 +1,108 @@
-// assets/js/hero.js
-// Importa a função para verificar o estado das traduções do i18n.js
 import { areTranslationsReady } from './i18n.js';
+import Player from '@vimeo/player';
+
+/**
+ * Verifica se o vídeo do Vimeo está disponível.
+ * @param {string} videoId 
+ * @returns {Promise<boolean>}
+ */
+const isVimeoAlive = (videoId) => {
+    if (!videoId) return Promise.resolve(false);
+    return new Promise((resolve) => {
+        const timeout = 3000;
+        const timer = setTimeout(() => resolve(false), timeout);
+        fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`)
+            .then(response => {
+                clearTimeout(timer);
+                resolve(response.ok);
+            })
+            .catch(() => {
+                clearTimeout(timer);
+                resolve(false);
+            });
+    });
+};
+
+/**
+ * Cria um iframe para carregar o vídeo no Vimeo.
+ * @param {string} videoId 
+ * @returns {HTMLIFrameElement}
+ */
+const createVimeoIframe = (videoId) => {
+    const videoUrl = `https://player.vimeo.com/video/${videoId}?background=1&autoplay=1&loop=1&autopause=0&muted=1`;
+    const iframe = document.createElement('iframe');
+    iframe.src = videoUrl;
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+    return iframe;
+};
+
+/**
+ * Cria um elemento de vídeo local para fallback.
+ * @param {string} fallbackSrc 
+ * @returns {HTMLVideoElement}
+ */
+const createFallbackVideo = (fallbackSrc) => {
+    const videoEl = document.createElement('video');
+    videoEl.src = fallbackSrc;
+    videoEl.autoplay = true;
+    videoEl.loop = true;
+    videoEl.muted = true;
+    videoEl.playsInline = true;
+    return videoEl;
+};
+
+/**
+ * Carrega o vídeo da seção hero utilizando Vimeo ou fallback local.
+ * @param {object} gsapInstance 
+ */
+const loadHeroVideo = async (gsapInstance) => {
+    const container = document.querySelector('.hero__video-container');
+    if (!container) return;
+
+    const { videoId, videoFallbackSrc: fallbackSrc } = container.dataset;
+    // Se não houver nenhuma fonte, aborta.
+    if (!videoId && !fallbackSrc) return;
+
+    const thumbWrapper = container.querySelector('.hero-thumb');
+    const useVimeo = await isVimeoAlive(videoId);
+    let videoElement;
+
+    if (useVimeo && typeof Player !== 'undefined') {
+        console.log("Hero: Carregando player do Vimeo.");
+        videoElement = createVimeoIframe(videoId);
+    } else {
+        if (!fallbackSrc) return;
+        console.warn("Hero: Carregando vídeo de fallback local.");
+        videoElement = createFallbackVideo(fallbackSrc);
+    }
+
+    // Prepara a animação inicial para a opacidade do vídeo.
+    gsapInstance.set(videoElement, { opacity: 0 });
+    const overlay = container.querySelector('.hero__video-overlay');
+    container.insertBefore(videoElement, overlay);
+
+    const onPlaying = () => {
+        gsapInstance.to(videoElement, { opacity: 1, duration: 0.8 });
+        if (thumbWrapper) {
+            gsapInstance.to(thumbWrapper, { opacity: 0, duration: 1.2, onComplete: () => thumbWrapper.style.display = 'none' });
+        }
+    };
+
+    if (useVimeo) {
+        const player = new Player(videoElement);
+        player.on('playing', onPlaying);
+    } else {
+        videoElement.addEventListener('playing', onPlaying);
+    }
+};
 
 export function initializeHeroSection(gsapInstance, ScrollTriggerInstance, smootherInstance) {
-    // Seletores de elementos do DOM
+    // Inicia o carregamento do vídeo na seção Hero.
+    loadHeroVideo(gsapInstance);
+
+    // ... O restante do código da seção hero permanece inalterado.
+    
     const line1 = document.getElementById('line1');
     const line2 = document.getElementById('line2');
     const line3 = document.getElementById('line3');
@@ -12,79 +111,45 @@ export function initializeHeroSection(gsapInstance, ScrollTriggerInstance, smoot
     const dotsContainer = document.getElementById('dotsContainer');
     const ctaLinkHero = document.querySelector('#hero .cta-fixed-container a[href="#section-2"]');
 
-    let localWordSets = {}; // Armazena os conjuntos de palavras para a animação de scramble
-    let scrambleAnimation; // Controla a timeline da animação de scramble
+    let localWordSets = {}; 
+    let scrambleAnimation; 
 
-    // Helper function to safely get the smoother's speed
     const getSmootherSpeedValue = (instance) => {
         if (instance && typeof instance.speed === 'function') {
-            try {
-                return instance.speed(); // Get the current speed
-            } catch (e) {
-                console.error("Error calling instance.speed():", e, instance);
-                return 1; // Default speed on error
-            }
+            try { return instance.speed(); } catch (e) { console.error("Error calling instance.speed():", e, instance); return 1; }
         }
-        // console.warn("smootherInstance.speed is not a function or instance is invalid, defaulting to 1");
-        return 1; // Default speed
+        return 1;
     };
 
-    // Helper function to safely get the smoother's lag
     const getSmootherLagValue = (instance) => {
         if (instance && typeof instance.lag === 'function') {
-            try {
-                return instance.lag(); // Get the current lag
-            } catch (e) {
-                console.error("Error calling instance.lag():", e, instance);
-                return 0; // Default lag on error
-            }
+            try { return instance.lag(); } catch (e) { console.error("Error calling instance.lag():", e, instance); return 0; }
         }
-        // console.warn("smootherInstance.lag is not a function or instance is invalid, defaulting to 0");
-        return 0; // Default lag
+        return 0;
     };
 
-    // Função para ativar o conteúdo do hero (texto e animação)
     const activateHeroContent = (wordSets) => {
-        // console.log("Hero: Ativando conteúdo do herói.");
         localWordSets = wordSets; 
-
         if (line1 && line2 && line3 && Object.keys(localWordSets).length > 0 &&
-            localWordSets.line1 && localWordSets.line1.length > 0 &&
-            localWordSets.line2 && localWordSets.line2.length > 0 &&
-            localWordSets.line3 && localWordSets.line3.length > 0) {
+            localWordSets.line1?.length > 0 &&
+            localWordSets.line2?.length > 0 &&
+            localWordSets.line3?.length > 0) {
             
             line1.textContent = localWordSets.line1[0];
             line2.textContent = localWordSets.line2[0];
             line3.textContent = localWordSets.line3[0];
-            // console.log("Hero: Conteúdo de texto inicial definido.");
-
-            document.fonts.ready.then(function() {
-                // console.log('Hero: Fontes carregadas. Tornando texto visível e iniciando animação.');
-
-                gsapInstance.set([line1, line2, line3], { 
-                    autoAlpha: 1, 
-                    y: 0,        
-                    overwrite: "auto" 
-                });
-                // console.log("Hero: GSAP.set autoAlpha:1 e y:0 aplicado.");
-
+            
+            document.fonts.ready.then(() => {
+                gsapInstance.set([line1, line2, line3], { autoAlpha: 1, y: 0, overwrite: "auto" });
                 gsapInstance.delayedCall(0.1, () => { 
                     if (smootherInstance && typeof smootherInstance.effects === 'function' && smootherInstance.content && typeof smootherInstance.content === 'function') {
-                        // console.log("Hero: Chamando smootherInstance.effects() APÓS GSAP.set.");
-                        smootherInstance.effects(smootherInstance.content(), { 
-                            speed: getSmootherSpeedValue(smootherInstance), 
-                            lag: getSmootherLagValue(smootherInstance) 
-                        }); 
+                        smootherInstance.effects(smootherInstance.content(), { speed: getSmootherSpeedValue(smootherInstance), lag: getSmootherLagValue(smootherInstance) }); 
                     } else if (ScrollTriggerInstance && typeof ScrollTriggerInstance.refresh === 'function') {
-                        // console.log("Hero: Chamando ScrollTrigger.refresh() APÓS GSAP.set (smootherInstance.effects não disponível).");
                         ScrollTriggerInstance.refresh(true); 
                     }
-                    // console.log("Hero: ScrollTrigger.refresh() (ou via smoother.effects) chamado.");
-                    
-                    // console.log("Hero: Iniciando setupScrambleAnimationLoop após refresh.");
                     setupScrambleAnimationLoop();
                 });
-            }).catch(function(e) { 
+            }).catch(e => {
                 console.error('Hero: Erro ao esperar fontes:', e);
                 line1.textContent = localWordSets.line1[0] || "VIDEO";
                 line2.textContent = localWordSets.line2[0] || "GETS";
@@ -92,18 +157,14 @@ export function initializeHeroSection(gsapInstance, ScrollTriggerInstance, smoot
                 gsapInstance.set([line1, line2, line3], { autoAlpha: 1, y: 0 });
                 gsapInstance.delayedCall(0.1, () => { 
                     if (smootherInstance && typeof smootherInstance.effects === 'function' && smootherInstance.content && typeof smootherInstance.content === 'function') {
-                        smootherInstance.effects(smootherInstance.content(), { 
-                            speed: getSmootherSpeedValue(smootherInstance), 
-                            lag: getSmootherLagValue(smootherInstance) 
-                        });
+                        smootherInstance.effects(smootherInstance.content(), { speed: getSmootherSpeedValue(smootherInstance), lag: getSmootherLagValue(smootherInstance) });
                     } else if (ScrollTriggerInstance && typeof ScrollTriggerInstance.refresh === 'function') {
-                         ScrollTriggerInstance.refresh(true);
+                        ScrollTriggerInstance.refresh(true);
                     }
                     setupScrambleAnimationLoop();
                 });
             });
         } else {
-            console.warn("Hero ScrambleText: Elementos HTML ou wordSets para o scramble não encontrados ou inválidos na ativação.");
             if(line1) line1.textContent = "VIDEO";
             if(line2) line2.textContent = "GETS";
             if(line3) line3.textContent = "ATTENTION";
@@ -113,11 +174,10 @@ export function initializeHeroSection(gsapInstance, ScrollTriggerInstance, smoot
     
     const setupScrambleAnimationLoop = () => {
         if (!line1 || !line2 || !line3 || !scrambleGroup || Object.keys(localWordSets).length === 0) {
-            console.warn("Hero ScrambleText Loop: Elementos ou localWordSets faltando para iniciar o loop.");
             if(line1) line1.textContent = "VIDEO";
             if(line2) line2.textContent = "GETS";
             if(line3) line3.textContent = "ATTENTION";
-            if(line1 && line2 && line3) gsapInstance.set([line1, line2, line3], { autoAlpha: 1, y: 0 });
+            if(line1 && line2 && line3) gsapInstance.set([line1, line2, line3], { autoAlpha: 1, y: 0, overwrite: "auto" });
             return;
         }
         
@@ -126,7 +186,6 @@ export function initializeHeroSection(gsapInstance, ScrollTriggerInstance, smoot
         const line3Words = localWordSets.line3 || ["ATTENTION"];
 
         if (line1Words.length === 0 || line2Words.length === 0 || line3Words.length === 0) {
-            console.warn("Hero ScrambleText Loop: Uma ou mais linhas de localWordSets estão vazias. Usando fallback no loop e garantindo visibilidade.");
             line1.textContent = "VIDEO"; 
             line2.textContent = "GETS";
             line3.textContent = "ATTENTION";
@@ -135,7 +194,6 @@ export function initializeHeroSection(gsapInstance, ScrollTriggerInstance, smoot
         
         if (scrambleAnimation && typeof scrambleAnimation.kill === 'function' && scrambleAnimation.isActive()) {
             scrambleAnimation.kill(); 
-            // console.log("Hero: Animação de scramble anterior interrompida para recomeçar.");
         }
 
         let counter = 0;
@@ -176,28 +234,23 @@ export function initializeHeroSection(gsapInstance, ScrollTriggerInstance, smoot
             }, 0);
             counter++;
         }
-        // console.log("Hero: Chamando animate() para o loop de scramble.");
         animate(); 
     };
     
     document.addEventListener('translationsReady', function(event) {
-        // console.log("Hero: Evento 'translationsReady' recebido.");
         if (event.detail && event.detail.scrambleWordSets) {
             activateHeroContent(event.detail.scrambleWordSets);
         } else {
-             console.warn("Hero: Evento 'translationsReady' sem scrambleWordSets válidos.");
-             activateHeroContent({ line1: ["VIDEO"], line2: ["GETS"], line3: ["ATTENTION"] });
+            activateHeroContent({ line1: ["VIDEO"], line2: ["GETS"], line3: ["ATTENTION"] });
         }
     });
 
     if (areTranslationsReady()) {
-        // console.log("Hero: Traduções já estavam prontas na inicialização do hero.js. Ativando conteúdo.");
         import('./i18n.js').then(i18nModule => {
             const wordSets = i18nModule.getScrambleWordSets();
             if (wordSets && wordSets.line1) { 
                 activateHeroContent(wordSets);
             } else {
-                console.warn("Hero: getScrambleWordSets retornou inválido mesmo após areTranslationsReady ser true.");
                 activateHeroContent({ line1: ["VIDEO"], line2: ["GETS"], line3: ["ATTENTION"] }); 
             }
         }).catch(error => {
@@ -210,7 +263,7 @@ export function initializeHeroSection(gsapInstance, ScrollTriggerInstance, smoot
         if (!dotsContainer) return;
         const rows = 4;
         const cols = 12;
-        dotsContainer.innerHTML = ''; // Limpa dots existentes para evitar duplicatas
+        dotsContainer.innerHTML = '';
         for (let c = 0; c < cols; c++) {
             const col = document.createElement('div');
             col.className = 'dots-column';
@@ -225,10 +278,10 @@ export function initializeHeroSection(gsapInstance, ScrollTriggerInstance, smoot
     };
 
     const setupDotsScrollAnimation = () => {
-        if (!dotsContainer || !dotsContainer.children.length) { return; }
+        if (!dotsContainer || !dotsContainer.children.length) return;
         const allDots = gsapInstance.utils.toArray(dotsContainer.querySelectorAll(".dot"));
         const totalDots = allDots.length;
-        if (totalDots === 0) return; // Sai se não encontrar pontos
+        if (totalDots === 0) return;
         let lastRandomizeScroll = 0;
         const scrollThreshold = 50; 
 
@@ -243,7 +296,6 @@ export function initializeHeroSection(gsapInstance, ScrollTriggerInstance, smoot
         ScrollTriggerInstance.create({
             trigger: 'body', start: "top top", end: "max",
             onUpdate: (self) => {
-                // Corrigido para obter a posição de rolagem corretamente
                 const currentScrollY = (smootherInstance && typeof smootherInstance.scrollTop === 'function') ? smootherInstance.scrollTop() : self.scroll();
                 if (Math.abs(currentScrollY - lastRandomizeScroll) >= scrollThreshold) {
                     randomizeDotOpacity();
@@ -275,19 +327,19 @@ export function initializeHeroSection(gsapInstance, ScrollTriggerInstance, smoot
                 if (smootherInstance && typeof smootherInstance.scrollTo === 'function') { 
                     smootherInstance.scrollTo("#section-2", true, "top");
                 } else { 
-                    // console.warn("ScrollSmoother instance not found for CTA link or scrollTo is not a function.");
                     const targetElement = document.getElementById("section-2");
                     if (targetElement) { targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
                 }
             });
-        } else { 
-            // console.warn("Link CTA para #section-2 não encontrado no Hero."); 
         }
     };
-
-    if (dotsContainer) { setupDotsCreation(); if (smootherInstance) { setupDotsScrollAnimation(); } }
-    if (ctaDotsPattern) { setupCtaDotsAnimation(); }
+    
+    if (dotsContainer) { 
+        setupDotsCreation(); 
+        if (smootherInstance) setupDotsScrollAnimation(); 
+    }
+    if (ctaDotsPattern) setupCtaDotsAnimation();
     setupCtaScroll();
-
-    // console.log("Hero Section Initialized (verificando/aguardando traduções para ScrambleText).");
+    
+    gsapInstance.set('#hero', { visibility: 'visible' });
 }

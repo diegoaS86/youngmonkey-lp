@@ -1,183 +1,103 @@
-// assets/js/lightbox.js
-import { gsap } from "gsap"; // GSAP é usado para a animação do FAQ
+import { gsap } from "gsap";
 
-/**
- * Initializes the contact lightbox functionality, including opening, closing,
- * the FAQ accordion, and the backdrop.
- * @param {object} gsapInstanceFromScript - A instância GSAP passada de script.js (pode ser redundante se importado aqui)
- * @param {object} smootherInstance - The ScrollSmoother instance (optional).
- */
-export function initializeLightbox(gsapInstanceFromScript, smootherInstance) {
-    // Usa o gsap importado neste módulo, ou o passado como parâmetro se preferir consistência.
-    // Para este exemplo, usaremos o 'gsap' importado no topo deste arquivo.
-    // const gsapInstance = gsapInstanceFromScript || gsap; // Opção
+const toggleClasses = (els, classes, action = 'add') => {
+    els.forEach(el => el && el.classList[action](...classes));
+};
 
+export function initializeLightbox(gsapInstance = gsap, smootherInstance) {
     console.log("Lightbox: Initializing...");
-
-    const contactBtnDesktop = document.getElementById('contactBtn');
-    const contactBtnMobile = document.getElementById('contactBtnMobile');
-    const lightbox = document.getElementById('contactLightbox');
-    const closeBtn = document.getElementById('closeLightboxBtn');
-    const body = document.body;
-    const smoother = smootherInstance; // smootherInstance é específico e precisa ser passado
-    const backdrop = document.getElementById('lightboxBackdrop');
-
+    const contactBtnDesktop = document.getElementById('contactBtn'),
+          contactBtnMobile = document.getElementById('contactBtnMobile'),
+          lightbox = document.getElementById('contactLightbox'),
+          closeBtn = document.getElementById('closeLightboxBtn'),
+          backdrop = document.getElementById('lightboxBackdrop'),
+          body = document.body;
+    
     if (!lightbox || !closeBtn || !backdrop || !body) {
-        console.error("Lightbox: Elementos essenciais (lightbox, closeBtn, backdrop ou body) não encontrados. Lightbox não funcionará.");
+        console.error("Lightbox: Essential elements not found. Lightbox will not function.");
         return;
     }
+    if (!contactBtnDesktop) console.warn("Lightbox: Desktop contact button not found.");
+    if (!contactBtnMobile) console.warn("Lightbox: Mobile contact button not found.");
 
-    if (!contactBtnDesktop) {
-        console.warn("Lightbox: Botão de contato desktop (contactBtn) não encontrado.");
-    }
-    if (!contactBtnMobile) {
-        console.warn("Lightbox: Botão de contato mobile (contactBtnMobile) não encontrado.");
-    }
-
-    const openLightbox = (event) => {
-        if (event && typeof event.preventDefault === 'function') {
-            const sourceId = event.currentTarget ? event.currentTarget.id : "unknown source";
-            // console.log(`Lightbox: openLightbox chamada por evento de: ${sourceId}`);
-            event.preventDefault();
-        } else {
-            // console.log("Lightbox: openLightbox chamada diretamente.");
-        }
-
-        if (smoother && typeof smoother.paused === 'function') {
-            smoother.paused(true);
-        }
-
-        body.classList.add('lightbox-open');
-        backdrop.classList.add('visible');
-        lightbox.classList.add('open');
-        closeBtn.classList.add('visible');
-        // console.log("Lightbox: Aberto.");
+    const openLightbox = (e) => {
+        e?.preventDefault();
+        if (smootherInstance?.paused) smootherInstance.paused(true);
+        toggleClasses([body], ['lightbox-open']);
+        toggleClasses([backdrop, lightbox, closeBtn], ['visible', 'open']);
     };
 
     const closeLightbox = () => {
-        // console.log("Lightbox: closeLightbox chamada.");
-        lightbox.classList.remove('open');
-        closeBtn.classList.remove('visible');
-        backdrop.classList.remove('visible');
-
+        toggleClasses([lightbox, closeBtn, backdrop], ['open', 'visible'], 'remove');
         setTimeout(() => {
-            if (smoother && typeof smoother.paused === 'function') {
-                smoother.paused(false);
-            }
+            if (smootherInstance?.paused) smootherInstance.paused(false);
             body.classList.remove('lightbox-open');
-            // console.log("Lightbox: Fechado.");
-        }, 600); // Duração da transição CSS
+        }, 600);
     };
 
-    if (contactBtnDesktop) {
-        contactBtnDesktop.addEventListener('click', openLightbox);
-    }
-
-    if (contactBtnMobile) {
-        contactBtnMobile.addEventListener('click', (event) => {
-            // console.log("Lightbox: Botão de contato mobile CLICADO!");
-            openLightbox(event);
-        });
-    }
-
-    closeBtn.addEventListener('click', closeLightbox);
-    backdrop.addEventListener('click', closeLightbox);
-
+    [contactBtnDesktop, contactBtnMobile].forEach(btn => btn?.addEventListener('click', openLightbox));
+    [closeBtn, backdrop].forEach(el => el.addEventListener('click', closeLightbox));
     document.addEventListener('keydown', (e) => {
-        if (e.key === "Escape" && lightbox.classList.contains('open')) {
-            closeLightbox();
-        }
+        if (e.key === "Escape" && lightbox.classList.contains('open')) closeLightbox();
     });
 
     const faqItems = document.querySelectorAll('.faq-item');
-    if (faqItems.length > 0) {
-        // Usa o 'gsap' importado no topo deste arquivo.
-        if (typeof gsap !== 'undefined' && typeof gsap.set === 'function' && typeof gsap.to === 'function') {
-            // console.log("Lightbox: Configurando FAQ com GSAP.");
+    if (faqItems.length) {
+        if (gsapInstance && typeof gsapInstance.set === 'function' && typeof gsapInstance.to === 'function') {
             faqItems.forEach(item => {
-                const question = item.querySelector('.faq-question');
-                const answer = item.querySelector('.faq-answer');
-
-                if (!question || !answer) {
-                    console.warn("Lightbox FAQ: Item de FAQ sem questão ou resposta.", item);
-                    return;
-                }
-
-                gsap.set(answer, { height: 0, autoAlpha: 0 }); // Usa o gsap importado
-
+                const question = item.querySelector('.faq-question'),
+                      answer = item.querySelector('.faq-answer');
+                if (!question || !answer) return console.warn("Lightbox FAQ: Missing question or answer.", item);
+                gsapInstance.set(answer, { height: 0, autoAlpha: 0 });
                 question.addEventListener('click', () => {
                     const wasActive = item.classList.contains('active');
-
-                    faqItems.forEach(otherItem => {
-                        if (otherItem !== item && otherItem.classList.contains('active')) {
-                            otherItem.classList.remove('active');
-                            gsap.to(otherItem.querySelector('.faq-answer'), { // Usa o gsap importado
-                                height: 0,
-                                autoAlpha: 0,
-                                duration: 0.4,
-                                ease: "power1.inOut",
-                                overwrite: true
+                    faqItems.forEach(other => {
+                        if (other !== item && other.classList.contains('active')) {
+                            other.classList.remove('active');
+                            gsapInstance.to(other.querySelector('.faq-answer'), {
+                                height: 0, autoAlpha: 0, duration: 0.4, ease: "power1.inOut", overwrite: true
                             });
                         }
                     });
-
                     if (wasActive) {
                         item.classList.remove('active');
-                        gsap.to(answer, { // Usa o gsap importado
-                            height: 0,
-                            autoAlpha: 0,
-                            duration: 0.4,
-                            ease: "power1.inOut",
-                            overwrite: true
-                        });
+                        gsapInstance.to(answer, { height: 0, autoAlpha: 0, duration: 0.4, ease: "power1.inOut", overwrite: true });
                     } else {
                         item.classList.add('active');
-                        gsap.set(answer, { autoAlpha: 1, height: 'auto', display: 'block' }); // Usa o gsap importado
-                        const height = answer.scrollHeight;
-                        gsap.set(answer, { height: 0, autoAlpha: 0 }); // Usa o gsap importado
-                        gsap.to(answer, { // Usa o gsap importado
-                            height: height,
-                            autoAlpha: 1,
-                            duration: 0.5,
-                            ease: "expo.out",
-                            overwrite: true,
-                            onComplete: () => {
-                                if (item.classList.contains('active')) {
-                                    gsap.set(answer, { height: 'auto' }); // Usa o gsap importado
-                                }
-                            }
+                        gsapInstance.set(answer, { autoAlpha: 1, height: 'auto', display: 'block' });
+                        const fullHeight = answer.scrollHeight;
+                        gsapInstance.set(answer, { height: 0, autoAlpha: 0 });
+                        gsapInstance.to(answer, {
+                            height: fullHeight, autoAlpha: 1, duration: 0.5, ease: "expo.out", overwrite: true,
+                            onComplete: () => item.classList.contains('active') && gsapInstance.set(answer, { height: 'auto' })
                         });
                     }
                 });
             });
         } else {
-            console.warn("Lightbox: GSAP não está configurado corretamente para o FAQ (importação falhou?). Usando fallback CSS.");
-            // Fallback CSS (como estava antes)
+            console.warn("Lightbox: GSAP not configured properly. Using CSS fallback for FAQ.");
             faqItems.forEach(item => {
-                const question = item.querySelector('.faq-question');
-                const answer = item.querySelector('.faq-answer');
+                const question = item.querySelector('.faq-question'),
+                      answer = item.querySelector('.faq-answer');
                 if (question && answer) {
-                    answer.style.overflow = 'hidden';
-                    answer.style.maxHeight = '0';
-                    answer.style.transition = 'max-height 0.35s ease-out';
-
+                    Object.assign(answer.style, {
+                        overflow: 'hidden',
+                        maxHeight: '0',
+                        transition: 'max-height 0.35s ease-out'
+                    });
                     question.addEventListener('click', () => {
                         const isActive = item.classList.toggle('active');
-                        faqItems.forEach(otherItem => {
-                            if (otherItem !== item && otherItem.classList.contains('active')) {
-                                otherItem.classList.remove('active');
-                                otherItem.querySelector('.faq-answer').style.maxHeight = '0';
+                        faqItems.forEach(other => {
+                            if (other !== item && other.classList.contains('active')) {
+                                other.classList.remove('active');
+                                other.querySelector('.faq-answer').style.maxHeight = '0';
                             }
                         });
-                        if (isActive) {
-                            answer.style.maxHeight = answer.scrollHeight + "px";
-                        } else {
-                            answer.style.maxHeight = '0';
-                        }
+                        answer.style.maxHeight = isActive ? `${answer.scrollHeight}px` : '0';
                     });
                 }
             });
         }
     }
-    console.log("Lightbox: Inicialização concluída.");
+    console.log("Lightbox: Initialization complete.");
 }
