@@ -61,8 +61,29 @@ if (empty($nome) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-$subject = 'Novo Contato do Site Young Monkey';
-$body    = "Contato recebido:\n\nNome: $nome\nEmail: $email\n";
+$objetivo = filter_input(INPUT_POST, 'objetivo', FILTER_SANITIZE_SPECIAL_CHARS);
+$orcamento = filter_input(INPUT_POST, 'orcamento', FILTER_SANITIZE_SPECIAL_CHARS);
+$prazo = filter_input(INPUT_POST, 'prazo', FILTER_SANITIZE_SPECIAL_CHARS);
+
+$is_qualified = !empty($objetivo) && !empty($orcamento) && !empty($prazo);
+
+// Monta o corpo e o assunto do e-mail
+if ($is_qualified) {
+    $subject = 'LEAD QUALIFICADO do Site Young Monkey';
+    $body = "Um novo lead qualificado foi recebido!\n\n";
+    $body .= "--- Dados de Contato ---\n";
+    $body .= "Nome: $nome\n";
+    $body .= "Email: $email\n\n";
+    $body .= "--- Respostas de Qualificação ---\n";
+    $body .= "1. Principal Objetivo: $objetivo\n";
+    $body .= "2. Orçamento: $orcamento\n";
+    $body .= "3. Prazo: $prazo\n";
+} else {
+    $subject = 'Novo Contato (Não Qualificado) do Site Young Monkey';
+    $body    = "Contato rápido recebido (não qualificado):\n\n";
+    $body    .= "Nome: $nome\n";
+    $body    .= "Email: $email\n";
+}
 
 // ----- Envio do E-mail com PHPMailer -----
 $mail = new PHPMailer(true);

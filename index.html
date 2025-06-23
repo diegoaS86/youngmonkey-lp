@@ -919,6 +919,88 @@
         </svg>
     </button>
 
+        <div id="qualificationBackdrop" class="qualification-backdrop" aria-hidden="true"></div>
+
+    <!-- Pop-up inicial de confirmação -->
+    <div id="qualifyPopup" class="qualification-popup" role="dialog" aria-modal="true" aria-labelledby="qualifyTitle">
+        <h2 id="qualifyTitle">Só mais um instante!</h2>
+        <p>Para te ajudar melhor, você poderia responder 3 perguntas rápidas? Leva menos de 1 minuto.</p>
+        <div class="button-group">
+            <button id="qualifyYes" class="qualify-btn">Sim, vamos lá!</button>
+            <button id="qualifyNo" class="qualify-btn">Agora não</button>
+        </div>
+    </div>
+
+    <!-- Formulário de Qualificação Multi-Step -->
+    <div id="multiStepFormPopup" class="multistep-popup" role="dialog" aria-modal="true" aria-labelledby="multiStepTitle">
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="multiStepProgressBar"></div>
+        </div>
+        <form id="qualificationForm">
+            <!-- Passo 1: Objetivo -->
+            <div class="form-step active" id="step1">
+                <h3 id="multiStepTitle">1/3 - Qual o seu principal objetivo?</h3>
+                <div class="option-group">
+                    <input type="radio" id="objetivo1" name="objetivo" value="Aumentar Vendas" required>
+                    <label for="objetivo1">Aumentar minhas vendas</label>
+                    
+                    <input type="radio" id="objetivo2" name="objetivo" value="Gerar Leads">
+                    <label for="objetivo2">Gerar mais leads (contatos)</label>
+
+                    <input type="radio" id="objetivo3" name="objetivo" value="Reconhecimento de Marca">
+                    <label for="objetivo3">Aumentar o reconhecimento da minha marca</label>
+
+                    <input type="radio" id="objetivo4" name="objetivo" value="Outro">
+                    <label for="objetivo4">Outro</label>
+                </div>
+            </div>
+
+            <!-- Passo 2: Orçamento -->
+            <div class="form-step" id="step2">
+                <h3>2/3 - Qual sua faixa de orçamento para este projeto?</h3>
+                <div class="option-group">
+                    <input type="radio" id="orcamento1" name="orcamento" value="Até R$1.000" required>
+                    <label for="orcamento1">Até R$ 1.000</label>
+                    
+                    <input type="radio" id="orcamento2" name="orcamento" value="R$1.000 - R$5.000">
+                    <label for="orcamento2">Entre R$ 1.000 e R$ 5.000</label>
+
+                    <input type="radio" id="orcamento3" name="orcamento" value="R$5.000 - R$10.000">
+                    <label for="orcamento3">Entre R$ 5.000 e R$ 10.000</label>
+
+                    <input type="radio" id="orcamento4" name="orcamento" value="Acima de R$10.000">
+                    <label for="orcamento4">Acima de R$ 10.000</label>
+                </div>
+            </div>
+
+            <!-- Passo 3: Prazo -->
+            <div class="form-step" id="step3">
+                <h3>3/3 - Qual o seu prazo?</h3>
+                <div class="option-group">
+                     <input type="radio" id="prazo1" name="prazo" value="Urgente (1-2 semanas)" required>
+                    <label for="prazo1">É bem urgente (1-2 semanas)</label>
+                    
+                    <input type="radio" id="prazo2" name="prazo" value="Flexível (Próximo mês)">
+                    <label for="prazo2">Flexível (Para o próximo mês)</label>
+
+                    <input type="radio" id="prazo3" name="prazo" value="Planejando (2-3 meses)">
+                    <label for="prazo3">Estou planejando (2-3 meses)</label>
+
+                    <input type="radio" id="prazo4" name="prazo" value="Apenas pesquisando">
+                    <label for="prazo4">Apenas pesquisando preços</label>
+                </div>
+            </div>
+             <!-- Feedback do formulário de qualificação -->
+            <div id="qualificationFeedbackMessage" class="form-message" role="alert" style="margin-top: 20px;"></div>
+        </form>
+
+        <div class="navigation-buttons">
+            <button class="nav-btn prev-btn" id="multiStepPrevBtn" style="display: none;">Voltar</button>
+            <button class="nav-btn next-btn" id="multiStepNextBtn">Avançar</button>
+            <button type="submit" class="nav-btn submit-qualify-btn" id="multiStepSubmitBtn" style="display: none;">Enviar</button>
+        </div>
+    </div>
+
     <div class="contact-button contact-button-mobile" id="contactBtnMobile" data-i18n-aria-label="nav.knowMore"
         aria-label="Saiba mais">
         <div class="button-shape"></div>

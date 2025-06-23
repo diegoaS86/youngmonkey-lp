@@ -26,13 +26,12 @@ import { initializeFooterSection } from './footer.js';
 let smoother;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Funções que podem rodar imediatamente
+
   setViewportHeight();
   window.addEventListener('resize', setViewportHeight);
   setupAllContactForms();
+  initializeQualificationFlow();
 
-  // 2. CORREÇÃO PRINCIPAL: A inicialização dos componentes visuais agora
-  // espera pelo evento 'translationsReady'.
   document.addEventListener('translationsReady', () => {
     initializeVisualComponents();
     document.dispatchEvent(new Event('mainContentLoaded')); // Avisa ao preloader que tudo está pronto
@@ -62,24 +61,24 @@ function initializeVisualComponents() {
       invalidateOnRefresh: true
     });
   }
-  
+
   initializeSvgLoader();
   initializeLightbox(gsap, smoother);
   initializeHeaderAnimation(gsap, ScrollTrigger, smoother);
   initializeHeroSection(gsap, ScrollTrigger, smoother);
   initializeSection1(gsap, ScrollTrigger);
   initializeServicesSection(gsap, ScrollTrigger);
-  
+
   if (document.getElementById('section-3')) {
     setupLogoMarqueeWithGSAP();
     setupTestimonialSlider();
     setupSVGAnimation();
   }
-  
+
   initializeShowcase(gsap, Observer, smoother);
-  
+
   initializeFooterSection(gsap, ScrollTrigger);
-  
+
   setupMenu(smoother);
   setupMenuHoverEffects();
   setupPerformanceControls();
@@ -96,7 +95,7 @@ function initializePreloader() {
   const fadeTime = 900;
   let contentReady = false;
   let minTimePassed = false;
-  
+
   const tryHide = () => {
     if (contentReady && minTimePassed) {
       gsap.to("#smooth-content", { autoAlpha: 1, duration: 0.8, delay: 0.2 });
@@ -104,12 +103,12 @@ function initializePreloader() {
       setTimeout(() => preloader.style.display = 'none', fadeTime);
     }
   };
-  
+
   document.addEventListener('mainContentLoaded', () => {
     contentReady = true;
     tryHide();
   }, { once: true });
-  
+
   setTimeout(() => {
     minTimePassed = true;
     tryHide();
@@ -125,8 +124,8 @@ function setViewportHeight() {
 
 function setupMenu(smoother) {
   const hamburger = document.getElementById('hamburger'),
-        navBox = document.getElementById('navBox'),
-        menuLinks = document.querySelectorAll('.menu .menu-nav a');
+    navBox = document.getElementById('navBox'),
+    menuLinks = document.querySelectorAll('.menu .menu-nav a');
   if (!hamburger || !navBox) return;
   hamburger.addEventListener('click', () => navBox.classList.toggle('expanded'));
   menuLinks.forEach(link => {
@@ -134,8 +133,8 @@ function setupMenu(smoother) {
       const target = link.getAttribute('href');
       if (target?.startsWith('#')) {
         e.preventDefault();
-        smoother?.scrollTo 
-          ? smoother.scrollTo(target, true, "top top") 
+        smoother?.scrollTo
+          ? smoother.scrollTo(target, true, "top top")
           : document.querySelector(target)?.scrollIntoView({ behavior: 'smooth' });
         navBox.classList.remove('expanded');
       }
@@ -170,6 +169,178 @@ function setupMobileContactButton() {
   }
 }
 
+function initializeQualificationFlow() {
+  // Elementos do DOM
+  const backdrop = document.getElementById('qualificationBackdrop');
+  const qualifyPopup = document.getElementById('qualifyPopup');
+  const multiStepPopup = document.getElementById('multiStepFormPopup');
+  const qualifyYesBtn = document.getElementById('qualifyYes');
+  const qualifyNoBtn = document.getElementById('qualifyNo');
+
+  const multiStepForm = document.getElementById('qualificationForm');
+  const steps = [...multiStepForm.querySelectorAll('.form-step')];
+  const nextBtn = document.getElementById('multiStepNextBtn');
+  const prevBtn = document.getElementById('multiStepPrevBtn');
+  const submitBtn = document.getElementById('multiStepSubmitBtn');
+  const progressBar = document.getElementById('multiStepProgressBar');
+
+  // Formulários originais
+  const contactForm = document.getElementById('contactForm');
+  const lightboxForm = document.getElementById('lightboxContactForm');
+
+  let currentStep = 0;
+  let originalFormData = null; // Armazena os dados do formulário original
+
+  // Função para mostrar/esconder os pop-ups
+  const showPopup = (popup, show = true) => {
+    if (show) {
+      backdrop.classList.add('show');
+      popup.classList.add('show');
+    } else {
+      popup.classList.remove('show');
+      // Esconde o backdrop apenas se nenhum outro popup estiver ativo
+      if (!qualifyPopup.classList.contains('show') && !multiStepPopup.classList.contains('show')) {
+        backdrop.classList.remove('show');
+      }
+    }
+  };
+
+  // Intercepta o envio dos formulários originais
+  const handleOriginalFormSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    // Validação simples
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    originalFormData = new FormData(form);
+    showPopup(qualifyPopup);
+  };
+
+  contactForm?.addEventListener('submit', handleOriginalFormSubmit);
+  lightboxForm?.addEventListener('submit', handleOriginalFormSubmit);
+
+  // Lógica dos botões Sim/Não
+  qualifyNoBtn?.addEventListener('click', () => {
+    showPopup(qualifyPopup, false);
+    sendCombinedData(originalFormData); // Envia apenas os dados originais
+  });
+
+  qualifyYesBtn?.addEventListener('click', () => {
+    showPopup(qualifyPopup, false);
+    showPopup(multiStepPopup);
+    updateStepDisplay();
+  });
+
+  // Lógica do formulário multi-etapas
+  const updateStepDisplay = () => {
+    steps.forEach((step, index) => {
+      step.classList.toggle('active', index === currentStep);
+    });
+
+    const progress = ((currentStep + 1) / steps.length) * 100;
+    progressBar.style.width = `${progress}%`;
+
+    prevBtn.style.display = currentStep > 0 ? 'inline-block' : 'none';
+    nextBtn.style.display = currentStep < steps.length - 1 ? 'inline-block' : 'none';
+    submitBtn.style.display = currentStep === steps.length - 1 ? 'inline-block' : 'none';
+  };
+
+  nextBtn?.addEventListener('click', () => {
+    const currentStepInputs = steps[currentStep].querySelectorAll('input[type="radio"]');
+    const isChecked = [...currentStepInputs].some(input => input.checked);
+
+    if (!isChecked) {
+      const feedbackDiv = document.getElementById('qualificationFeedbackMessage');
+      feedbackDiv.textContent = "Por favor, selecione uma opção.";
+      feedbackDiv.className = 'form-message error show';
+      setTimeout(() => feedbackDiv.classList.remove('show'), 3000);
+      return;
+    }
+
+    if (currentStep < steps.length - 1) {
+      currentStep++;
+      updateStepDisplay();
+    }
+  });
+
+  prevBtn?.addEventListener('click', () => {
+    if (currentStep > 0) {
+      currentStep--;
+      updateStepDisplay();
+    }
+  });
+
+  submitBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const currentStepInputs = steps[currentStep].querySelectorAll('input[type="radio"]');
+    const isChecked = [...currentStepInputs].some(input => input.checked);
+
+    if (!isChecked) {
+      const feedbackDiv = document.getElementById('qualificationFeedbackMessage');
+      feedbackDiv.textContent = "Por favor, selecione uma opção.";
+      feedbackDiv.className = 'form-message error show';
+      setTimeout(() => feedbackDiv.classList.remove('show'), 3000);
+      return;
+    }
+
+    const qualificationData = new FormData(multiStepForm);
+
+    // Combina os dados
+    for (const [key, value] of qualificationData.entries()) {
+      originalFormData.append(key, value);
+    }
+
+    sendCombinedData(originalFormData);
+  });
+
+  // Função centralizada para enviar os dados
+  const sendCombinedData = (formData) => {
+    // Usa o feedback do formulário de qualificação se estiver aberto, senão, o do rodapé
+    const feedbackDiv = multiStepPopup.classList.contains('show')
+      ? document.getElementById('qualificationFeedbackMessage')
+      : document.getElementById('footerFeedbackMessage') || document.getElementById('lightboxFeedbackMessage');
+
+    const submitButton = multiStepPopup.classList.contains('show') ? submitBtn : document.querySelector('#contactForm button[type="submit"]');
+
+    feedbackDiv.textContent = 'Enviando...';
+    feedbackDiv.className = 'form-message sending show';
+    if (submitButton) submitButton.disabled = true;
+
+    fetch('php/processForm.php', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        feedbackDiv.textContent = data.message;
+        feedbackDiv.className = `form-message ${data.status} show`;
+
+        if (data.status === 'success') {
+          setTimeout(() => {
+            showPopup(multiStepPopup, false);
+            // Resetar formulários se necessário
+            contactForm?.reset();
+            lightboxForm?.reset();
+            multiStepForm?.reset();
+            currentStep = 0;
+            updateStepDisplay();
+          }, 2000);
+        }
+      })
+      .catch(error => {
+        console.error('Erro no envio:', error);
+        feedbackDiv.textContent = 'Ocorreu um erro. Tente novamente.';
+        feedbackDiv.className = 'form-message error show';
+      })
+      .finally(() => {
+        if (submitButton) submitButton.disabled = false;
+        // Não esconde a mensagem imediatamente para o usuário ler.
+      });
+  };
+}
+
 function handleFormSubmit(e) {
   e.preventDefault();
   const form = e.target;
@@ -177,14 +348,14 @@ function handleFormSubmit(e) {
   const formData = new FormData(form);
   const formAction = form.getAttribute('action');
   const messageDiv = form.id === 'contactForm'
-                    ? document.getElementById('footerFeedbackMessage')
-                    : document.getElementById('lightboxFeedbackMessage');
+    ? document.getElementById('footerFeedbackMessage')
+    : document.getElementById('lightboxFeedbackMessage');
   if (!messageDiv || !submitBtn) return;
-  
+
   submitBtn.disabled = true;
   messageDiv.textContent = 'Enviando...';
   messageDiv.className = 'form-message sending show';
-  
+
   fetch(formAction, { method: 'POST', body: formData })
     .then(resp => resp.json())
     .then(data => {
